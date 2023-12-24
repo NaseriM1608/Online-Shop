@@ -1,0 +1,69 @@
+﻿@model Pooshineh.Models.Table_Products
+    @{ 
+        Pooshineh.Models.ClothingStoreEntities db = new Pooshineh.Models.ClothingStoreEntities();
+        var categories = db.Table_Categories.ToList();
+    }
+
+@using (Html.BeginForm("CreateProduct", "Products",FormMethod.Post, new { enctype = "multipart/form-data" }) )
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Table_Products</h4>
+        <hr />
+
+       
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <select class="form-control" name="CategoryID">
+                    <option hidden>Select Category</option>
+                    @foreach (var category in categories)
+                    {
+                        <option value="@category.CategoryID">@category.CategoryName</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProductDescription, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="file" id="newImage" name="newImage" class="form-control" />
+            @Html.ValidationMessageFor(model => model.ProductImagePath, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProductPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

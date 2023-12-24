@@ -16,7 +16,7 @@
           <Key>
             <PropertyRef Name="ProductID" />
           </Key>
-          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
           <Property Name="ProductName" Type="nvarchar(max)" Nullable="false" />
           <Property Name="ProductDescription" Type="nvarchar(max)" Nullable="false" />
