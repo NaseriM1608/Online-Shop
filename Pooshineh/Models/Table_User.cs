@@ -12,7 +12,7 @@ namespace Pooshineh.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Table_Customer
+    public partial class Table_User
     {
         public int ID { get; set; }
         public string Name { get; set; }
@@ -25,5 +25,9 @@ namespace Pooshineh.Models
         public Nullable<System.DateTime> BirthDate { get; set; }
         public Nullable<System.DateTime> LoginHistory { get; set; }
         public string Password { get; set; }
+        public bool IsActive { get; set; }
+        public int RoleID { get; set; }
+    
+        public virtual Table_Roles Table_Roles { get; set; }
     }
 }

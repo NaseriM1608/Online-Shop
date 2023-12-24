@@ -25,6 +25,9 @@ namespace Pooshineh.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Table_Customer> Table_Customer { get; set; }
+        public virtual DbSet<Table_Categories> Table_Categories { get; set; }
+        public virtual DbSet<Table_Products> Table_Products { get; set; }
+        public virtual DbSet<Table_Roles> Table_Roles { get; set; }
+        public virtual DbSet<Table_User> Table_User { get; set; }
     }
 }

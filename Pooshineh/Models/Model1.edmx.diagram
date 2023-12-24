@@ -5,7 +5,12 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="a8876439a87147088afe212ccf537442" Name="Diagram1">
-        <EntityTypeShape EntityType="ClothingStoreModel.Table_Customer" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClothingStoreModel.Table_Categories" Width="1.5" PointX="2.25" PointY="5.25" />
+        <EntityTypeShape EntityType="ClothingStoreModel.Table_Products" Width="1.5" PointX="2" PointY="2" />
+        <EntityTypeShape EntityType="ClothingStoreModel.Table_Roles" Width="1.5" PointX="3.75" PointY="2.125" />
+        <EntityTypeShape EntityType="ClothingStoreModel.Table_User" Width="1.5" PointX="6" PointY="1" />
+        <AssociationConnector Association="ClothingStoreModel.FK_Table_User_Table_Roles" />
+        <AssociationConnector Association="ClothingStoreModel.FK_Table_Products_Table_Categories" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

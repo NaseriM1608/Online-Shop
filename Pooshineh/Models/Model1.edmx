@@ -4,12 +4,37 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ClothingStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Table_Customer">
+    <Schema Namespace="ClothingStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Table_Categories">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Table_Products">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="ProductName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ProductDescription" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ProductImagePath" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ProductPrice" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Table_Roles">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Table_User">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" />
           <Property Name="PhoneNumber" Type="varchar" MaxLength="15" Nullable="false" />
@@ -20,54 +45,186 @@
           <Property Name="BirthDate" Type="datetime" />
           <Property Name="LoginHistory" Type="datetime" />
           <Property Name="Password" Type="varchar(max)" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Table_Products_Table_Categories">
+          <End Role="Table_Categories" Type="Self.Table_Categories" Multiplicity="1" />
+          <End Role="Table_Products" Type="Self.Table_Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_Categories">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Table_Products">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_User_Table_Roles">
+          <End Role="Table_Roles" Type="Self.Table_Roles" Multiplicity="1" />
+          <End Role="Table_User" Type="Self.Table_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_Roles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="Table_User">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ClothingStoreModelStoreContainer">
-          <EntitySet Name="Table_Customer" EntityType="Self.Table_Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Table_Categories" EntityType="Self.Table_Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Table_Products" EntityType="Self.Table_Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Table_Roles" EntityType="Self.Table_Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Table_User" EntityType="Self.Table_User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Table_Products_Table_Categories" Association="Self.FK_Table_Products_Table_Categories">
+            <End Role="Table_Categories" EntitySet="Table_Categories" />
+            <End Role="Table_Products" EntitySet="Table_Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_User_Table_Roles" Association="Self.FK_Table_User_Table_Roles">
+            <End Role="Table_Roles" EntitySet="Table_Roles" />
+            <End Role="Table_User" EntitySet="Table_User" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ClothingStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Table_Customer">
+        <EntityContainer Name="ClothingStoreEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Table_Categories" EntityType="ClothingStoreModel.Table_Categories" />
+          <EntitySet Name="Table_Products" EntityType="ClothingStoreModel.Table_Products" />
+          <EntitySet Name="Table_Roles" EntityType="ClothingStoreModel.Table_Roles" />
+          <EntitySet Name="Table_User" EntityType="ClothingStoreModel.Table_User" />
+          <AssociationSet Name="FK_Table_User_Table_Roles" Association="ClothingStoreModel.FK_Table_User_Table_Roles">
+            <End Role="Table_Roles" EntitySet="Table_Roles" />
+            <End Role="Table_User" EntitySet="Table_User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_Products_Table_Categories" Association="ClothingStoreModel.FK_Table_Products_Table_Categories">
+            <End Role="Table_Categories" EntitySet="Table_Categories" />
+            <End Role="Table_Products" EntitySet="Table_Products" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Table_Categories">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Table_Products" Relationship="ClothingStoreModel.FK_Table_Products_Table_Categories" FromRole="Table_Categories" ToRole="Table_Products" />
+        </EntityType>
+        <EntityType Name="Table_Products">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProductDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProductImagePath" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProductPrice" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Table_Categories" Relationship="ClothingStoreModel.FK_Table_Products_Table_Categories" FromRole="Table_Products" ToRole="Table_Categories" />
+        </EntityType>
+        <EntityType Name="Table_Roles">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Table_User" Relationship="ClothingStoreModel.FK_Table_User_Table_Roles" FromRole="Table_Roles" ToRole="Table_User" />
+        </EntityType>
+        <EntityType Name="Table_User">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="EmailAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RegisterDate" Type="DateTime" Precision="3" />
           <Property Name="BirthDate" Type="DateTime" Precision="3" />
           <Property Name="LoginHistory" Type="DateTime" Precision="3" />
-          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Table_Roles" Relationship="ClothingStoreModel.FK_Table_User_Table_Roles" FromRole="Table_User" ToRole="Table_Roles" />
         </EntityType>
-        <EntityContainer Name="ClothingStoreEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Table_Customer" EntityType="Self.Table_Customer" />
-        </EntityContainer>
+        <Association Name="FK_Table_User_Table_Roles">
+          <End Type="ClothingStoreModel.Table_Roles" Role="Table_Roles" Multiplicity="1" />
+          <End Type="ClothingStoreModel.Table_User" Role="Table_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_Roles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="Table_User">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_Products_Table_Categories">
+          <End Type="ClothingStoreModel.Table_Categories" Role="Table_Categories" Multiplicity="1" />
+          <End Type="ClothingStoreModel.Table_Products" Role="Table_Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_Categories">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Table_Products">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ClothingStoreModelStoreContainer" CdmEntityContainer="ClothingStoreEntities">
-          <EntitySetMapping Name="Table_Customer">
-            <EntityTypeMapping TypeName="ClothingStoreModel.Table_Customer">
-              <MappingFragment StoreEntitySet="Table_Customer">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
-                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
-                <ScalarProperty Name="LoginHistory" ColumnName="LoginHistory" />
+          <EntitySetMapping Name="Table_Categories">
+            <EntityTypeMapping TypeName="ClothingStoreModel.Table_Categories">
+              <MappingFragment StoreEntitySet="Table_Categories">
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Table_Products">
+            <EntityTypeMapping TypeName="ClothingStoreModel.Table_Products">
+              <MappingFragment StoreEntitySet="Table_Products">
+                <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
+                <ScalarProperty Name="ProductImagePath" ColumnName="ProductImagePath" />
+                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Table_Roles">
+            <EntityTypeMapping TypeName="ClothingStoreModel.Table_Roles">
+              <MappingFragment StoreEntitySet="Table_Roles">
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Table_User">
+            <EntityTypeMapping TypeName="ClothingStoreModel.Table_User">
+              <MappingFragment StoreEntitySet="Table_User">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LoginHistory" ColumnName="LoginHistory" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

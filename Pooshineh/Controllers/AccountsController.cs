@@ -22,8 +22,8 @@ namespace Pooshineh.Controllers
         {
             if(ModelState.IsValid)
             {
-                bool userExists = db.Table_Customer.Any(t => t.PhoneNumber == credentials.PhoneNumber && t.Password == credentials.Password);
-                var customer = db.Table_Customer.FirstOrDefault(t => t.PhoneNumber == credentials.PhoneNumber);
+                bool userExists = db.Table_User.Any(t => t.PhoneNumber == credentials.PhoneNumber && t.Password == credentials.Password);
+                var customer = db.Table_User.FirstOrDefault(t => t.PhoneNumber == credentials.PhoneNumber);
                 if(userExists)
                 {
                     FormsAuthentication.SetAuthCookie(customer.PhoneNumber, false);
@@ -40,13 +40,16 @@ namespace Pooshineh.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult SignUp([Bind(Include = "PhoneNumber, Password")]Table_Customer newCustomer)
+        [ValidateAntiForgeryToken]
+        public ActionResult SignUp([Bind(Include = "PhoneNumber, Password")]Table_User newCustomer)
         {
+            newCustomer.RegisterDate = DateTime.Now;
+            newCustomer.IsActive = true;
             if(ModelState.IsValid)
             {
-                db.Table_Customer.Add(newCustomer);
+                db.Table_User.Add(newCustomer);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("About", "Home");
             }
             return View();
         }

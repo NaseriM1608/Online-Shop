@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@{
+    bool isLoggedIn = true;
+    if (string.IsNullOrWhiteSpace(User.Identity.Name))
+    { 
+        isLoggedIn = false;
+    }
+
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -19,7 +28,10 @@
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Sign Out", "SignOut", "Accounts", new { area = "" }, new { @class = "nav-link" })</li>
+                    @if(isLoggedIn)
+                    {
+                        <li>@Html.ActionLink("Sign Out", "SignOut", "Accounts", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
                 </ul>
             </div>
         </div>
