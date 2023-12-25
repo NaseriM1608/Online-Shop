@@ -14,6 +14,14 @@ namespace Pooshineh.Models
     
     public partial class Table_User
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Table_User()
+        {
+            this.Table_Cart = new HashSet<Table_Cart>();
+            this.Table_Orders = new HashSet<Table_Orders>();
+            this.Table_Orders1 = new HashSet<Table_Orders>();
+        }
+    
         public int ID { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
@@ -28,6 +36,12 @@ namespace Pooshineh.Models
         public bool IsActive { get; set; }
         public int RoleID { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Table_Cart> Table_Cart { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Table_Orders> Table_Orders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Table_Orders> Table_Orders1 { get; set; }
         public virtual Table_Roles Table_Roles { get; set; }
     }
 }

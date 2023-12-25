@@ -13,10 +13,10 @@ namespace Pooshineh.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ClothingStoreEntities : DbContext
+    public partial class ClothingStoreEntities1 : DbContext
     {
-        public ClothingStoreEntities()
-            : base("name=ClothingStoreEntities")
+        public ClothingStoreEntities1()
+            : base("name=ClothingStoreEntities1")
         {
         }
     
@@ -25,7 +25,11 @@ namespace Pooshineh.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<OrderDetails> OrderDetails { get; set; }
+        public virtual DbSet<Table_Cart> Table_Cart { get; set; }
+        public virtual DbSet<Table_CartItem> Table_CartItem { get; set; }
         public virtual DbSet<Table_Categories> Table_Categories { get; set; }
+        public virtual DbSet<Table_Orders> Table_Orders { get; set; }
         public virtual DbSet<Table_Products> Table_Products { get; set; }
         public virtual DbSet<Table_Roles> Table_Roles { get; set; }
         public virtual DbSet<Table_User> Table_User { get; set; }

@@ -13,7 +13,7 @@ namespace Pooshineh.Controllers
 {
     public class ProductsController : Controller
     {
-        ClothingStoreEntities db = new ClothingStoreEntities();
+        ClothingStoreEntities1 db = new ClothingStoreEntities1();
         public ActionResult Index()
         {
             var products = db.Table_Products;

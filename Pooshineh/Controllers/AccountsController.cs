@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -10,7 +12,12 @@ namespace Pooshineh.Controllers
 {
     public class AccountsController : Controller
     {
-        ClothingStoreEntities db = new ClothingStoreEntities();
+        ClothingStoreEntities1 db = new ClothingStoreEntities1();
+        public ActionResult Index()
+        {
+            var customers = db.Table_User.Where(t => t.RoleID == 0);
+            return View(customers);
+        }
         [HttpGet]
         public ActionResult Login()
         {
@@ -57,6 +64,55 @@ namespace Pooshineh.Controllers
         {
             FormsAuthentication.SignOut();
             return RedirectToAction("Login");
+        }
+        [HttpGet]
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var customer = db.Table_User.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customer);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Table_Products customer)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(customer).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(customer);
+        }
+        [HttpGet]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var customer= db.Table_User.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customer);
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            var customer = db.Table_User.Find(id);
+            db.Table_User.Remove(customer);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

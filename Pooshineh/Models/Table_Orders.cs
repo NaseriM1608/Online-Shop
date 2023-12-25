@@ -12,30 +12,25 @@ namespace Pooshineh.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Table_Products
+    public partial class Table_Orders
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Table_Products()
+        public Table_Orders()
         {
             this.OrderDetails = new HashSet<OrderDetails>();
             this.OrderDetails1 = new HashSet<OrderDetails>();
-            this.Table_CartItem = new HashSet<Table_CartItem>();
         }
     
-        public int ProductID { get; set; }
-        public int CategoryID { get; set; }
-        public string ProductName { get; set; }
-        public string ProductDescription { get; set; }
-        public string ProductImagePath { get; set; }
-        public int ProductPrice { get; set; }
-        public string ProductQuantity { get; set; }
+        public int OrderID { get; set; }
+        public Nullable<int> UserID { get; set; }
+        public Nullable<System.DateTime> OrderDate { get; set; }
+        public Nullable<int> TotalAmount { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetails> OrderDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetails> OrderDetails1 { get; set; }
-        public virtual Table_Categories Table_Categories { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Table_CartItem> Table_CartItem { get; set; }
+        public virtual Table_User Table_User { get; set; }
+        public virtual Table_User Table_User1 { get; set; }
     }
 }
