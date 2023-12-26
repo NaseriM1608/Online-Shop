@@ -98,6 +98,19 @@ namespace Pooshineh.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var product = db.Table_Products.Find(id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            return View(product);
+        }
 
 
 

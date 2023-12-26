@@ -1,14 +1,19 @@
 ﻿@model IEnumerable<Pooshineh.Models.Table_Products>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Cart";
+    Pooshineh.Models.ClothingStoreEntities1 db = new Pooshineh.Models.ClothingStoreEntities1();
+    int TotalCost;
+    if (db.Table_Cart.Where(c => c.Table_User.PhoneNumber == User.Identity.Name).SingleOrDefault() != null)
+    {
+       TotalCost = db.Table_Cart.Where(c => c.Table_User.PhoneNumber == User.Identity.Name).Sum(c => c.TotalCost);
+    }
+    else { TotalCost = 0; }
 }
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <table class="table">
     <tr>
         <th>
@@ -53,11 +58,10 @@
             @Html.DisplayFor(modelItem => item.Table_Categories.CategoryName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ProductID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ProductID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.ProductID })
         </td>
     </tr>
 }
+    <p>Total cost: @TotalCost</p>
 
 </table>
