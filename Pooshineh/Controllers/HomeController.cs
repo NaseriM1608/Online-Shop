@@ -6,7 +6,6 @@ using System.Web.Mvc;
 
 namespace Pooshineh.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         public ActionResult Index()

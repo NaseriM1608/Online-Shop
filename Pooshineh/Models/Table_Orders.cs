@@ -17,20 +17,17 @@ namespace Pooshineh.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Table_Orders()
         {
-            this.OrderDetails = new HashSet<OrderDetails>();
-            this.OrderDetails1 = new HashSet<OrderDetails>();
+            this.Table_OrderDetails = new HashSet<Table_OrderDetails>();
         }
     
         public int OrderID { get; set; }
-        public Nullable<int> UserID { get; set; }
-        public Nullable<System.DateTime> OrderDate { get; set; }
-        public Nullable<int> TotalAmount { get; set; }
+        public string OrderName { get; set; }
+        public int CartID { get; set; }
+        public int TotalCost { get; set; }
+        public System.DateTime OrderDate { get; set; }
     
+        public virtual Table_Cart Table_Cart { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetails> OrderDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetails> OrderDetails1 { get; set; }
-        public virtual Table_User Table_User { get; set; }
-        public virtual Table_User Table_User1 { get; set; }
+        public virtual ICollection<Table_OrderDetails> Table_OrderDetails { get; set; }
     }
 }

@@ -48,15 +48,29 @@ namespace Pooshineh.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SignUp([Bind(Include = "PhoneNumber, Password")]Table_User newCustomer)
+        public ActionResult SignUp([Bind(Include = "PhoneNumber, Password")]Table_User newCustomer, string passwordRepeat)
         {
-            newCustomer.RegisterDate = DateTime.Now;
-            newCustomer.IsActive = true;
+            var existingUser = db.Table_User.Where(u => u.PhoneNumber == newCustomer.PhoneNumber).FirstOrDefault();
+            if(existingUser != null)
+            {
+                ModelState.AddModelError("PhoneNumber","کاربری با این شماره ثبت نام کرده است.");
+                return View();
+            }
+            
             if(ModelState.IsValid)
             {
-                db.Table_User.Add(newCustomer);
-                db.SaveChanges();
-                return RedirectToAction("About", "Home");
+                if (newCustomer.Password == passwordRepeat)
+                {
+                    newCustomer.RegisterDate = DateTime.Now;
+                    newCustomer.IsActive = true;
+                    db.Table_User.Add(newCustomer);
+                    db.SaveChanges();
+                    return RedirectToAction("About", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("Password", "رمز مشابه تکرار رمز نیست.");
+                }
             }
             return View();
         }

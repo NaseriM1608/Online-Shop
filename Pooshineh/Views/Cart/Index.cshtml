@@ -4,7 +4,8 @@
     ViewBag.Title = "Cart";
     Pooshineh.Models.ClothingStoreEntities1 db = new Pooshineh.Models.ClothingStoreEntities1();
     int TotalCost;
-    if (db.Table_Cart.Where(c => c.Table_User.PhoneNumber == User.Identity.Name).SingleOrDefault() != null)
+    var usersCart = db.Table_Cart.Where(c => c.Table_User.PhoneNumber == User.Identity.Name).SingleOrDefault();
+    if (usersCart != null)
     {
        TotalCost = db.Table_Cart.Where(c => c.Table_User.PhoneNumber == User.Identity.Name).Sum(c => c.TotalCost);
     }
@@ -52,7 +53,14 @@
             @Html.DisplayFor(modelItem => item.ProductPrice)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ProductQuantity)
+            @{
+                int quantityInCart = db.Table_CartItem
+                    .Where(ci => ci.ProductID == item.ProductID && ci.Table_Cart.Table_User.PhoneNumber == User.Identity.Name)
+                    .Select(ci => ci.Quantity)
+                    .FirstOrDefault();
+
+                @quantityInCart
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Table_Categories.CategoryName)
@@ -65,3 +73,4 @@
     <p>Total cost: @TotalCost</p>
 
 </table>
+@Html.ActionLink("Order", "AddOrder", "Orders", usersCart, new { @class="btn btn-success"});

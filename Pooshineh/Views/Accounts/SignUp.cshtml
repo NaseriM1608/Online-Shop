@@ -1,4 +1,4 @@
-﻿@model Pooshineh.Models.Table_Customer
+﻿@model Pooshineh.Models.Table_User
 
 @{
     ViewBag.Title = "SignUp";
@@ -7,15 +7,14 @@
 <h2>SignUp</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("SignUp", "Accounts", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Table_Customer</h4>
+        <h4>Table_User</h4>
         <hr />
-        
-
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         
 
         
@@ -37,15 +36,24 @@
         </div>
 
         <div class="form-group">
+            <label for="passwordRepeat">repeat password</label>
+            <input type="password" class="form-control" id="passwordRepeat" name="passwordRepeat" />
+        </div>
+       
+
+        
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <br />
-                <input type="submit" value="Register" class="btn btn-success" />
+                <input type="submit" value="Register" class="btn btn-success my-2" />
             </div>
         </div>
     </div>
 }
 
-
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>

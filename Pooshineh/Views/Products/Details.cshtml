@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "Details";
+    Pooshineh.Models.ClothingStoreEntities1 db = new Pooshineh.Models.ClothingStoreEntities1();
+    var user = db.Table_User.Where(u => u.PhoneNumber == User.Identity.Name).SingleOrDefault();
 }
 
 <h2>Details</h2>
@@ -60,7 +62,16 @@
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Add to Cart", "AddToCart", "Cart", new { productId = Model.ProductID, quantity = 1 }, new { @class = "btn btn-success" })
+@if (user != null)
+    {
 
-</p>
+        if (user.RoleID == 1)
+        {
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ProductID }, new { @class = "btn btn-warning mx-2" })
+            @Html.ActionLink("Delete", "Delete", new { id = Model.ProductID }, new { @class = "btn btn-danger mx-2" })
+        }
+    }
+
+    @Html.ActionLink("Add to Cart", "AddToCart", "Cart", new { productId = Model.ProductID, quantity = 1 }, new { @class = "btn btn-success mx-2" })
+
+

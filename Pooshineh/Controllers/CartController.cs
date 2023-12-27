@@ -32,8 +32,8 @@ namespace Pooshineh.Controllers
 
             return View(userCart);
         }
-        
-       
+
+        [Authorize]
         public ActionResult AddToCart(int productId, int quantity)
         {
             if (ModelState.IsValid)
@@ -62,6 +62,7 @@ namespace Pooshineh.Controllers
                 if (existingCartItem != null)
                 {
                     existingCartItem.Quantity += quantity;
+                    db.SaveChanges();
                 }
                 else
                 {

@@ -12,17 +12,15 @@ namespace Pooshineh.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class OrderDetails
+    public partial class Table_OrderDetails
     {
-        public int OrderDetailID { get; set; }
-        public Nullable<int> OrderID { get; set; }
-        public Nullable<int> ProductID { get; set; }
-        public Nullable<int> Quantity { get; set; }
-        public Nullable<int> Price { get; set; }
+        public int OrderDetailsID { get; set; }
+        public int OrderID { get; set; }
+        public int ProductID { get; set; }
+        public int Quantity { get; set; }
+        public int Price { get; set; }
     
-        public virtual Table_Orders Table_Orders { get; set; }
         public virtual Table_Products Table_Products { get; set; }
-        public virtual Table_Orders Table_Orders1 { get; set; }
-        public virtual Table_Products Table_Products1 { get; set; }
+        public virtual Table_Orders Table_Orders { get; set; }
     }
 }

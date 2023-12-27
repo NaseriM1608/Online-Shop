@@ -18,6 +18,7 @@ namespace Pooshineh.Models
         public Table_Cart()
         {
             this.Table_CartItem = new HashSet<Table_CartItem>();
+            this.Table_Orders = new HashSet<Table_Orders>();
         }
     
         public int CartID { get; set; }
@@ -27,5 +28,7 @@ namespace Pooshineh.Models
         public virtual Table_User Table_User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Table_CartItem> Table_CartItem { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Table_Orders> Table_Orders { get; set; }
     }
 }
