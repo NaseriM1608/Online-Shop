@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Pooshineh.Models.Table_OrderDetails>
+
+@{
+    ViewBag.Title = "Index";
+    Pooshineh.Models.ClothingStoreEntities1 db = new Pooshineh.Models.ClothingStoreEntities1();
+    var groupedOrders = Model.GroupBy(x => x.Table_Orders.OrderName);
+    var user = db.Table_User.Where(u => u.PhoneNumber == User.Identity.Name).FirstOrDefault();
+}
+
+<h2>Index</h2>
+
+
+@foreach (var orders in groupedOrders)
+{
+
+    <table class="table">
+        <tr>
+
+            <th>
+                Total cost: @orders.Sum(item => item.Price * item.Quantity)
+            </th>
+            <th>
+                @Html.ActionLink("Delete", "Delete", "Products", null, new { @class = "btn btn-danger" })
+            </th>
+        </tr>
+
+        @foreach (var item in orders)
+        {
+            var product = db.Table_Products
+                    .Where(p => p.ProductID == item.ProductID)
+                    .FirstOrDefault();
+            <tr>
+                <td>
+                    @product.ProductName
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Delete", "Delete", "Products")
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+@if (user.Address == null)
+{
+    <div class="form-group">
+        <input type="text"
+               class="form-control" style="width: 400px; height: 100px">
+    </div>
+}
+else
+{
+    <div class="form-group">
+        <input type="text"
+               class="form-control" placeholder="@user.Address" style="width: 400px; height: 100px; max-width: 390px; max-height:90px;">
+    </div>
+}

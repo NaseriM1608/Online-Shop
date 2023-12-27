@@ -71,6 +71,8 @@
     </tr>
 }
     <p>Total cost: @TotalCost</p>
-
+    
+@Html.ActionLink("Order", "AddOrder", "Orders", usersCart, new { @class="btn btn-success"})
+   
 </table>
-@Html.ActionLink("Order", "AddOrder", "Orders", usersCart, new { @class="btn btn-success"});
+

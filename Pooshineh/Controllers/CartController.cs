@@ -97,14 +97,15 @@ namespace Pooshineh.Controllers
         [HttpGet]
         public ActionResult Delete(int id)
         {
-            var product = db.Table_CartItem.Where(ci => ci.ProductID == id).SingleOrDefault();
+            int userId = db.Table_User
+            .Where(u => u.PhoneNumber == User.Identity.Name)
+            .Select(u => u.ID)
+            .SingleOrDefault();
+
+            var product = db.Table_CartItem.Where(ci => ci.ProductID == id && ci.Table_Cart.UserID == userId).SingleOrDefault();
             db.Table_CartItem.Remove(product);
             db.SaveChanges();
 
-            int userId = db.Table_User
-             .Where(u => u.PhoneNumber == User.Identity.Name)
-             .Select(u => u.ID)
-             .SingleOrDefault();
             var userCart = db.Table_Cart.SingleOrDefault(c => c.UserID == userId);
 
             if(db.Table_CartItem.Where(ci => ci.CartID == userCart.CartID).SingleOrDefault() != null)

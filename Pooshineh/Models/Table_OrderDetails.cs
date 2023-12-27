@@ -20,7 +20,6 @@ namespace Pooshineh.Models
         public int Quantity { get; set; }
         public int Price { get; set; }
     
-        public virtual Table_Products Table_Products { get; set; }
         public virtual Table_Orders Table_Orders { get; set; }
     }
 }

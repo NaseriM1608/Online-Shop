@@ -34,7 +34,7 @@ namespace Pooshineh.Controllers
                 if(userExists)
                 {
                     FormsAuthentication.SetAuthCookie(customer.PhoneNumber, false);
-                    return RedirectToAction("Contact", "Home");
+                    return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("", "اطلاعات وارد شده صحیح نمی‌باشد.");
                 return View();
