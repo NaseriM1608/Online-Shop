@@ -1,9 +1,11 @@
 ﻿@{
     bool isLoggedIn = true;
     if (string.IsNullOrWhiteSpace(User.Identity.Name))
-    { 
+    {
         isLoggedIn = false;
     }
+    Pooshineh.Models.ClothingStoreEntities1 db = new Pooshineh.Models.ClothingStoreEntities1();
+    var user = db.Table_User.Where(u => u.PhoneNumber == User.Identity.Name).FirstOrDefault();
 
 }
 
@@ -31,6 +33,10 @@
                     @if (isLoggedIn)
                     {
                         <li>@Html.ActionLink("Sign Out", "SignOut", "Accounts", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li dir="ltr">@Html.ActionLink("Profile", "Edit", "Accounts", user, new { @class = "nav-link" })</li>
+                        <li dir="ltr">@Html.ActionLink("View orders", "ViewActiveOrders", "Orders", null, new { @class = "nav-link" })</li>
+
+
                     }
                     else
                     {

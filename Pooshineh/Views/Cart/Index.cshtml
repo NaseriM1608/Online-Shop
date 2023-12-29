@@ -5,9 +5,10 @@
     Pooshineh.Models.ClothingStoreEntities1 db = new Pooshineh.Models.ClothingStoreEntities1();
     int TotalCost;
     var usersCart = db.Table_Cart.Where(c => c.Table_User.PhoneNumber == User.Identity.Name).SingleOrDefault();
+    var usersOrder = db.Table_Orders.Where(o => o.Table_Cart.Table_User.PhoneNumber == User.Identity.Name).FirstOrDefault();
     if (usersCart != null)
     {
-       TotalCost = db.Table_Cart.Where(c => c.Table_User.PhoneNumber == User.Identity.Name).Sum(c => c.TotalCost);
+        TotalCost = db.Table_Cart.Where(c => c.Table_User.PhoneNumber == User.Identity.Name).Sum(c => c.TotalCost);
     }
     else { TotalCost = 0; }
 }
@@ -38,41 +39,43 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductImagePath)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductPrice)
-        </td>
-        <td>
-            @{
-                int quantityInCart = db.Table_CartItem
-                    .Where(ci => ci.ProductID == item.ProductID && ci.Table_Cart.Table_User.PhoneNumber == User.Identity.Name)
-                    .Select(ci => ci.Quantity)
-                    .FirstOrDefault();
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductImagePath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductPrice)
+            </td>
+            <td>
+                @{
+                    int quantityInCart = db.Table_CartItem
+                        .Where(ci => ci.ProductID == item.ProductID && ci.Table_Cart.Table_User.PhoneNumber == User.Identity.Name)
+                        .Select(ci => ci.Quantity)
+                        .FirstOrDefault();
 
-                @quantityInCart
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Table_Categories.CategoryName)
-        </td>
-        <td>
-            @Html.ActionLink("Delete", "Delete", new { id=item.ProductID })
-        </td>
-    </tr>
-}
+                    @quantityInCart
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Table_Categories.CategoryName)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.ProductID })
+            </td>
+        </tr>
+    }
     <p>Total cost: @TotalCost</p>
-    
-@Html.ActionLink("Order", "AddOrder", "Orders", usersCart, new { @class="btn btn-success"})
-   
-</table>
+    @if (TotalCost > 0)
+    {
+        @Html.ActionLink("Order", "Index", "Orders", usersCart, new { @class = "btn btn-success" })
+    }
 
+</table>

@@ -1,0 +1,50 @@
+﻿@model Pooshineh.Models.Table_Orders
+
+@{
+    ViewBag.Title = "Details";
+    Pooshineh.Models.ClothingStoreEntities1 db = new Pooshineh.Models.ClothingStoreEntities1();
+    var orderDetails = Model.Table_OrderDetails.Where(od => od.OrderID == Model.OrderID);
+
+    var productsInOrder = db.Table_OrderDetails
+    .Where(orderDetail => orderDetail.OrderID == Model.OrderID)
+    .Join(db.Table_Products,
+          orderDetail => orderDetail.ProductID,
+          product => product.ProductID,
+          (orderDetail, product) => product)
+    .ToList();
+}
+
+<h2>Details</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Order name: @Html.DisplayFor(model => model.OrderName)
+        </th>
+        <th>
+           Total Cost: @Html.DisplayFor(model => model.TotalCost)
+        </th>
+        <th>
+           تاریخ سفارش:  @Html.DisplayFor(model => model.OrderDate)
+        </th>
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in productsInOrder) {
+    <tr>
+        <td>
+            @item.ProductName
+        </td>
+        <td>
+            @item.ProductPrice
+        </td>
+        
+       
+    </tr>
+}
+
+</table>

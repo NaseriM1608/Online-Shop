@@ -16,6 +16,6 @@ namespace Pooshineh.Models
     {
         public int DiscountID { get; set; }
         public string DiscountCode { get; set; }
-        public decimal TotalDiscount { get; set; }
+        public int TotalDiscount { get; set; }
     }
 }

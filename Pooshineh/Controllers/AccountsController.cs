@@ -36,7 +36,7 @@ namespace Pooshineh.Controllers
                     FormsAuthentication.SetAuthCookie(customer.PhoneNumber, false);
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", "اطلاعات وارد شده صحیح نمی‌باشد.");
+                ModelState.AddModelError("PhoneNumber", "اطلاعات وارد شده صحیح نمی‌باشد.");
                 return View();
             }
             return View();
@@ -65,7 +65,8 @@ namespace Pooshineh.Controllers
                     newCustomer.IsActive = true;
                     db.Table_User.Add(newCustomer);
                     db.SaveChanges();
-                    return RedirectToAction("About", "Home");
+                    LoginViewModel loginUser = new LoginViewModel() { PhoneNumber = newCustomer.PhoneNumber, Password = newCustomer.Password };
+                    return Login(loginUser);
                 }
                 else
                 {
@@ -95,15 +96,15 @@ namespace Pooshineh.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Table_Products customer)
+        public ActionResult Edit(Table_User user)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(customer).State = EntityState.Modified;
+                db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(customer);
+            return View(user);
         }
         [HttpGet]
         public ActionResult Delete(int? id)

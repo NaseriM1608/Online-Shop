@@ -11,7 +11,10 @@ namespace Pooshineh.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+
     public partial class Table_Orders
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,7 +27,9 @@ namespace Pooshineh.Models
         public string OrderName { get; set; }
         public int CartID { get; set; }
         public int TotalCost { get; set; }
+        [DisplayFormat(DataFormatString = "{0: dddd, dd MMMM yyyy}")]
         public System.DateTime OrderDate { get; set; }
+        public string OrderStatus { get; set; }
     
         public virtual Table_Cart Table_Cart { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

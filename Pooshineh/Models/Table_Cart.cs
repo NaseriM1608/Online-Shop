@@ -24,6 +24,7 @@ namespace Pooshineh.Models
         public int CartID { get; set; }
         public int UserID { get; set; }
         public int TotalCost { get; set; }
+        public string DiscountCode { get; set; }
     
         public virtual Table_User Table_User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
