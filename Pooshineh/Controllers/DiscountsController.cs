@@ -8,12 +8,31 @@ using System.Web.Mvc;
 
 namespace Pooshineh.Controllers
 {
+    [Authorize]
     public class DiscountsController : Controller
     {
         ClothingStoreEntities1 db = new ClothingStoreEntities1();
         public ActionResult Index()
         {
+            var discounts = db.Table_Discounts.ToList();
+            return View(discounts);
+        }
+        public ActionResult AddDiscountCode() 
+        {
             return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddDiscountCode(Table_Discounts newDiscount)
+        {
+            if(ModelState.IsValid)
+            {
+                db.Table_Discounts.Add(newDiscount);
+                db.SaveChanges();
+                TempData["DiscountAddSuccess"] = "کد تخفیف با موفقیت اضاف شد.";
+                return RedirectToAction("Index");
+            }
+            return View(newDiscount);
         }
         public ActionResult ApplyDiscountCode(DiscountViewModel Discount)
         {
@@ -43,6 +62,15 @@ namespace Pooshineh.Controllers
             }
 
             return RedirectToAction("Index","Orders");
+        }
+
+        public ActionResult Delete(int id)
+        {
+            var discount = db.Table_Discounts.Where(d => d.DiscountID == id).FirstOrDefault();
+            db.Table_Discounts.Remove(discount);
+            TempData["DeletionSuccess"] = "کد تخفیف با موفقیت حذف شد.";
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
     }

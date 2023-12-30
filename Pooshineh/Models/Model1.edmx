@@ -59,6 +59,7 @@
           <Property Name="TotalCost" Type="int" Nullable="false" />
           <Property Name="OrderDate" Type="datetime" Nullable="false" />
           <Property Name="OrderStatus" Type="nvarchar" MaxLength="30" />
+          <Property Name="OrderAddress" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Table_Products">
           <Key>
@@ -412,6 +413,7 @@
           <Property Name="OrderStatus" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Table_Cart" Relationship="ClothingStoreModel.FK_Table_Orders_Table_Orders" FromRole="Table_Orders" ToRole="Table_Cart" />
           <NavigationProperty Name="Table_OrderDetails" Relationship="ClothingStoreModel.FK_Table_OrderDetails_Table_Products" FromRole="Table_Orders" ToRole="Table_OrderDetails" />
+          <Property Name="OrderAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Table_Orders_Table_Orders">
           <End Type="ClothingStoreModel.Table_Cart" Role="Table_Cart" Multiplicity="1" />
@@ -535,6 +537,7 @@
           <EntitySetMapping Name="Table_Orders">
             <EntityTypeMapping TypeName="ClothingStoreModel.Table_Orders">
               <MappingFragment StoreEntitySet="Table_Orders">
+                <ScalarProperty Name="OrderAddress" ColumnName="OrderAddress" />
                 <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
                 <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
                 <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />

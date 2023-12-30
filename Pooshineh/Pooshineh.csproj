@@ -282,6 +282,8 @@
     <Content Include="Views\Orders\ViewConfirmedOrder.cshtml" />
     <Content Include="Views\Orders\Details.cshtml" />
     <Content Include="Views\Orders\ViewActiveOrders.cshtml" />
+    <Content Include="Views\Discounts\Index.cshtml" />
+    <Content Include="Views\Discounts\AddDiscountCode.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -292,7 +294,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\Products\" />
-    <Folder Include="Views\Discounts\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

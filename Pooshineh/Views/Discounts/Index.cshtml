@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Pooshineh.Models.Table_Discounts>
+
+@{
+    ViewBag.Title = "Index";
+}
+<br />
+<p>
+    @Html.ActionLink("درج کد تخفیف", "AddDiscountCode", "Discounts", null, new { @class = "btn btn-info" })
+</p>
+
+@if (TempData["DiscountAddSuccess"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["DiscountAddSuccess"]
+    </div>
+}
+@if (TempData["DeletionSuccess"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["DeletionSuccess"]
+    </div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DiscountCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalDiscount)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiscountCode)
+            </td>
+            <td>
+                %@Html.DisplayFor(modelItem => item.TotalDiscount)
+            </td>
+            <td>
+                @Html.ActionLink("حذف", "Delete", "Discounts", new { id = item.DiscountID }, new { @class = "btn btn-danger"})
+            </td>
+
+        </tr>
+    }
+
+</table>

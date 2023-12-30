@@ -17,16 +17,14 @@
         <th>
             Total cost: @cart.TotalCost
         </th>
-        <th>
-            @Html.ActionLink("Delete", "Delete", "Products", null, new { @class = "btn btn-danger" })
-        </th>
+       
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ProductID)
+                @Html.DisplayFor(modelItem => item.Table_Products.ProductName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
@@ -40,27 +38,7 @@
     }
 
 </table>
-@using (Html.BeginForm("CreateProduct", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
 
-
-    if (user.Address == null)
-    {
-        <div class="form-group">
-            <input type="text"
-                   class="form-control" required style="width: 400px; height: 100px">
-        </div>
-    }
-    else
-    {
-        <div>
-            <input type="text"
-                   class="form-control" placeholder="@user.Address" style="width: 400px; height: 100px; max-width: 390px; max-height:90px;">
-        </div>
-    }
-
-
-}
 @if (TempData["DiscountSuccess"] != null)
 {
     <div class="alert alert-success">
@@ -84,7 +62,41 @@
 
 <div id="discountResult"></div>
 @Html.Partial("_DiscountCodePartial", new Pooshineh.Models.DiscountViewModel())
-@Html.ActionLink("ثبت نهایی سفارش", "ConfirmOrder", "Orders", cart, new { @class = "btn btn-warning" })
+
+@if (TempData["AddressError"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["AddressError"]
+    </div>
+}
+
+@using (Html.BeginForm("ConfirmOrder", "Orders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+
+    if (user.Address == null)
+    {
+        <div class="form-group">
+            <input type="text"
+                   class="form-control" placeholder="آدرس خود را وارد کنید" name="address" id="address" style="width: 400px; height: 100px">
+        </div>
+    }
+    else
+    {
+        <div>
+            <input type="text"
+                   class="form-control" placeholder="@user.Address" name="address" id="address" style="width: 400px; height: 100px; max-width: 390px; max-height:90px;">
+        </div>
+    }
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10 my-2">
+            <input type="submit" value="ثبت نهایی سفارش" class="btn btn-warning" />
+        </div>
+    </div>
+
+
+}
+
+
+
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>

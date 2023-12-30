@@ -20,29 +20,33 @@ namespace Pooshineh.Controllers
                 .SingleOrDefault();
 
             var order = db.Table_Cart
-        .Where(c => c.UserID == userId)
-        .FirstOrDefault();
+                .Where(c => c.UserID == userId)
+                .FirstOrDefault();
             var orders = db.Table_CartItem.Where(ci => ci.Table_Cart.UserID == userId);
 
             return View(orders);
         }
         
-        public ActionResult ConfirmOrder(Table_Cart cart)
+        public ActionResult ConfirmOrder(string address)
         {
+            var user = db.Table_User
+                .Where(u => u.PhoneNumber == User.Identity.Name).FirstOrDefault();
+
+            var cart = db.Table_Cart
+                .Where(o => o.UserID == user.ID)
+                .FirstOrDefault();
+
+            Table_Orders userOrder;
+
             if (cart != null && cart.UserID != 0)
             {
-                int userId = db.Table_User
-                    .Where(u => u.PhoneNumber == User.Identity.Name)
-                    .Select(u => u.ID)
-                    .SingleOrDefault();
-
                 var userCart = db.Table_Cart
-                    .Where(c => c.UserID == userId && c.CartID == cart.CartID)
+                    .Where(c => c.UserID == user.ID && c.CartID == cart.CartID)
                     .FirstOrDefault();
 
                 if (userCart != null)
                 {
-                    var userOrder = new Table_Orders
+                    userOrder = new Table_Orders
                     {
                         CartID = userCart.CartID,
                         TotalCost = userCart.TotalCost,
@@ -57,33 +61,46 @@ namespace Pooshineh.Controllers
                         .Where(ci => ci.CartID == userCart.CartID)
                         .ToList();
 
-                    foreach (var cartItem in cartItems)
+                    if (user.Address != null || !string.IsNullOrEmpty(address))
                     {
-                        var product = db.Table_Products.Find(cartItem.ProductID);
-                        if (product != null)
+                        foreach (var cartItem in cartItems)
                         {
-                            product.ProductQuantity -= cartItem.Quantity;
-
-                            var orderDetail = new Table_OrderDetails
+                            var product = db.Table_Products.Find(cartItem.ProductID);
+                            if (product != null)
                             {
-                                OrderID = userOrder.OrderID,
-                                ProductID = cartItem.ProductID,
-                                Quantity = cartItem.Quantity,
-                                Price = cartItem.Table_Products.ProductPrice
-                            };
+                                product.ProductQuantity -= cartItem.Quantity;
 
-                            db.Table_OrderDetails.Add(orderDetail);
+                                var orderDetail = new Table_OrderDetails
+                                {
+                                    OrderID = userOrder.OrderID,
+                                    ProductID = cartItem.ProductID,
+                                    Quantity = cartItem.Quantity,
+                                    Price = cartItem.Table_Products.ProductPrice
+                                };
+
+                                db.Table_OrderDetails.Add(orderDetail);
+                            }
                         }
+
+                        db.Table_CartItem.RemoveRange(cartItems);
+                        userCart.TotalCost = 0;
+                        userCart.DiscountCode = default;
+                        if(!string.IsNullOrEmpty(address))
+                        {
+                            user.Address = address;
+                        }
+                        userOrder.OrderAddress = user.Address;
+                        db.SaveChanges();
+
+                        return RedirectToAction("ViewConfirmedOrder");
                     }
-
-                    db.Table_CartItem.RemoveRange(cartItems);
-                    userCart.TotalCost = 0;
-
-                    db.SaveChanges();
-
-                    return RedirectToAction("ViewConfirmedOrder");
+                    else
+                    {
+                        TempData["AddressError"] = "لطفا آدرس خود را وارد کنید.";
+                        return RedirectToAction("Index");
+                    }
                 }
-                
+
             }
             return RedirectToAction("Index");
         }

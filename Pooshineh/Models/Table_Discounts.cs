@@ -11,11 +11,15 @@ namespace Pooshineh.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class Table_Discounts
     {
         public int DiscountID { get; set; }
+        [Required(ErrorMessage = "فیلد {0} اجباری است.")]
         public string DiscountCode { get; set; }
+        [Required(ErrorMessage = "فیلد {0} اجباری است.")]
         public int TotalDiscount { get; set; }
     }
 }

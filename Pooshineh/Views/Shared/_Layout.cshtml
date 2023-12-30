@@ -35,13 +35,18 @@
                         <li>@Html.ActionLink("Sign Out", "SignOut", "Accounts", new { area = "" }, new { @class = "nav-link" })</li>
                         <li dir="ltr">@Html.ActionLink("Profile", "Edit", "Accounts", user, new { @class = "nav-link" })</li>
                         <li dir="ltr">@Html.ActionLink("View orders", "ViewActiveOrders", "Orders", null, new { @class = "nav-link" })</li>
+                        if (user.RoleID == 1)
+                        {
+                            <li dir="ltr">@Html.ActionLink("Discounts", "Index", "Discounts", new { area = "" }, new { @class = "nav-link" })</li>
 
+                        }
 
                     }
                     else
                     {
                         <li>@Html.ActionLink("Sign In", "Login", "Accounts", new { area = "" }, new { @class = "nav-link" })</li>
                     }
+
                 </ul>
             </div>
         </div>
