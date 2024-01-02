@@ -14,15 +14,19 @@ namespace Pooshineh.Controllers
         ClothingStoreEntities1 db = new ClothingStoreEntities1();
         public ActionResult Index()
         {
-            int userId = db.Table_User
-                .Where(u => u.PhoneNumber == User.Identity.Name)
-                .Select(u => u.ID)
-                .SingleOrDefault();
+            var user = db.Table_User
+                .Where(u => u.PhoneNumber == User.Identity.Name).FirstOrDefault();
+                
+            if(user.Name == null || user.LastName == null)
+            {
+                TempData["CredNotComplete"] = "لطفا پروفایل خود را تکمیل کنید.";
+                return RedirectToAction("Edit", "Accounts", user);
+            }
 
             var order = db.Table_Cart
-                .Where(c => c.UserID == userId)
+                .Where(c => c.UserID == user.ID)
                 .FirstOrDefault();
-            var orders = db.Table_CartItem.Where(ci => ci.Table_Cart.UserID == userId);
+            var orders = db.Table_CartItem.Where(ci => ci.Table_Cart.UserID == user.ID);
 
             return View(orders);
         }
@@ -52,7 +56,7 @@ namespace Pooshineh.Controllers
                         TotalCost = userCart.TotalCost,
                         OrderDate = DateTime.Now,
                         OrderName = Guid.NewGuid().ToString().Replace("-", ""),
-                        OrderStatus = "pending"
+                        OrderStatus = "در حال بررسی"
                     };
 
                     db.Table_Orders.Add(userOrder);

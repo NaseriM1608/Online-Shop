@@ -20,7 +20,12 @@
     @Html.HiddenFor(model => model.RegisterDate)
     @Html.HiddenFor(model => model.RoleID)
 
-
+    @if (TempData["CredNotComplete"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["CredNotComplete"]
+        </div>
+    }
 
 
 

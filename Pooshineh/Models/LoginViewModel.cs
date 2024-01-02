@@ -15,6 +15,7 @@ namespace Pooshineh.Models
         public string PhoneNumber { get; set; }
         [Display(Name = "رمز عبور")]
         [DataType(DataType.Password)]
+        [RegularExpression("^[a-zA-Z0-9]*$", ErrorMessage = "لطفا از کاراکتر های انگلیسی استفاده کنید.")]
         [Required(ErrorMessage = "فیلد {0} اجباری است.")]
         public string Password { get; set; }
     }

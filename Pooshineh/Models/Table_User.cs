@@ -29,7 +29,7 @@ namespace Pooshineh.Models
         [Display(Name = "نام خانوادگی")]
         public string LastName { get; set; }
         [Display(Name = "شماره موبایل")]
-        [RegularExpression("09[0-9]{9}")]
+        [RegularExpression("09[0-9]{9}", ErrorMessage = "{0} نامعتبر است.")]
         [Required(ErrorMessage = "فیلد {0} اجباری است.")]
         public string PhoneNumber { get; set; }
         [Display(Name = "آدرس")]
@@ -48,6 +48,7 @@ namespace Pooshineh.Models
         [Display(Name = "رمز عبور")]
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "فیلد {0} اجباری است.")]
+        [RegularExpression("^[a-zA-Z0-9]*$", ErrorMessage = "لطفا از کاراکتر های انگلیسی استفاده کنید.")]
         public string Password { get; set; }
         [Display(Name = "وضعیت")]
         public bool IsActive { get; set; }
