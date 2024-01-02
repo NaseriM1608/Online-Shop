@@ -11,13 +11,17 @@ namespace Pooshineh.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class Table_CartItem
     {
         public int CartItemID { get; set; }
         public int CartID { get; set; }
         public int ProductID { get; set; }
+        [Display(Name = "تعداد")]
         public int Quantity { get; set; }
+        [Display(Name = "قیمت")]
         public int Price { get; set; }
     
         public virtual Table_Cart Table_Cart { get; set; }

@@ -17,8 +17,10 @@ namespace Pooshineh.Models
     public partial class Table_Discounts
     {
         public int DiscountID { get; set; }
+        [Display(Name = "کد تخفیف")]
         [Required(ErrorMessage = "فیلد {0} اجباری است.")]
         public string DiscountCode { get; set; }
+        [Display(Name = "تخفیف کل")]
         [Required(ErrorMessage = "فیلد {0} اجباری است.")]
         public int TotalDiscount { get; set; }
     }

@@ -36,12 +36,12 @@ namespace Pooshineh.Controllers
         }
         public ActionResult ApplyDiscountCode(DiscountViewModel Discount)
         {
-            int userId = db.Table_User
-                    .Where(u => u.PhoneNumber == User.Identity.Name)
-                    .Select(u => u.ID)
-                    .SingleOrDefault();
+            var user = db.Table_User
+                    .Where(u => u.PhoneNumber == User.Identity.Name).FirstOrDefault();
+
             bool codeExists = db.Table_Discounts.Any(d => d.DiscountCode == Discount.DiscountCode);
-            var userOrder = db.Table_Cart.Where(c => c.UserID == userId).FirstOrDefault();
+            var userOrder = db.Table_Cart.Where(c => c.UserID == user.ID).FirstOrDefault();
+
             if (codeExists && userOrder.DiscountCode == null)
             {
                 var discount = db.Table_Discounts.Where(d => d.DiscountCode == Discount.DiscountCode).FirstOrDefault();

@@ -8,7 +8,7 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -21,10 +21,21 @@
     <div class="form-group">
         <div class="col-md-10">
             <select class="form-control" name="CategoryID">
-                <option hidden>Select Category</option>
+                @if (Model.CategoryID > 0)
+                {
+                    <option value="@Model.CategoryID" selected>@Model.Table_Categories.CategoryName</option>
+                }
+                else
+                {
+                    <option value="" hidden>Select Category</option>
+                }
+
                 @foreach (var category in categories)
                 {
-                    <option value="@category.CategoryID">@category.CategoryName</option>
+                    if (Model.CategoryID == 0 || Model.CategoryID != category.CategoryID)
+                    {
+                        <option value="@category.CategoryID">@category.CategoryName</option>
+                    }
                 }
             </select>
         </div>

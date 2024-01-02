@@ -11,7 +11,10 @@ namespace Pooshineh.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+
     public partial class Table_Categories
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,8 +22,9 @@ namespace Pooshineh.Models
         {
             this.Table_Products = new HashSet<Table_Products>();
         }
-    
+        [Display(Name = "آیدی دسته‌بندی")]
         public int CategoryID { get; set; }
+        [Display(Name  = "دسته بندی")]
         public string CategoryName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

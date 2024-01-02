@@ -11,7 +11,9 @@ namespace Pooshineh.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class Table_Cart
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,6 +25,7 @@ namespace Pooshineh.Models
     
         public int CartID { get; set; }
         public int UserID { get; set; }
+        [Display(Name = "قیمت کل")]
         public int TotalCost { get; set; }
         public string DiscountCode { get; set; }
     

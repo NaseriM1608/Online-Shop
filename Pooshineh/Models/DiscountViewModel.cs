@@ -9,6 +9,7 @@ namespace Pooshineh.Models
 {
     public class DiscountViewModel
     {
+        [Display(Name = "کد تخفیف")]
         public string DiscountCode { get; set; }
     }
 }
