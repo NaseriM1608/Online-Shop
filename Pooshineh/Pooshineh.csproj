@@ -113,8 +113,12 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\headfoot.css" />
+    <Content Include="Content\log.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
+    <Content Include="Images\967678.jpg" />
+    <Content Include="Images\logo1-removebg-preview.png" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -284,6 +288,8 @@
     <Content Include="Views\Orders\ViewActiveOrders.cshtml" />
     <Content Include="Views\Discounts\Index.cshtml" />
     <Content Include="Views\Discounts\AddDiscountCode.cshtml" />
+    <Content Include="Views\Shared\_PartialFooter.cshtml" />
+    <Content Include="Views\Shared\_PartialHeader.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

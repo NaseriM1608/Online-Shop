@@ -1,48 +1,47 @@
-﻿@model Pooshineh.Models.Table_Products
+﻿﻿@model Pooshineh.Models.Table_Products
 
 @{
+    ViewBag.Title = "Edit";
     Pooshineh.Models.ClothingStoreEntities1 db = new Pooshineh.Models.ClothingStoreEntities1();
     var categories = db.Table_Categories.ToList();
-}}
-
-<h2>Edit</h2>
-
+    SelectList categoryList = new SelectList(categories, "CategoryID", "CategoryName", Model.CategoryID);
+}
 
 @using (Html.BeginForm("Edit", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <h4>Table_Products</h4>
+    @Html.AntiForgeryToken()<div class="form-horizontal">
+        <div class="text-center bg-primary py-5 fw-bolder rounded-1 text-white mt-5"><h3>ویرایش محصول</h3></div>
         <hr />
+        @if (TempData["ProductEditSuccess"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["ProductEditSuccess"]
+            </div>
+        }
+        @if (TempData["ProductEditFailed"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["ProductEditFailed"]
+            </div>
+        }
+
+
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ProductID)
+        @Html.HiddenFor(model => model.ProductImagePath)
 
-    <div class="form-group">
-        <div class="col-md-10">
-            <select class="form-control" name="CategoryID">
-                @if (Model.CategoryID > 0)
-                {
-                    <option value="@Model.CategoryID" selected>@Model.Table_Categories.CategoryName</option>
-                }
-                else
-                {
-                    <option value="" hidden>Select Category</option>
-                }
-
-                @foreach (var category in categories)
-                {
-                    if (Model.CategoryID == 0 || Model.CategoryID != category.CategoryID)
-                    {
-                        <option value="@category.CategoryID">@category.CategoryName</option>
-                    }
-                }
-            </select>
-        </div>
-    </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CategoryID, "دسته بندی", htmlAttributes: new { @class = "control-label col-md-2 mt-3 text-info" })
+            <div class="col-md-10">
+                @Html.DropDownList("CategoryID", categoryList, "انتخاب دسته‌بندی", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2 mt-3 text-info" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
@@ -50,7 +49,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ProductDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ProductDescription, htmlAttributes: new { @class = "control-label col-md-2 mt-3 text-info" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ProductDescription, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
@@ -58,15 +57,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ProductImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ProductImagePath, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ProductImagePath, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ProductPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ProductPrice, htmlAttributes: new { @class = "control-label col-md-2 mt-3 text-info" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ProductPrice, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
@@ -74,16 +65,38 @@
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            @Html.LabelFor(model => model.ProductQuantity, htmlAttributes: new { @class = "control-label col-md-2 mt-3 text-info" })
+            <div class="col-md-10">
+                <input type="number" class="form-control" name="ProductQuantity" max="30" min="1" value="@Model.ProductQuantity" />
+                @Html.ValidationMessageFor(model => model.ProductQuantity, "", new { @class = "text-danger" })
             </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col">
+                <div class="form-label">
+                    <label for="newImage" class="control-label col-md-2 mt-3 text-info">تغییر تصویر محصول </label>
+                </div>
+                <input type="file" name="newImage" id="newImage" class="form-control" />
+                @Html.ValidationMessageFor(model => model.ProductImagePath, "", new { @class = "text-danger" })
+            </div>
+            <div class="col">
+                <div class="form-label">
+                    @Html.LabelFor(model => model.ProductImagePath, htmlAttributes: new { @class = "control-label col-md-2 mt-3 text-info" })
+                </div>
+                <img src="~/Images/Products/@Model.ProductImagePath" style="width:120px;height:120px;" alt="@Model.ProductName" />
+                @Html.ValidationMessageFor(model => model.ProductImagePath, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group mt-4 d-flex" style="float:right !important; column-gap:20px; width:280px;">
+            @Html.ActionLink("بازگشت", "Index", null, new { @class = "btn btn-info text-white px-4", style = "width:130px;" })
+            <input type="submit" style="width:130px;" value="ذخیره" class="btn btn-warning px-4" />
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>

@@ -1,15 +1,4 @@
-﻿@{
-    bool isLoggedIn = true;
-    if (string.IsNullOrWhiteSpace(User.Identity.Name))
-    {
-        isLoggedIn = false;
-    }
-    Pooshineh.Models.ClothingStoreEntities1 db = new Pooshineh.Models.ClothingStoreEntities1();
-    var user = db.Table_User.Where(u => u.PhoneNumber == User.Identity.Name).FirstOrDefault();
-
-}
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -18,48 +7,14 @@
     <link href="~/Content/Site.css" rel="stylesheet" />
 </head>
 <body dir="rtl">
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-        <div class="container">
-            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    @if (isLoggedIn)
-                    {
-                        <li>@Html.ActionLink("Sign Out", "SignOut", "Accounts", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li dir="ltr">@Html.ActionLink("Profile", "Edit", "Accounts", user, new { @class = "nav-link" })</li>
-                        <li dir="ltr">@Html.ActionLink("View orders", "ViewActiveOrders", "Orders", null, new { @class = "nav-link" })</li>
-                        if (user.RoleID == 1)
-                        {
-                            <li dir="ltr">@Html.ActionLink("Discounts", "Index", "Discounts", new { area = "" }, new { @class = "nav-link" })</li>
 
-                        }
-
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("Sign In", "Login", "Accounts", new { area = "" }, new { @class = "nav-link" })</li>
-                    }
-
-                </ul>
-            </div>
-        </div>
-    </nav>
+    @Html.Partial("_PartialHeader")
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
     </div>
+    @Html.Partial("_PartialFooter")
 
-   
+
     @*@RenderSection("scripts", required: false)*@
 </body>
 </html>

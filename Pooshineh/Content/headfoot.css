@@ -1,0 +1,497 @@
+﻿﻿
+* {
+    font-family: Vazir !important;
+    text-decoration: none !important;
+    list-style-type: none !important;
+    box-sizing: border-box !important;
+}
+
+.formStyle {
+    background-color: #e9ecef;
+    width: 60%;
+    height: 230px;
+    border-radius: 10px;
+}
+
+
+input[type="text"], input[type="tel"], input[type="email"], input[type="file"] {
+    display: inline-block;
+    width: 30%;
+}
+
+/* navbar */
+
+.avatar {
+    border-radius: 100%;
+}
+
+.dashboard-profile-name {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.logo {
+    height: 35px;
+}
+
+.bi-search:hover {
+    color: #F8921F;
+}
+
+.nav-link:hover {
+    color: #F8921F !important;
+}
+
+.nav-link:active {
+    background-color: #F8921F !important;
+    color: #fff !important;
+}
+
+.loginButton {
+    color: #000;
+    background-color: #f8921f;
+}
+
+    .loginButton:hover {
+        color: #f8921f !important;
+        background-color: #000;
+    }
+
+.cart-icon:hover {
+    color: #f8921f !important;
+}
+
+/*.dropdown-item:hover {
+    background-color: #F8921F;
+    color: #fff !important;
+}*/
+
+input[type="search"] {
+    text-align: center;
+}
+
+/* mega dropdown Menu */
+
+.mega-menu .navbar-dark .navbar-nav a.nav-link {
+    color: #ffffff;
+    font-size: 1.1em;
+}
+
+.mega-menu .dropdown-menu {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    border: none;
+    border-radius: 0;
+    padding: 0.7em;
+}
+
+@media only screen and (min-width: 992px) {
+    .dropdown:hover .dropdown-menu {
+        display: flex;
+    }
+
+    .dropdown-menu.show {
+        display: flex;
+    }
+}
+
+.mega-menu .dropdown-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.dropdown-menu li .dropdown-item {
+    color: gray;
+    font-size: 1em;
+    padding: 0.5em 1em;
+}
+
+.mega-menu .dropdown-menu li .dropdown-item:hover {
+    color: #f8921f !important;
+    background-color: #ffffff;
+}
+
+.mega-menu .dropdown-menu li:first-child a {
+    font-weight: bold;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    color: #f8921f;
+}
+
+@media only screen and (max-width: 992px) {
+    .dropdown-menu.show {
+        flex-wrap: wrap;
+        max-height: 350px;
+        overflow-y: scroll;
+    }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1140px) {
+    .dropdown:hover .dropdown-menu {
+        width: 40vw;
+        flex-wrap: wrap;
+    }
+}
+
+/* mega dropdown Menu */
+
+/* navbar */
+
+
+/* body */
+
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f9f6f2;
+}
+
+.card-img-top {
+    border-radius: 50px;
+    padding: 20px;
+}
+
+.card {
+    border-radius: 30px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+}
+
+.card-body {
+    padding: 25px;
+    margin-top: -15px;
+}
+
+.btn-primary {
+    border-radius: 50px;
+    width: 120px;
+}
+
+    .btn-primary:hover {
+        background-color: black;
+        border: none;
+    }
+
+.currency {
+    font-size: small;
+}
+
+footer {
+    margin-top: auto;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.icon-hover:hover {
+    border-color: #3b71ca !important;
+    background-color: white !important;
+    color: #3b71ca !important;
+}
+
+    .icon-hover:hover i {
+        color: #3b71ca !important;
+    }
+
+.rounded-btn {
+    border-radius: 18px;
+}
+
+/* cart css */
+
+:root {
+    --text-clr: #4f4f4f;
+}
+
+.shop-cart p {
+    color: #6c757d;
+}
+
+.shop-cart a {
+    text-decoration: none;
+    color: var(--text-clr);
+}
+
+.trash-icon:hover {
+    color: red;
+}
+
+.heart-icon:hover {
+    color: red;
+}
+
+.shop-cart a:hover {
+    text-decoration: none;
+    color: var(--text-clr);
+}
+
+.shop-cart h2 {
+    color: var(--text-clr);
+    font-size: 1.5rem;
+}
+
+.main_cart {
+    background: #fff;
+    border-radius: 12px;
+}
+
+.shop-cart .card {
+    border: none;
+    border-radius: 5px !important;
+}
+
+.product_img img {
+    min-width: 200px;
+    max-height: 200px;
+}
+
+.product_name {
+    color: black;
+    font-size: 1.4rem;
+    text-transform: capitalize;
+    font-weight: 500;
+}
+
+.shop-cart .card-title p {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.remove-and-wish p {
+    font-size: 0.8rem;
+    margin-bottom: 0;
+}
+
+.price-money h3 {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.set_quantity {
+    position: relative;
+}
+
+    .set_quantity::after {
+        content: "(Note, 1 piece)";
+        width: auto;
+        height: auto;
+        text-align: center;
+        position: absolute;
+        bottom: -20px;
+        right: 1.5rem;
+        font-size: 0.8rem;
+    }
+
+.page-link {
+    line-height: 16px;
+    width: 45px;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #495057;
+}
+
+.page-item input {
+    line-height: 22px;
+    padding: 3px;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.page-link:hover {
+    text-decoration: none;
+    color: #495057;
+    outline: none !important;
+}
+
+.page-link:focus {
+    box-shadow: none;
+}
+
+.price_indiv p {
+    font-size: 1.1rem;
+}
+
+
+.right_side {
+    border-radius: 12px;
+}
+
+/* cart css */
+
+/* body */
+
+
+/* footer */
+
+footer ul li a {
+    color: #000;
+}
+
+.jobDescription {
+    text-align: justify !important;
+}
+
+.footer-icon {
+    color: #000;
+}
+
+    .footer-icon:hover {
+        color: #edbb3d;
+    }
+
+footer {
+    height: 100px;
+}
+
+    footer .row {
+        background-color: #ccc !important;
+    }
+
+    footer a {
+        color: #000;
+    }
+
+        footer a:hover {
+            color: white !important;
+        }
+
+.myCard {
+    background-color: #fffbf0 !important;
+}
+
+
+.dashboard-profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: gray;
+}
+
+footer svg:hover {
+    outline: 2px solid yellow;
+    border-radius: 12px;
+}
+
+/* footer */
+
+
+
+/*------ Partial Delete ---------------*/
+
+.modal-confirm {
+    color: #636363;
+    width: 400px;
+}
+
+    .modal-confirm .modal-content {
+        padding: 20px;
+        border-radius: 5px;
+        border: none;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .modal-confirm .modal-header {
+        border-bottom: none;
+        position: relative;
+    }
+
+    .modal-confirm h4 {
+        text-align: center;
+        font-size: 26px;
+        margin: 30px 0 -10px;
+    }
+
+    .modal-confirm .close {
+        position: absolute;
+        top: -5px;
+        left: -2px;
+    }
+
+    .modal-confirm .modal-body {
+        color: #999;
+    }
+
+    .modal-confirm .modal-footer {
+        border: none;
+        text-align: center;
+        border-radius: 5px;
+        font-size: 13px;
+        padding: 10px 15px 25px;
+    }
+
+        .modal-confirm .modal-footer a {
+            color: #999;
+        }
+
+    .modal-confirm .svg-close {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+        border-radius: 50%;
+        z-index: 9;
+        text-align: center;
+        border: 3px solid #f15e5e;
+    }
+
+    .modal-confirm .icon-box i {
+        color: #f15e5e;
+        font-size: 46px;
+        display: inline-block;
+        margin-top: 13px;
+    }
+
+    .modal-confirm .btn,
+    .modal-confirm .btn:active {
+        color: #fff;
+        border-radius: 4px;
+        background: #60c7c1;
+        text-decoration: none;
+        transition: all 0.4s;
+        line-height: normal;
+        min-width: 120px;
+        border: none;
+        min-height: 40px;
+        border-radius: 3px;
+        margin: 0 5px;
+    }
+
+    .modal-confirm .btn-secondary {
+        background: #c1c1c1;
+    }
+
+        .modal-confirm .btn-secondary:hover,
+        .modal-confirm .btn-secondary:focus {
+            background: #a8a8a8;
+        }
+
+    .modal-confirm .btn-danger {
+        background: #f15e5e;
+    }
+
+        .modal-confirm .btn-danger:hover,
+        .modal-confirm .btn-danger:focus {
+            background: #ee3535;
+        }
+
+.trigger-btn {
+    display: inline-block;
+    margin: 100px auto;
+}
+
+/*------ Partial Delete ---------------*/

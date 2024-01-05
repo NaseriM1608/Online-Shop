@@ -8,9 +8,11 @@ using System.Web.UI.WebControls;
 using System.IO;
 using System.Net;
 using System.Data.Entity;
+using System.Web.Helpers;
 
 namespace Pooshineh.Controllers
 {
+
     public class ProductsController : Controller
     {
         ClothingStoreEntities1 db = new ClothingStoreEntities1();
@@ -30,11 +32,11 @@ namespace Pooshineh.Controllers
         {
             string newImageName = "";
 
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                if(newImage != null)
+                if (newImage != null)
                 {
-                    if(newImage.ContentType != "image/jpeg" &&  newImage.ContentType != "image/png")
+                    if (newImage.ContentType != "image/jpeg" && newImage.ContentType != "image/png")
                     {
                         ModelState.AddModelError("ProductImagePath", "فرمت عکس باید به صورت jpg, jpeg یا png باشد.");
                         return View(newProduct);
@@ -65,36 +67,45 @@ namespace Pooshineh.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Table_Products product)
+        public ActionResult Edit(Table_Products product, HttpPostedFileBase newImage)
         {
+            string newImageName;
             if (ModelState.IsValid)
             {
+                if (newImage != null)
+                {
+                    if (newImage.ContentType != "image/jpeg" && newImage.ContentType != "image/png")
+                    {
+                        ModelState.AddModelError("ProductImagePath", "فرمت عکس باید به صورت jpg, jpeg یا png باشد.");
+                        return View(product);
+                    }
+                    newImageName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(newImage.FileName);
+                    newImage.SaveAs(Server.MapPath("~/Images/Products/") + newImageName);
+                    product.ProductImagePath = newImageName;
+                }
                 db.Entry(product).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                TempData["ProductEditSuccess"] = "تغییرات با موفقیت انجام شد.";
+                return RedirectToAction("Edit");
             }
+            TempData["ProductEditFailed"] = "لطفا فرم را به درستی پر کنید.";
             return View(product);
         }
         [HttpGet]
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var product = db.Table_Products.Find(id);
-            if (product == null)
-            {
-                return HttpNotFound();
-            }
-            return View(product);
-        }
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+
+
+        public ActionResult Delete(int id)
         {
             var product = db.Table_Products.Find(id);
             db.Table_Products.Remove(product);
+            var productsInCart = db.Table_CartItem.Where(ci => ci.ProductID == id);
+
+            foreach (var productInCart in productsInCart)
+            {
+                var cart = db.Table_Cart.Where(c => c.CartID == productInCart.CartID).FirstOrDefault();
+                cart.TotalCost -= productInCart.Quantity * productInCart.Price;
+                db.Table_CartItem.Remove(productInCart);
+            }
             db.SaveChanges();
             return RedirectToAction("Index");
         }

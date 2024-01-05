@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pooshineh.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +9,11 @@ namespace Pooshineh.Controllers
 {
     public class HomeController : Controller
     {
+        ClothingStoreEntities1 db = new ClothingStoreEntities1();
         public ActionResult Index()
         {
-            return View();
+            var productsList = db.Table_Products.ToList();
+            return View(productsList);
         }
         public ActionResult Contact()
         {
