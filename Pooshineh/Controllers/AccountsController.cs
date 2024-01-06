@@ -64,6 +64,7 @@ namespace Pooshineh.Controllers
                 {
                     newCustomer.RegisterDate = DateTime.Now;
                     newCustomer.IsActive = true;
+                    newCustomer.RoleID = 0;
                     db.Table_User.Add(newCustomer);
                     db.SaveChanges();
                     LoginViewModel loginUser = new LoginViewModel() { PhoneNumber = newCustomer.PhoneNumber, Password = newCustomer.Password };
