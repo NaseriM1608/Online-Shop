@@ -273,10 +273,8 @@
     <Content Include="Views\Products\CreateProduct.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Products\Edit.cshtml" />
-    <Content Include="Views\Products\Delete.cshtml" />
     <Content Include="Views\Accounts\Index.cshtml" />
     <Content Include="Views\Accounts\Edit.cshtml" />
-    <Content Include="Views\Accounts\Delete.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Products\Details.cshtml" />
     <Content Include="Views\Cart\AddToCart.cshtml" />
@@ -290,6 +288,7 @@
     <Content Include="Views\Discounts\AddDiscountCode.cshtml" />
     <Content Include="Views\Shared\_PartialFooter.cshtml" />
     <Content Include="Views\Shared\_PartialHeader.cshtml" />
+    <Content Include="Views\Accounts\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

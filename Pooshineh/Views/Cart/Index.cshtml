@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Pooshineh.Models.Table_Products>
+﻿﻿@model IEnumerable<Pooshineh.Models.Table_Products>
 
 @{
     ViewBag.Title = "Cart";
@@ -11,71 +11,122 @@
         TotalCost = db.Table_Cart.Where(c => c.Table_User.PhoneNumber == User.Identity.Name).Sum(c => c.TotalCost);
     }
     else { TotalCost = 0; }
+    int trackingCost = 50000;
+    int finalyCost = TotalCost + trackingCost;
 }
 
-<h2>Index</h2>
+<div class="container-fluid ">
+    <div class="row">
+        <div class="col-md-10 col-11 mx-auto shop-cart">
+            <div class="row mt-5 gx-3">
+                <!-- left side div -->
+                <div class="col-md-12 col-lg-8 col-11 mx-auto main_cart mb-lg-0 mb-5 shadow py-3">
+                    <hr />
 
+                    <!-- 2nd cart product -->
+                    @foreach (var item in Model)
+                    {
+                        <div class="card p-4">
+                            <h2 class="py-4 font-weight-bold">سبد خرید</h2>
+                            <div class="row">
+                                <!-- cart images div -->
+                                <div class="col-md-5 col-11 mx-auto bg-light d-flex justify-content-center align-items-center shadow product_img">
+                                    <img src="~/Images/Products/@item.ProductImagePath" class="img-fluid" alt="cart img">
+                                </div>
+                                <!-- cart product details -->
+                                <div class="col-md-7 col-11 mx-auto px-4 mt-2">
+                                    <div class="row">
+                                        <!-- product name  -->
+                                        <div class="col-6 card-title">
+                                            <h1 class="mb-4 product_name mt-2 mt-md-0">@Html.DisplayFor(modelItem => item.ProductName)</h1>
+                                            <p class="mb-2">
+                                                تعداد :
+                                                @{
+                                                    int quantityInCart = db.Table_CartItem
+                                                        .Where(ci => ci.ProductID == item.ProductID && ci.Table_Cart.Table_User.PhoneNumber == User.Identity.Name)
+                                                        .Select(ci => ci.Quantity)
+                                                        .FirstOrDefault();
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductImagePath)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductPrice)
-        </th>
-        <th>
-            تعداد
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Table_Categories.CategoryName)
-        </th>
-        <th></th>
-    </tr>
+                                                    @quantityInCart
+                                                }
+                                            </p>
+                                            <p class="mb-2">@Html.DisplayFor(modelItem => item.Table_Categories.CategoryName) | مشکی</p>
+                                            <p class="mb-3">سایز: متوسط</p>
+                                        </div>
+                                        <!-- quantity inc dec -->
+                                        <div class="col-6">
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductImagePath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductPrice)
-            </td>
-            <td>
-                @{
-                    int quantityInCart = db.Table_CartItem
-                        .Where(ci => ci.ProductID == item.ProductID && ci.Table_Cart.Table_User.PhoneNumber == User.Identity.Name)
-                        .Select(ci => ci.Quantity)
-                        .FirstOrDefault();
+                                        </div>
+                                    </div>
+                                    <!-- //remover move and price -->
+                                    <div class="row">
+                                        <div class="col-8 d-flex justify-content-around remove_wish">
+                                            <a href="@Url.Action("Delete", "Cart", new { id = item.ProductID })">
+                                                <svg class="trash-icon" xmlns="http://www.w3.org/2000/svg" width="20"
+                                                     height="20" viewBox="0 0 20 20">
+                                                    <path fill="currentColor"
+                                                          d="m6 2l2-2h4l2 2h4v2H2V2zM3 6h14l-1 14H4zm5 2v10h1V8zm3 0v10h1V8z" />
+                                                </svg>
+                                            </a>
+                                            <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                 height="24" viewBox="0 0 24 24">
+                                                <path fill="currentColor" fill-rule="evenodd"
+                                                      d="M8.106 18.247C5.298 16.083 2 13.542 2 9.137C2 4.274 7.5.825 12 5.501V20.5c-1 0-2-.77-3.038-1.59c-.277-.218-.564-.438-.856-.663"
+                                                      clip-rule="evenodd" opacity=".5" />
+                                                <path fill="currentColor"
+                                                      d="M15.038 18.91C17.981 16.592 22 14 22 9.138c0-4.863-5.5-8.312-10-3.636V20.5c1 0 2-.77 3.038-1.59" />
+                                            </svg>
+                                        </div>
+                                        <div class="col-4 d-flex justify-content-end price_money">
+                                            <p class="h6"><span id="itemval1">@Html.DisplayFor(modelItem => item.ProductPrice) </span> تومان</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if (TotalCost == 0)
+                    {
+                        <div class="text-center text-danger mt-lg-5">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24"><path fill="currentColor" d="M12.03 8.97a.75.75 0 1 0-1.06 1.06l.97.97l-.97.97a.75.75 0 1 0 1.06 1.06l.97-.97l.97.97a.75.75 0 1 0 1.06-1.06l-.97-.97l.97-.97a.75.75 0 1 0-1.06-1.06l-.97.97z" /><path fill="currentColor" fill-rule="evenodd" d="M1.293 2.751a.75.75 0 0 1 .956-.459l.301.106c.617.217 1.14.401 1.553.603c.44.217.818.483 1.102.899c.282.412.399.865.452 1.362l.011.108H17.12c.819 0 1.653 0 2.34.077c.35.039.697.101 1.003.209c.3.105.631.278.866.584c.382.496.449 1.074.413 1.66c-.035.558-.173 1.252-.338 2.077l-.01.053l-.002.004l-.508 2.47c-.15.726-.276 1.337-.439 1.82c-.172.51-.41.96-.837 1.308c-.427.347-.916.49-1.451.556c-.505.062-1.13.062-1.87.062H10.88c-1.345 0-2.435 0-3.293-.122c-.897-.127-1.65-.4-2.243-1.026c-.547-.576-.839-1.188-.985-2.042c-.137-.8-.15-1.848-.15-3.3V7.038c0-.74-.002-1.235-.043-1.615c-.04-.363-.109-.545-.2-.677c-.087-.129-.22-.25-.524-.398c-.323-.158-.762-.314-1.43-.549l-.26-.091a.75.75 0 0 1-.46-.957M5.708 6.87v2.89c0 1.489.018 2.398.13 3.047c.101.595.274.925.594 1.263c.273.288.65.472 1.365.573c.74.105 1.724.107 3.14.107h5.304c.799 0 1.33-.001 1.734-.05c.382-.047.56-.129.685-.231c.125-.102.24-.26.364-.625c.13-.385.238-.905.4-1.688l.498-2.42v-.002c.178-.89.295-1.482.322-1.926c.026-.421-.04-.569-.101-.65a.561.561 0 0 0-.177-.087a3.17 3.17 0 0 0-.672-.134c-.595-.066-1.349-.067-2.205-.067zM5.25 19.5a2.25 2.25 0 1 0 4.5 0a2.25 2.25 0 0 0-4.5 0m2.25.75a.75.75 0 1 1 0-1.5a.75.75 0 0 1 0 1.5m6.75-.75a2.25 2.25 0 1 0 4.5 0a2.25 2.25 0 0 0-4.5 0m2.25.75a.75.75 0 1 1 0-1.5a.75.75 0 0 1 0 1.5" clip-rule="evenodd" /></svg>
+                            <p class="text-danger fw-bold mt-lg-2">سبد خرید خالی است</p>
+                        </div>
+                    }
+                </div>
+                <!-- right side div -->
+                <div class="col-md-12 col-lg-4 col-11 mx-auto mt-lg-0 mt-md-5">
+                    <div class="right_side p-3 shadow bg-white">
+                        <h2 class="product_name mb-5">جمع سبد خرید</h2>
+                        <div class="price_indiv d-flex justify-content-between">
+                            <p>هزینه محصولات</p>
+                            <p><span id="product_total_amt"> @TotalCost</span> تومان</p>
+                        </div>
+                        <div class="price_indiv d-flex justify-content-between">
+                            <p>هزینه پست</p>
+                            <p><span id="shipping_charge"> @trackingCost</span> تومان</p>
+                        </div>
+                        <hr />
+                        <div class="total-amt d-flex justify-content-between font-weight-bold">
+                            <p>هزینه کل</p>
+                            @if (TotalCost > 0)
+                            {
+                                <p><span id="total_cart_amt"> @finalyCost</span> تومان </p>
+                            }
 
-                    @quantityInCart
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Table_Categories.CategoryName)
-            </td>
-            <td>
-                @Html.ActionLink("Delete", "Delete", new { id = item.ProductID })
-            </td>
-        </tr>
-    }
-    <p>Total cost: @TotalCost</p>
-    @if (TotalCost > 0)
-    {
-        @Html.ActionLink("Order", "Index", "Orders", usersCart, new { @class = "btn btn-success" })
-    }
+                        </div>
+                        @if (TotalCost > 0)
+                        {
+                            @Html.ActionLink("پرداخت", "Index", "Orders", usersCart, new { @class = "btn btn-primary text-uppercase text-white" })
+                        }
+                        else
+                        {
+                            <button class="btn btn-danger" disabled>سبد خالی است</button>
+                        }
+                    </div>
+                    <!-- discount code part -->
 
-</table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

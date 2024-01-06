@@ -92,8 +92,6 @@ namespace Pooshineh.Controllers
             return View(product);
         }
         [HttpGet]
-
-
         public ActionResult Delete(int id)
         {
             var product = db.Table_Products.Find(id);

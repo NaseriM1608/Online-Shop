@@ -1,99 +1,107 @@
-﻿@model IEnumerable<Pooshineh.Models.Table_User>
+﻿﻿@model IEnumerable<Pooshineh.Models.Table_User>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
+<div class="text-center bg-info py-5 fw-bolder rounded-1 text-white mt-5"><h3>لیست کاربران</h3></div>
+<hr />
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "SignUp", null, new { @class = "btn btn-success my-3" })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EmailAddress)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.City)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RegisterDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BirthDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LoginHistory)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Password)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Table_Roles.RoleName)
-        </th>
-        <th></th>
-    </tr>
+<div class="table-responsive rounded-1">
+    <table class="table table-hover align-middle text-center">
+        <thead class="table-secondary">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                </th>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PhoneNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EmailAddress)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.City)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RegisterDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BirthDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LoginHistory)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Password)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsActive)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Table_Roles.RoleName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+                <th>
+                    @Html.DisplayNameFor(model => model.EmailAddress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.City)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
 
-</table>
+        <tbody class="table-group-divider">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmailAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.City)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BirthDate)
+                    </td>
+                    <td>
+                        @if (item.IsActive == true)
+                        {
+                            <p class="text-success fw-bold">فعال</p>
+                        }
+                        else
+                        {
+                            <p class="text-danger fw-bold">مسدود</p>
+                        }
+                    </td>
+                    <td>
+                        <a href="#myModal" class="btn trigger-btn  btn-danger mx-2 " data-bs-toggle="modal">حذف</a>
+                        <div id="myModal" class="modal fade">
+                            <div class="modal-dialog modal-confirm">
+                                <div class="modal-content">
+                                    <div class="modal-header flex-column">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <div class="icon-box">
+                                            <i class="material-icons">
+                                                <svg class="text-danger" xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 32 32"><path fill="currentColor" d="M16 2C8.2 2 2 8.2 2 16s6.2 14 14 14s14-6.2 14-14S23.8 2 16 2m5.4 21L16 17.6L10.6 23L9 21.4l5.4-5.4L9 10.6L10.6 9l5.4 5.4L21.4 9l1.6 1.6l-5.4 5.4l5.4 5.4z" /></svg>
+                                            </i>
+                                        </div>
+                                        <h4 class="modal-title w-100"></h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>آیا از حذف کاربر اطمینان دارید ؟ بعد از حذف کاربر امکان بازیابی آن وجود ندارد</p>
+                                    </div>
+                                    <div class="modal-footer justify-content-center">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
+                                        @Html.ActionLink("حذف", "Delete", "Accounts", new { id = item.ID }, new { @class = "btn btn-danger text-white" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        |
+                        @Html.ActionLink("مشخصات", "Details", new { id = item.ID }, new { @class = "btn btn-info" }) |
+                        @Html.ActionLink("ویرایش", "Edit", new { id = item.ID }, new { @class = "btn btn-warning" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
