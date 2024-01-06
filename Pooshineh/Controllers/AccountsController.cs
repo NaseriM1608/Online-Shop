@@ -122,7 +122,7 @@ namespace Pooshineh.Controllers
                 db.Table_CartItem.RemoveRange(usersProductsInCart);
             }
             var usersCart = db.Table_Cart.Where(c => c.UserID == id).FirstOrDefault();
-            if(usersCart.CartID > 0)
+            if(usersCart != null)
             {
                 var usersOrders = db.Table_Orders.Where(o => o.CartID == usersCart.CartID);
                 foreach (var order in usersOrders)
