@@ -1,0 +1,110 @@
+﻿@model IEnumerable<Pooshineh.Models.Table_Orders>
+
+@{
+    Pooshineh.Models.ClothingStoreEntities1 db = new Pooshineh.Models.ClothingStoreEntities1();
+    ViewBag.Title = "ViewOrdersForAdmin";
+    var users = db.Table_User;
+    var user = db.Table_User.Where(u => u.PhoneNumber == User.Identity.Name).FirstOrDefault();
+}
+<br />
+@if (user.RoleID == 1)
+{
+    <div class="text-center bg-primary py-5 fw-bolder rounded-1 text-white mt-5"><h3>مشاهده سفارش‌ها</h3></div>
+
+
+
+    if (TempData["StatusEditSuccess"] != null)
+    {
+        <div class="alert alert-success mt-5">
+            @TempData["StatusEditSuccess"]
+        </div>
+    }
+    if (TempData["StatusEditFailed"] != null)
+    {
+        <div class="alert alert-danger mt-5">
+            @TempData["StatusEditFailed"]
+        </div>
+    }
+    <table class="table mt-3">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalCost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderDate)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.OrderAddress)
+            </th>
+            <th>
+                نام مشتری
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderStatus)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalCost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderAddress)
+                </td>
+                <td>
+                    @users.Where(u => u.ID == item.Table_Cart.UserID).FirstOrDefault().Name @users.Where(u => u.ID == item.Table_Cart.UserID).FirstOrDefault().LastName
+                </td>
+                <td>
+
+                    @using (Html.BeginForm("Edit", "Orders", FormMethod.Post))
+                    {
+                        @Html.Hidden("OrderID", item.OrderID)
+                        @Html.Hidden("CartID", item.CartID)
+                        @Html.Hidden("OrderName", item.OrderName)
+                        @Html.Hidden("OrderDate", item.OrderDate)
+                        @Html.Hidden("OrderAddress", item.OrderAddress)
+                        @Html.Hidden("TotalCost", item.TotalCost)
+                        @Html.DropDownList("OrderStatus", GetOrderStatusList(), item.OrderStatus, htmlAttributes: new { @class = "form-control" })
+                        <input type="submit" value="ذخیره" class="btn btn-success">
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.OrderID }, new { @class = "btn btn-warning" })
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else {
+    <div class="text-center bg-danger py-5 fw-bolder rounded-1 text-white mt-5"><h3>دسترسی محدود است</h3></div>
+}
+
+@functions{
+    private SelectList GetOrderStatusList()
+    {
+        var orderStatusList = new List<SelectListItem>
+    {
+            new SelectListItem { Value = "در حال بررسی", Text = "در حال بررسی" },
+            new SelectListItem { Value = "در حال ارسال", Text = "در حال ارسال" },
+            new SelectListItem { Value = "تحویل داده شده", Text = "تحویل داده شده" }
+        };
+
+        return new SelectList(orderStatusList, "Value", "Text");
+    }
+}
+

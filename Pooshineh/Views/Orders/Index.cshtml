@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Pooshineh.Models.Table_CartItem>
+﻿﻿@model IEnumerable<Pooshineh.Models.Table_CartItem>
 
 @{
     ViewBag.Title = "Index";
@@ -7,22 +7,25 @@
     var cart = db.Table_Cart
         .Where(o => o.UserID == user.ID)
         .FirstOrDefault();
+    int trackingCost = 50000;
+    int finalyCost = cart.TotalCost + trackingCost;
 }
 
-<h2>Index</h2>
-
+<div class="w-25 text-center mx-auto my-5">
+    <h3 class="bg-secondary text-white py-3 rounded-2">پرداخت نهایی</h3>
+</div>
 
 <table class="table">
-    <tr>
-        <th>
-            Total cost: @cart.TotalCost
-        </th>
-       
-    </tr>
 
+    <tr>
+        <th>نام محصول</th>
+        <th>تعداد</th>
+        <th>قیمت محصول</th>
+    </tr>
     @foreach (var item in Model)
     {
         <tr>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Table_Products.ProductName)
             </td>
@@ -32,12 +35,24 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
-
-
         </tr>
     }
+    <tr>
+        <td></td>
+        <td></td>
+        @if (cart.TotalCost > 0)
+        {
+            <th>قیمت کل: <span class="text-danger">@finalyCost</span> <small>تومان</small></th>
+        }
+        else
+        {
+            <th></th>
+        }
+    </tr>
 
 </table>
+
+
 
 @if (TempData["DiscountSuccess"] != null)
 {
@@ -61,41 +76,48 @@
 }
 
 <div id="discountResult"></div>
-@Html.Partial("_DiscountCodePartial", new Pooshineh.Models.DiscountViewModel())
+<div class="row">
+    <div class="col">
+        @Html.Partial("_DiscountCodePartial", new Pooshineh.Models.DiscountViewModel())
 
-@if (TempData["AddressError"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["AddressError"]
-    </div>
-}
-
-@using (Html.BeginForm("ConfirmOrder", "Orders", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-
-
-    if (user.Address == null)
-    {
-        <div class="form-group">
-            <input type="text"
-                   class="form-control" placeholder="آدرس خود را وارد کنید" name="address" id="address" style="width: 400px; height: 100px">
-        </div>
-    }
-    else
-    {
-        <div>
-            <input type="text"
-                   class="form-control" placeholder="@user.Address" name="address" id="address" style="width: 400px; height: 100px; max-width: 390px; max-height:90px;">
-        </div>
-    }
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10 my-2">
-            <input type="submit" value="ثبت نهایی سفارش" class="btn btn-warning" />
-        </div>
+        @if (TempData["AddressError"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["AddressError"]
+            </div>
+        }
     </div>
 
 
-}
+    @using (Html.BeginForm("ConfirmOrder", "Orders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="col">
+            <label for="address" class="form-label">آدرس پستی</label>
+            @if (user.Address == null)
+            {
+                <div class="form-group my-3 my-lg-0">
+                    <input type="text"
+                           class="form-control" placeholder="آدرس خود را وارد کنید" name="address" id="address" style="width: 400px; height: 120px">
+                </div>
+            }
+            else
+            {
+                <div>
+                    <input type="text"
+                           class="form-control my-3 my-lg-0" placeholder="@user.Address" name="address" id="address" style="width: 400px; height: 120px; max-width: 390px; max-height:150px;">
+                </div>
+            }
+        </div>
+        <div class="form-group text-center text-lg-start mt-4 mt-lg-3">
+            <input type="submit" value="ثبت نهایی سفارش" class="btn btn-warning px-5 py-3 text-white fw-bold" />
+        </div>
+
+    }
+
+
+</div>
+
+
 
 
 

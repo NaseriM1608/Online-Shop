@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -138,5 +139,25 @@ namespace Pooshineh.Controllers
             }
             return View(order);
         }
+        [Authorize]
+        public ActionResult ViewOrdersForAdmin()
+        {
+            var orders = db.Table_Orders;
+            return View(orders);
+        }
+        [Authorize]
+        public ActionResult Edit(Table_Orders order)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(order).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["StatusEditSuccess"] = "تغییرات با موفقیت انجام شد.";
+                return RedirectToAction("ViewOrdersForAdmin");
+            }
+            TempData["StatusEditFailed"] = "تغییرات با مشکل مواجه شد.";
+            return RedirectToAction("ViewOrdersForAdmin");
+        }
+       
     }
 }

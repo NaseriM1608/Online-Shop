@@ -1,51 +1,61 @@
 ﻿@model IEnumerable<Pooshineh.Models.Table_Discounts>
 
 @{
+    Pooshineh.Models.ClothingStoreEntities1 db = new Pooshineh.Models.ClothingStoreEntities1();
+    var user = db.Table_User.Where(u => u.PhoneNumber == User.Identity.Name).FirstOrDefault();
     ViewBag.Title = "Index";
 }
-<br />
-<p>
-    @Html.ActionLink("درج کد تخفیف", "AddDiscountCode", "Discounts", null, new { @class = "btn btn-info" })
-</p>
-
-@if (TempData["DiscountAddSuccess"] != null)
+@if (user.RoleID == 1)
 {
-    <div class="alert alert-success">
-        @TempData["DiscountAddSuccess"]
-    </div>
-}
-@if (TempData["DeletionSuccess"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["DeletionSuccess"]
-    </div>
-}
+    <br />
+    <p>
+        @Html.ActionLink("درج کد تخفیف", "AddDiscountCode", "Discounts", null, new { @class = "btn btn-info mt-5" })
+    </p>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.DiscountCode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TotalDiscount)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
+    if (TempData["DiscountAddSuccess"] != null)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiscountCode)
-            </td>
-            <td>
-                %@Html.DisplayFor(modelItem => item.TotalDiscount)
-            </td>
-            <td>
-                @Html.ActionLink("حذف", "Delete", "Discounts", new { id = item.DiscountID }, new { @class = "btn btn-danger"})
-            </td>
-
-        </tr>
+        <div class="alert alert-success">
+            @TempData["DiscountAddSuccess"]
+        </div>
+    }
+    if (TempData["DeletionSuccess"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["DeletionSuccess"]
+        </div>
     }
 
-</table>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DiscountCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalDiscount)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DiscountCode)
+                </td>
+                <td>
+                    %@Html.DisplayFor(modelItem => item.TotalDiscount)
+                </td>
+                <td>
+                    @Html.ActionLink("حذف", "Delete", "Discounts", new { id = item.DiscountID }, new { @class = "btn btn-danger" })
+                </td>
+
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <br />
+    <div class="text-center bg-danger py-5 fw-bolder rounded-1 text-white mt-5"><h3>دسترسی محدود می‌باشد</h3></div>
+}

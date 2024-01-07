@@ -116,6 +116,7 @@
     <Content Include="Content\headfoot.css" />
     <Content Include="Content\log.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\userProfile.css" />
     <Content Include="Global.asax" />
     <Content Include="Images\967678.jpg" />
     <Content Include="Images\logo1-removebg-preview.png" />
@@ -289,6 +290,7 @@
     <Content Include="Views\Shared\_PartialFooter.cshtml" />
     <Content Include="Views\Shared\_PartialHeader.cshtml" />
     <Content Include="Views\Accounts\Details.cshtml" />
+    <Content Include="Views\Orders\ViewOrdersForAdmin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

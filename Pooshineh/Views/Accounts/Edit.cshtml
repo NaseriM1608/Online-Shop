@@ -8,115 +8,123 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <div class="text-center bg-primary py-5 fw-bolder rounded-1 text-white mt-5">
-            @if (Model.RoleID == 1)
-            {
-                <h3> پروفایل @Model.Name @Model.LastName</h3>
-            }
-            else
-            {
-                <h3> ویرایش @Model.Name @Model.LastName</h3>
-            }
+<div class="form-horizontal">
+    <div class="text-center bg-primary py-5 fw-bolder rounded-1 text-white mt-5">
+        @if (Model.RoleID == 1)
+        {
+            <h3> پروفایل @Model.Name @Model.LastName</h3>
+        }
+        else
+        {
+            <h3> ویرایش @Model.Name @Model.LastName</h3>
+        }
+    </div>
+    <br />
+    @if (TempData["CredNotComplete"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["CredNotComplete"]
         </div>
-
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ID)
-        @Html.HiddenFor(model => model.IsActive)
-        @Html.HiddenFor(model => model.LoginHistory)
-        @Html.HiddenFor(model => model.RegisterDate)
-        @Html.HiddenFor(model => model.RoleID)
-
-        <div class="row mb-3">
-            <div class="col-lg-3 my-3 my-lg-0">
-                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-4 my-1" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control w-100" } })
-                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="col-lg-3 my-3 my-lg-0">
-                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-4 my-1" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control w-100" } })
-                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="col-lg-3 my-3 my-lg-0">
-                @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-4 my-1" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control w-100" } })
-                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
-                </div>
-            </div>
+    }
+    @if (TempData["UserEditSuccess"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["UserEditSuccess"]
         </div>
+    }
+    @if (TempData["UserEditFailed"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["UserEditFailed"]
+        </div>
+    }
 
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ID)
+    @Html.HiddenFor(model => model.IsActive)
+    @Html.HiddenFor(model => model.LoginHistory)
+    @Html.HiddenFor(model => model.RegisterDate)
+    @Html.HiddenFor(model => model.RoleID)
 
-        <div class="row mb-3 align-items-center">
-            <div class="col-lg-3 my-3 my-lg-0">
-                @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-5 my-1" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control w-100" } })
-                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="col-lg-3 my-3 my-lg-0 ">
-                @Html.LabelFor(model => model.BirthDate, htmlAttributes: new { @class = "control-label col-md-4 my-1" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.BirthDate, new { @class = "form-control w-100", @id = "datepicker" })
-                    @Html.ValidationMessageFor(model => model.BirthDate, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="col-lg-3 my-3 my-lg-0">
-                @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label col-md-4 my-1" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control w-100" } })
-                    @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
-                </div>
+    <div class="row mb-3">
+        <div class="col-lg-3 my-3 my-lg-0">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-4 my-1" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control w-100" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <div class="row mb-3">
-            <div class="col-lg-3 my-3 my-lg-0">
-                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-4 my-1" })
-                <div class="col-md-10 w-100 h-100">
-                    @Html.TextAreaFor(model => model.Address, new { @class = "form-control w-100 h-75" })
-                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-                </div>
+        <div class="col-lg-3 my-3 my-lg-0">
+            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-4 my-1" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control w-100" } })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
             </div>
-            <div class="col-lg-3 my-3 my-lg-0">
-                @Html.LabelFor(model => model.Password, "تغییر رمز عبور", htmlAttributes: new { @class = "control-label col-md-4 my-1" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control w-100", Value = Model.Password } })
-                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
         </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                @Html.ActionLink("بازگشت", "Index", "Accounts", null, new { @class = "btn btn-info text-white px-4", style = "width:130px;" })
-                <input type="submit" value="ذخیره" class="btn btn-warning my-3 px-5" />
+        <div class="col-lg-3 my-3 my-lg-0">
+            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-4 my-1" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control w-100" } })
+                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
+
+
+    <div class="row mb-3 align-items-center">
+        <div class="col-lg-3 my-3 my-lg-0">
+            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-5 my-1" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control w-100" } })
+                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-lg-3 my-3 my-lg-0 ">
+            @Html.LabelFor(model => model.BirthDate, htmlAttributes: new { @class = "control-label col-md-4 my-1" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.BirthDate, new { @class = "form-control w-100" })
+                @Html.ValidationMessageFor(model => model.BirthDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-lg-3 my-3 my-lg-0">
+            @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label col-md-4 my-1" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control w-100" } })
+                @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-lg-3 my-3 my-lg-0">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-4 my-1" })
+            <div class="col-md-10 w-100 h-100">
+                @Html.TextAreaFor(model => model.Address, new { @class = "form-control w-100 h-75" })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-lg-3 my-3 my-lg-0">
+            @Html.LabelFor(model => model.Password, "تغییر رمز عبور", htmlAttributes: new { @class = "control-label col-md-4 my-1" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control w-100", Value = Model.Password } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.ActionLink("بازگشت", "Index", "Accounts", null, new { @class = "btn btn-info text-white px-4", style = "width:130px;" })
+            <input type="submit" value="ذخیره" class="btn btn-warning my-3 px-5" />
+        </div>
+    </div>
+</div>
 }
 
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-    $(function () {
-        $("#datepicker").datepicker({
-            changeMonth: true,
-            changeYear: true,
-            yearRange: "-100:+0", // Allow selection from the last 100 years
-            dateFormat: "yy-mm-dd" // Set the date format
-        });
-    });
-</script>
+

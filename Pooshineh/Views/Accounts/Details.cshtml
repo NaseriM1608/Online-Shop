@@ -3,112 +3,127 @@
 @{
     ViewBag.Title = "Details";
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/bootstrap.rtl.min.css" rel="stylesheet" />
+    <link href="~/Content/userProfile.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="text-center bg-warning py-5 fw-bolder rounded-1 text-white my-5 "><h3>مشخصات @Model.Name @Model.LastName</h3></div>
+    <section class="section about-section gray-bg" id="about">
+        <div class="container">
+            <div class="row align-items-center flex-row-reverse">
+                <div class="col-lg-6">
+                    <div class="about-text go-to">
+                        <h6 class="theme-color lead my-3">شغل و حرفه</h6>
+                        <b>درباره کاربر</b>
+                        <div class="row about-list my-4">
+                            <div class="col-md-6">
+                                <div class="media">
+                                    <label>نام</label>
+                                    <b d-inline>@Html.DisplayFor(model => model.Name)</b>
+                                </div>
+                                <div class="media">
+                                    <label>تاریخ تولد</label>
+                                    <b>@Html.DisplayFor(model => model.BirthDate)</b>
+                                </div>
+                                <div class="media">
+                                    <label>سن</label>
+                                    <b>21</b>
+                                </div>
+                                <div class="media">
+                                    <label>رمز عبور</label>
+                                    <b>@Html.DisplayFor(model => model.Password)</b>
+                                </div>
 
-<h2>Details</h2>
+                                <div class="media">
+                                    <label>شهر</label>
+                                    <b>@Html.DisplayFor(model => model.City)</b>
+                                </div>
+                                <div class="media">
+                                    <label>آدرس</label>
+                                    <b class="text-muted"> @Html.DisplayFor(model => model.Address)</b>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="media">
+                                    <label>نام خانوادگی</label>
+                                    <b class="text-muted">@Html.DisplayFor(model => model.LastName)</b>
+                                </div>
+                                <div class="media">
+                                    <label>ایمیل</label>
+                                    <b class="text-muted">@Html.DisplayFor(model => model.EmailAddress)</b>
+                                </div>
+                                <div class="media">
+                                    <label>تلفن</label>
+                                    <b class="text-muted">@Html.DisplayFor(model => model.PhoneNumber)</b>
+                                </div>
+                                <div class="media">
+                                    <label>تاریخ ثبت نام</label>
+                                    <b class="text-muted">@Html.DisplayFor(model => model.RegisterDate)</b>
+                                </div>
+                                <div class="media">
+                                    <label>جنسیت</label>
+                                    <b class="text-muted">مرد</b>
+                                </div>
+                                <div class="media">
+                                    <label>وضعیت</label>
+                                    @if (Model.IsActive == true)
+                                    {
+                                        <b class="text-success">فعال</b>
+                                    }
+                                    else
+                                    {
+                                        <b class="text-danger">مسدود</b>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-avatar">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" title="" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="counter">
+                <div class="row">
+                    <div class="col-6 col-lg-3">
+                        <div class="count-data text-center">
+                            <h6 class="count h2" data-to="5" data-speed="5">5</h6>
+                            <p class="m-0px fw-600">سفارش های موفق</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="count-data text-center">
+                            <h6 class="count h2" data-to="1" data-speed="1">1</h6>
+                            <p class="m-0px fw-600">سفارش های ناموفق</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="count-data text-center">
+                            <h6 class="count h2" data-to="45" data-speed="45">45</h6>
+                            <p class="m-0px fw-600">بازدید</p>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="count-data text-center">
+                            <h6 class="count h2" data-to="3" data-speed="3">3</h6>
+                            <p class="m-0px fw-600">معرفی</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<div>
-    <h4>Table_User</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EmailAddress)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EmailAddress)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.City)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.RegisterDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.RegisterDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BirthDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BirthDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LoginHistory)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LoginHistory)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Table_Roles.RoleName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Table_Roles.RoleName)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+    <p>
+        @Html.ActionLink("بازگشت", "Index", "Accounts", null, new { @class = "btn btn-primary mx-2 rounded-1" }) |
+        @Html.ActionLink("ویرایش", "Edit", "Accounts", new { id = Model.ID }, new { @class = "btn btn-warning mx-2 px-5" })
+    </p>
+</body>
+</html>

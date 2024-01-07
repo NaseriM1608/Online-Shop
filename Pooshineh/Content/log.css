@@ -1,22 +1,21 @@
-﻿
-    
- 
-.wrapper {
+﻿@media only screen and (max-width:564px){
+ .wrapper {
     padding: 20px;
 }
+
 
 .login-box {
     padding: 7.5em 1.5em 4em 1.5em;
 }
 
-
+}
 
 :root {
     --primary-color: #c6c3c3;
 }
 
 * {
-    font-family: 'Vazir FD-WOL';
+    font-family: 'Vazir Medium';
 }
 
 body {

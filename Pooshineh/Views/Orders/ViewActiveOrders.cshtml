@@ -1,50 +1,56 @@
-﻿@model IEnumerable<Pooshineh.Models.Table_Orders>
+﻿﻿@model IEnumerable<Pooshineh.Models.Table_Orders>
 
 @{
     ViewBag.Title = "ViewActiveOrders";
 }
 
-<h2>ViewActiveOrders</h2>
+<div class="text-center bg-primary py-5 fw-bolder rounded-1 text-white my-5"><h3>سفارش های ثبت شده</h3></div>
+<hr />
 
+<div class="table-responsive rounded-1 mt-5">
+    <table class="table table-hover align-middle text-center">
+        <thead class="table-secondary">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalCost)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderStatus)
+                </th>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TotalCost)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderStatus)
-        </th>
+                <th></th>
+            </tr>
+        </thead>
 
-        <th></th>
-    </tr>
+        <tbody class="table-group-divider">
+            @foreach (var item in Model.OrderByDescending(o => o.OrderID))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalCost)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderDate, "{dddd, dd MMMM yyyy}")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderStatus)
+                    </td>
 
-    @foreach (var item in Model.OrderByDescending(o => o.OrderID))
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalCost)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderDate, "{dddd, dd MMMM yyyy}")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderStatus)
-            </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.OrderID }, new { @class = "btn btn-warning" })
+                    </td>
+                </tr>
+            }
 
-            <td>
-                @Html.ActionLink("Details", "Details", new { id=item.OrderID}, new { @class="btn btn-warning"})
-            </td>
-        </tr>
-    }
-
-</table>
+        </tbody>
+    </table>
+</div>
