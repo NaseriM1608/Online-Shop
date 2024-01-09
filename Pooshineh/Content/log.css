@@ -3,6 +3,10 @@
     padding: 20px;
 }
 
+    * {
+        font-family: Vazir;
+    }
+
 
 .login-box {
     padding: 7.5em 1.5em 4em 1.5em;
@@ -14,9 +18,6 @@
     --primary-color: #c6c3c3;
 }
 
-* {
-    font-family: 'Vazir Medium';
-}
 
 body {
     background-image: url("../Images/967678.jpg");

@@ -9,7 +9,9 @@
 <body dir="rtl" lang="fa">
 
     @Html.Partial("_PartialHeader")
-    <div class="container body-content">
+
+    @RenderSection("banner", false)
+    <div class="container body-content" style="padding-top:110px!important">
         @RenderBody()
     </div>
     @Html.Partial("_PartialFooter")

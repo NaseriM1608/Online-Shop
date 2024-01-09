@@ -119,7 +119,14 @@
     <Content Include="Content\userProfile.css" />
     <Content Include="Global.asax" />
     <Content Include="Images\967678.jpg" />
+    <Content Include="Images\banner1.jpg" />
+    <Content Include="Images\banner2.jpg" />
+    <Content Include="Images\banner3.jpg" />
+    <Content Include="Images\h7.jpg" />
     <Content Include="Images\logo1-removebg-preview.png" />
+    <Content Include="Images\pngtree-new-banner-in-winter-image_910805.jpg" />
+    <Content Include="Images\set7.jpg" />
+    <Content Include="Images\winterBanner.jpg" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -291,6 +298,9 @@
     <Content Include="Views\Shared\_PartialHeader.cshtml" />
     <Content Include="Views\Accounts\Details.cshtml" />
     <Content Include="Views\Orders\ViewOrdersForAdmin.cshtml" />
+    <Content Include="Views\Shared\_SuccessOrder.cshtml" />
+    <Content Include="Views\Shared\_ModalDeleteProduct.cshtml" />
+    <Content Include="Views\Shared\_ModalDeleteUser.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

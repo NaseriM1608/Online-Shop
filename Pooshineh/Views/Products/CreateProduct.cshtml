@@ -4,12 +4,13 @@
     var categories = db.Table_Categories.ToList();
 }
 
-<div class="text-center bg-success py-5 fw-bolder rounded-1 text-white my-5 "><h3>محصول جدید</h3></div>
+<div class="text-center bg-success py-5 fw-bolder rounded-1 text-white"><h3>محصول جدید</h3></div>
 
 <div class="container">
     @using (Html.BeginForm("CreateProduct", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
+        @Html.Hidden("ProductImagePath", "default.jp")
 
         <div class="form-horizontal">
 
@@ -65,11 +66,11 @@
 
                 <div class="col-md-4 col-6 mb-3">
                     <label class="mb-2 d-block">تعداد</label>
-                    <input type="number" name="quantity" value="1" min="1" max="30" class="form-control" />
+                    <input type="number" name="ProductQuantity" value="1" min="1" max="30" class="form-control" />
                 </div>
 
                 <div class="form-label">
-                    <label for="newImage" class="control-label col-md-2 mt-3 text-info">تغییر تصویر محصول </label>
+                    <label for="newImage" class="control-label col-md-2 mt-3 text-info">تصویر محصول </label>
                 </div>
 
                 <div class="form-group">

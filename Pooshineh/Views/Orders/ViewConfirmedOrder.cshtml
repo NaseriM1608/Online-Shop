@@ -4,12 +4,4 @@
 
 }
 
-<div class="container-fluid bg-light p-5 text-center"> سفارش شما با موفقیت ثبت شد.</div>
-
-<p>
-    آیدی سفارش: @Model.OrderName
-</p>
-<br />
-<p>
-    تاریخ ثبت سفارش: @Html.DisplayFor(model => model.OrderDate, "{dddd, dd MMMM yyyy}")
-</p>
+@Html.Partial("_SuccessOrder", Model)

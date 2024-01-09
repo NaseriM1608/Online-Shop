@@ -1,0 +1,23 @@
+﻿﻿<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="icon-box">
+                    <i class="material-icons">
+                        <svg class="text-danger" xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 32 32"><path fill="currentColor" d="M16 2C8.2 2 2 8.2 2 16s6.2 14 14 14s14-6.2 14-14S23.8 2 16 2m5.4 21L16 17.6L10.6 23L9 21.4l5.4-5.4L9 10.6L10.6 9l5.4 5.4L21.4 9l1.6 1.6l-5.4 5.4l5.4 5.4z" /></svg>
+                    </i>
+                </div>
+                <h4 class="modal-title w-100"></h4>
+            </div>
+            <div class="modal-body">
+                <p>آیا از حذف محصول اطمینان دارید ؟ بعد از حذف محصول امکان بازیابی آن وجود ندارد</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
+                @Html.ActionLink("حذف", "Delete", "Products", new { id = Model.ProductID }, new { @class = "btn btn-danger" })
+            </div>
+        </div>
+    </div>
+</div>
+
