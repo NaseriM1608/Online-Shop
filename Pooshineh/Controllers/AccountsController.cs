@@ -103,11 +103,26 @@ namespace Pooshineh.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
+                var originalUser = db.Table_User.Find(user.ID);
+
+                
+
+                if (originalUser.PhoneNumber != user.PhoneNumber)
+                {
+                    db.Entry(originalUser).CurrentValues.SetValues(user);
+                    db.SaveChanges();
+                    TempData["Login"] = "لطفا با شماره جدید خود مجددا ورود کنید.";
+                    return RedirectToAction("Login");
+                }
+
+                db.Entry(originalUser).CurrentValues.SetValues(user);
                 db.SaveChanges();
+
                 TempData["UserEditSuccess"] = "تغییرات با موفقیت انجام شد.";
-                return View(user);
+
+                return View(originalUser);
             }
+
             TempData["UserEditFailed"] = "تغییرات با مشکل مواجه شد.";
             return View(user);
         }

@@ -21,7 +21,7 @@ namespace Pooshineh.Controllers
             if(user.Name == null || user.LastName == null)
             {
                 TempData["CredNotComplete"] = "لطفا پروفایل خود را تکمیل کنید.";
-                return RedirectToAction("Edit", "Accounts", user);
+                return RedirectToAction("Edit", "Accounts", new { id = user.ID });
             }
 
             var order = db.Table_Cart

@@ -25,6 +25,11 @@
         {
             @Html.AntiForgeryToken()
 
+            if (TempData["Login"] != null)
+            {
+                <div class="alert alert-warning">@TempData["Login"]</div>
+            }
+
             <div class="login-box">
                 <div class="login-header">
                     <Span>ورود</Span>
