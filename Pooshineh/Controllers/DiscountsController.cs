@@ -41,8 +41,9 @@ namespace Pooshineh.Controllers
 
             bool codeExists = db.Table_Discounts.Any(d => d.DiscountCode == Discount.DiscountCode);
             var userOrder = db.Table_Cart.Where(c => c.UserID == user.ID).FirstOrDefault();
+            var DiscountRepititionCheck = user.Table_Cart.Where(c => c.UserID == user.ID).FirstOrDefault(o => o.DiscountCode == Discount.DiscountCode);
 
-            if (codeExists && userOrder.DiscountCode == null)
+            if (codeExists && DiscountRepititionCheck == null)
             {
                 var discount = db.Table_Discounts.Where(d => d.DiscountCode == Discount.DiscountCode).FirstOrDefault();
 
@@ -56,9 +57,13 @@ namespace Pooshineh.Controllers
             {
                 TempData["DiscountError"] = "کد تخفیف نامعتبر است.";
             }
-            else if(codeExists && userOrder.DiscountCode != null)
+            else if(codeExists && userOrder.DiscountCode != null && userOrder.DiscountCode != Discount.DiscountCode)
             {
                 TempData["DiscountUsed"] = "فقط یک بار می‌توانید کد تخفیف وارد کنید.";
+            }
+            else if(DiscountRepititionCheck != null)
+            {
+                TempData["DiscountRepeat"] = "شما این کد تخفیف را استفاده نموده‌اید.";
             }
 
             return RedirectToAction("Index","Orders");

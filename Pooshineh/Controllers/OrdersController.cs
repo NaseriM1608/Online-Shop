@@ -89,7 +89,6 @@ namespace Pooshineh.Controllers
 
                         db.Table_CartItem.RemoveRange(cartItems);
                         userCart.TotalCost = 0;
-                        userCart.DiscountCode = default;
                         if(!string.IsNullOrEmpty(address))
                         {
                             user.Address = address;

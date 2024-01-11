@@ -61,17 +61,23 @@
     </div>
 }
 
-@if (TempData["DiscountError"] != null)
+else if (TempData["DiscountError"] != null)
 {
     <div class="alert alert-danger">
         @TempData["DiscountError"]
     </div>
 }
 
-@if (TempData["DiscountUsed"] != null)
+else if (TempData["DiscountUsed"] != null)
 {
     <div class="alert alert-danger">
         @TempData["DiscountUsed"]
+    </div>
+}
+else if(TempData["DiscountRepeat"] != null)
+{
+    <div class="alert alert-warning">
+        @TempData["DiscountRepeat"]
     </div>
 }
 
