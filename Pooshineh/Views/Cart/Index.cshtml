@@ -24,67 +24,68 @@
                     <hr />
 
                     <!-- 2nd cart product -->
-                    @foreach (var item in Model)
-                    {
                         <div class="card p-4">
                             <h2 class="py-4 font-weight-bold">سبد خرید</h2>
-                            <div class="row">
-                                <!-- cart images div -->
-                                <div class="col-md-5 col-11 mx-auto bg-light d-flex justify-content-center align-items-center shadow product_img">
-                                    <img src="~/Images/Products/@item.ProductImagePath" class="img-fluid" alt="cart img">
-                                </div>
-                                <!-- cart product details -->
-                                <div class="col-md-7 col-11 mx-auto px-4 mt-2">
-                                    <div class="row">
-                                        <!-- product name  -->
-                                        <div class="col-6 card-title">
-                                            <h1 class="mb-4 product_name mt-2 mt-md-0">@Html.DisplayFor(modelItem => item.ProductName)</h1>
-                                            <p class="mb-2">
-                                                تعداد :
-                                                @{
-                                                    int quantityInCart = db.Table_CartItem
-                                                        .Where(ci => ci.ProductID == item.ProductID && ci.Table_Cart.Table_User.PhoneNumber == User.Identity.Name)
-                                                        .Select(ci => ci.Quantity)
-                                                        .FirstOrDefault();
+                    @foreach (var item in Model)
+                    {
+                        <div class="row my-2">
+                            <!-- cart images div -->
+                            <div class="col-md-5 col-11 mx-auto bg-light d-flex justify-content-center align-items-center shadow product_img">
+                                <img src="~/Images/Products/@item.ProductImagePath" class="img-fluid" alt="cart img">
+                            </div>
+                            <!-- cart product details -->
+                            <div class="col-md-7 col-11 mx-auto px-4 mt-2 mb-5">
+                                <div class="row">
+                                    <!-- product name  -->
+                                    <div class="col-6 card-title">
+                                        <h1 class="mb-4 product_name mt-2 mt-md-0">@Html.DisplayFor(modelItem => item.ProductName)</h1>
+                                        <p class="mb-2">
+                                            تعداد :
+                                            @{
+                                                int quantityInCart = db.Table_CartItem
+                                                    .Where(ci => ci.ProductID == item.ProductID && ci.Table_Cart.Table_User.PhoneNumber == User.Identity.Name)
+                                                    .Select(ci => ci.Quantity)
+                                                    .FirstOrDefault();
 
-                                                    @quantityInCart
-                                                }
-                                            </p>
-                                            <p class="mb-2">@Html.DisplayFor(modelItem => item.Table_Categories.CategoryName) | مشکی</p>
-                                            <p class="mb-3">سایز: متوسط</p>
-                                        </div>
-                                        <!-- quantity inc dec -->
-                                        <div class="col-6">
-
-                                        </div>
+                                                @quantityInCart
+                                            }
+                                        </p>
+                                        <p class="mb-2">@Html.DisplayFor(modelItem => item.Table_Categories.CategoryName) | مشکی</p>
+                                        <p class="mb-3">سایز: متوسط</p>
                                     </div>
-                                    <!-- //remover move and price -->
-                                    <div class="row">
-                                        <div class="col-8 d-flex justify-content-around remove_wish">
-                                            <a href="@Url.Action("Delete", "Cart", new { id = item.ProductID })">
-                                                <svg class="trash-icon" xmlns="http://www.w3.org/2000/svg" width="20"
-                                                     height="20" viewBox="0 0 20 20">
-                                                    <path fill="currentColor"
-                                                          d="m6 2l2-2h4l2 2h4v2H2V2zM3 6h14l-1 14H4zm5 2v10h1V8zm3 0v10h1V8z" />
-                                                </svg>
-                                            </a>
-                                            <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" width="24"
-                                                 height="24" viewBox="0 0 24 24">
-                                                <path fill="currentColor" fill-rule="evenodd"
-                                                      d="M8.106 18.247C5.298 16.083 2 13.542 2 9.137C2 4.274 7.5.825 12 5.501V20.5c-1 0-2-.77-3.038-1.59c-.277-.218-.564-.438-.856-.663"
-                                                      clip-rule="evenodd" opacity=".5" />
+                                    <!-- quantity inc dec -->
+                                    <div class="col-6">
+
+                                    </div>
+                                </div>
+                                <!-- //remover move and price -->
+                                <div class="row">
+                                    <div class="col-8 d-flex justify-content-around remove_wish">
+                                        <a href="@Url.Action("Delete", "Cart", new { id = item.ProductID })">
+                                            <svg class="trash-icon" xmlns="http://www.w3.org/2000/svg" width="20"
+                                                    height="20" viewBox="0 0 20 20">
                                                 <path fill="currentColor"
-                                                      d="M15.038 18.91C17.981 16.592 22 14 22 9.138c0-4.863-5.5-8.312-10-3.636V20.5c1 0 2-.77 3.038-1.59" />
+                                                        d="m6 2l2-2h4l2 2h4v2H2V2zM3 6h14l-1 14H4zm5 2v10h1V8zm3 0v10h1V8z" />
                                             </svg>
-                                        </div>
-                                        <div class="col-4 d-flex justify-content-end price_money">
-                                            <p class="h6"><span id="itemval1">@Html.DisplayFor(modelItem => item.ProductPrice) </span> تومان</p>
-                                        </div>
+                                        </a>
+                                        <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24">
+                                            <path fill="currentColor" fill-rule="evenodd"
+                                                    d="M8.106 18.247C5.298 16.083 2 13.542 2 9.137C2 4.274 7.5.825 12 5.501V20.5c-1 0-2-.77-3.038-1.59c-.277-.218-.564-.438-.856-.663"
+                                                    clip-rule="evenodd" opacity=".5" />
+                                            <path fill="currentColor"
+                                                    d="M15.038 18.91C17.981 16.592 22 14 22 9.138c0-4.863-5.5-8.312-10-3.636V20.5c1 0 2-.77 3.038-1.59" />
+                                        </svg>
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-end price_money">
+                                        <p class="h6"><span id="itemval1">@Html.DisplayFor(modelItem => item.ProductPrice) </span> تومان</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    }
+                     }
+                        </div>
+                    
                     @if (TotalCost == 0)
                     {
                         <div class="text-center text-danger mt-lg-5">

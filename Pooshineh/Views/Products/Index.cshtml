@@ -15,7 +15,7 @@
     <div class="container py-4 my-5">
         @if (isLoggedIn)
         {
-            if (user.RoleID == 1)
+            if (user.Table_Roles.RoleName == "Admin")
             {
                 <p>
                     @Html.ActionLink("افزودن محصول جدید", "CreateProduct", null, new { @class = "btn btn-success my-3" })

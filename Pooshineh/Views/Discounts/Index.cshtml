@@ -5,7 +5,7 @@
     var user = db.Table_User.Where(u => u.PhoneNumber == User.Identity.Name).FirstOrDefault();
     ViewBag.Title = "Index";
 }
-@if (user.RoleID == 1)
+@if (user.Table_Roles.RoleName == "Admin")
 {
     <br />
     <p>

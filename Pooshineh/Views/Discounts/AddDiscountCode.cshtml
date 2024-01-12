@@ -6,7 +6,7 @@
     var user = db.Table_User.Where(u => u.PhoneNumber == User.Identity.Name).FirstOrDefault();
 }
 
-@if (user.RoleID == 1)
+@if (user.Table_Roles.RoleName == "Admin")
 {
     <div class="text-center bg-info py-5 fw-bolder rounded-1 text-white my-5 "><h3>درج کد تخفیف</h3></div>
 

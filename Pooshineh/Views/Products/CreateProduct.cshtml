@@ -2,90 +2,98 @@
 @{
     Pooshineh.Models.ClothingStoreEntities1 db = new Pooshineh.Models.ClothingStoreEntities1();
     var categories = db.Table_Categories.ToList();
+    var user = db.Table_User.Where(u => u.PhoneNumber == User.Identity.Name).FirstOrDefault();
 }
+@if (user.Table_Roles.RoleName == "Admin")
+{
+    <div class="text-center bg-success py-5 fw-bolder rounded-1 text-white"><h3>محصول جدید</h3></div>
 
-<div class="text-center bg-success py-5 fw-bolder rounded-1 text-white"><h3>محصول جدید</h3></div>
+    <div class="container">
+        @using (Html.BeginForm("CreateProduct", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("ProductImagePath", "default.jpg")
 
-<div class="container">
-    @using (Html.BeginForm("CreateProduct", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.Hidden("ProductImagePath", "default.jp")
-
-        <div class="form-horizontal">
-
-
-            <div class="form-group">
-                <div class="col-md-10">
-                    <label for="CategoryID" class="text-info">دسته بندی</label>
-                    <select class="form-control" name="CategoryID" id="CategoryID">
-                        <option hidden>انتخاب دسته</option>
-                        @foreach (var category in categories)
-                        {
-                            <option value="@category.CategoryID">@category.CategoryName</option>
-                        }
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2 mt-3 text-info" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.ProductDescription, htmlAttributes: new { @class = "control-label col-md-2 mt-3 text-info" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ProductDescription, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
-                </div>
-            </div>
+            <div class="form-horizontal">
 
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.ProductPrice, htmlAttributes: new { @class = "control-label col-md-2 mt-3 text-info" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ProductPrice, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="row mb-4">
-                <div class="col-md-4 col-6">
-                    <label class="mb-2">سایز</label>
-                    <select class="form-select border border-secondary" style="height: 35px;">
-                        <option>کوچک</option>
-                        <option>متوسط</option>
-                        <option>بزرگ</option>
-                        <option>خیلی بزرگ</option>
-                    </select>
-                </div>
-
-                <div class="col-md-4 col-6 mb-3">
-                    <label class="mb-2 d-block">تعداد</label>
-                    <input type="number" name="ProductQuantity" value="1" min="1" max="30" class="form-control" />
-                </div>
-
-                <div class="form-label">
-                    <label for="newImage" class="control-label col-md-2 mt-3 text-info">تصویر محصول </label>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label for="CategoryID" class="text-info">دسته بندی</label>
+                        <select class="form-control" name="CategoryID" id="CategoryID">
+                            <option hidden>انتخاب دسته</option>
+                            @foreach (var category in categories)
+                            {
+                                <option value="@category.CategoryID">@category.CategoryName</option>
+                            }
+                        </select>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <input type="file" name="newImage" id="newImage" class="form-control" />
-                    @Html.ValidationMessageFor(model => model.ProductImagePath, "", new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2 mt-3 text-info" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProductDescription, htmlAttributes: new { @class = "control-label col-md-2 mt-3 text-info" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ProductDescription, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
+                    </div>
                 </div>
 
 
-                <div class="form-group mt-5">
-                    @Html.ActionLink("بازگشت", "Index", null, new { @class = "btn btn-info px-4" })
-                    <input type="submit" value="Create" class="btn btn-success px-5" />
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProductPrice, htmlAttributes: new { @class = "control-label col-md-2 mt-3 text-info" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ProductPrice, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
+                    </div>
                 </div>
 
+                <div class="row mb-4">
+                    <div class="col-md-4 col-6">
+                        <label class="mb-2">سایز</label>
+                        <select class="form-select border border-secondary" style="height: 35px;">
+                            <option>کوچک</option>
+                            <option>متوسط</option>
+                            <option>بزرگ</option>
+                            <option>خیلی بزرگ</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 col-6 mb-3">
+                        <label class="mb-2 d-block">تعداد</label>
+                        <input type="number" name="ProductQuantity" value="1" min="1" max="30" class="form-control" />
+                    </div>
+
+                    <div class="form-label">
+                        <label for="newImage" class="control-label col-md-2 mt-3 text-info">تصویر محصول </label>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="file" name="newImage" id="newImage" class="form-control" />
+                        @Html.ValidationMessageFor(model => model.ProductImagePath, "", new { @class = "text-danger" })
+                    </div>
+
+
+                    <div class="form-group mt-5">
+                        @Html.ActionLink("بازگشت", "Index", null, new { @class = "btn btn-info px-4" })
+                        <input type="submit" value="Create" class="btn btn-success px-5" />
+                    </div>
+
+                </div>
             </div>
-        </div>
-    }
+        }
 
-</div>
+    </div>
+}
+
+else
+{
+    <div class="text-center bg-danger py-5 fw-bolder rounded-1 text-white mt-5"><h3>دسترسی محدود می باشد</h3></div>
+}
