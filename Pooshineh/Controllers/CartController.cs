@@ -92,7 +92,7 @@ namespace Pooshineh.Controllers
 
                 return RedirectToAction("Index");
             }
-            return View();
+            return RedirectToAction("Details", "Products");
         }
         [HttpGet]
         public ActionResult Delete(int id)
@@ -108,7 +108,7 @@ namespace Pooshineh.Controllers
 
             var userCart = db.Table_Cart.SingleOrDefault(c => c.UserID == userId);
 
-            if(db.Table_CartItem.Where(ci => ci.CartID == userCart.CartID).SingleOrDefault() != null)
+            if(db.Table_CartItem.Where(ci => ci.CartID == userCart.CartID).Any())
                 userCart.TotalCost = db.Table_CartItem
                     .Where(ci => ci.CartID == userCart.CartID)
                     .Sum(ci => ci.Quantity * ci.Price);
