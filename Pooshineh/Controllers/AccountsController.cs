@@ -34,6 +34,11 @@ namespace Pooshineh.Controllers
                 var customer = db.Table_User.FirstOrDefault(t => t.PhoneNumber == credentials.PhoneNumber);
                 if(userExists)
                 {
+                    if(!customer.IsActive)
+                    {
+                        TempData["AccountSuspended"] = "حساب کاربری شما مسدود شده است. لطفا به پشتیبانی پیام دهید.";
+                        return View(credentials);
+                    }
                     FormsAuthentication.SetAuthCookie(customer.PhoneNumber, false);
                     return RedirectToAction("Index", "Home");
                 }
