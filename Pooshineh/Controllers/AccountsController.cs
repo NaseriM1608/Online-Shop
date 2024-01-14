@@ -112,14 +112,13 @@ namespace Pooshineh.Controllers
                     db.Entry(originalUser).CurrentValues.SetValues(user);
                     db.SaveChanges();
                     TempData["Login"] = "لطفا با شماره جدید خود مجددا ورود کنید.";
-                    return RedirectToAction("Login");
+                    return RedirectToAction("SignOut");
                 }
 
                 db.Entry(originalUser).CurrentValues.SetValues(user);
                 db.SaveChanges();
 
                 TempData["UserEditSuccess"] = "تغییرات با موفقیت انجام شد.";
-
                 return View(originalUser);
             }
 
@@ -128,29 +127,17 @@ namespace Pooshineh.Controllers
         }
         [HttpGet]
         [Authorize]
-        public ActionResult Delete(int? id)
+        public ActionResult ChangeStatus(int? id)
         {
             var customer = db.Table_User.Find(id);
-            var usersProductsInCart = db.Table_CartItem.Where(ci => ci.Table_Cart.UserID == id);
-          
-            if(usersProductsInCart.Any())
+            if(customer.IsActive)
             {
-                db.Table_CartItem.RemoveRange(usersProductsInCart);
+                customer.IsActive = false;
             }
-            var usersCart = db.Table_Cart.Where(c => c.UserID == id).FirstOrDefault();
-            if(usersCart != null)
+            else
             {
-                var usersOrders = db.Table_Orders.Where(o => o.CartID == usersCart.CartID);
-                foreach (var order in usersOrders)
-                {
-                    var usersOrderDetails = db.Table_OrderDetails.Where(od => od.OrderID == order.OrderID);
-                    if(usersOrderDetails.Any())
-                        db.Table_OrderDetails.RemoveRange(usersOrderDetails);
-                }
-                db.Table_Orders.RemoveRange(usersOrders);
-                db.Table_Cart.Remove(usersCart);
+                customer.IsActive = true;
             }
-            db.Table_User.Remove(customer);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

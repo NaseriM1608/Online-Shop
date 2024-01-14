@@ -14,78 +14,43 @@
     <p>
         @Html.ActionLink("Create New", "SignUp", null, new { @class = "btn btn-success my-3" })
     </p>
-    <div class="table-responsive rounded-1 col-12 my-2">
-        <table class="table table-hover align-middle text-center">
-            <thead class="table-secondary">
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Name)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.LastName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.PhoneNumber)
-                    </th>
 
-                    <th>
-                        @Html.DisplayNameFor(model => model.EmailAddress)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.City)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.BirthDate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IsActive)
-                    </th>
-                    <th>عملیات</th>
-                </tr>
-            </thead>
-
-            <tbody class="table-group-divider">
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.LastName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.PhoneNumber)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.EmailAddress)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.City)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.BirthDate)
-                        </td>
-                        <td>
-                            @if (item.IsActive == true)
-                            {
-                                <p class="text-success fw-bold">فعال</p>
-                            }
-                            else
-                            {
-                                <p class="text-danger fw-bold">مسدود</p>
-                            }
-                        </td>
-                        <td>
-                            @Html.ActionLink("مشخصات", "Details", new { id = item.ID }, new { @class = "btn btn-info" })
-                        </td>
-                    </tr>
-                }
-            </tbody>
-
-        </table>
+    foreach(var customer in Model)
+    {
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-12 xol-12">
+                <div class="card shadow border rounded-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+                                <div class="bg-image hover-zoom ripple rounded ripple-surface">
+                                    <span>@customer.Name @customer.LastName</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xl-6 d-flex justify-content-center align-items-center">
+                                <div class="col">
+                                    <h6 lang="fa" class="mt-2">@Html.DisplayFor(modelItem => customer.PhoneNumber)</h6>
+                                </div>
+                                <div class="col">
+                                    <div class="d-flex flex-row align-items-center mb-1 justify-content-lg-center">
+                                        <h6 class="mb-1 me-1">وضعیت: @if (customer.IsActive)
+                                        {<span style="color: green;">فعال</span> } else { <span style="color: red;">غیرفعال</span> }</h6>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start d-flex align-items-center justify-content-center">
+                                    <div class="d-flex flex-column mt-4 align-items-center">
+                                        @Html.ActionLink("جزئیات", "Details", new { id = customer.ID }, new { @class = "btn btn-info text-white" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
     </div>
+    }
 }
+
 else
 {
     <div class="text-center bg-danger py-5 fw-bolder rounded-1 text-white mt-5"><h3>دسترسی محدود می باشد</h3></div>
