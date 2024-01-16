@@ -6,6 +6,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
 using Pooshineh.Models;
 
 namespace Pooshineh.Controllers
@@ -138,6 +140,8 @@ namespace Pooshineh.Controllers
             if(customer.IsActive)
             {
                 customer.IsActive = false;
+                var authenticationManager = HttpContext.GetOwinContext().Authentication;
+                authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             }
             else
             {

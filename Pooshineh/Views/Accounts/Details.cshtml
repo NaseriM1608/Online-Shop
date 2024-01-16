@@ -1,7 +1,9 @@
 ﻿@model Pooshineh.Models.Table_User
 
 @{
+    Pooshineh.Models.ClothingStoreEntities1 db = new Pooshineh.Models.ClothingStoreEntities1();
     ViewBag.Title = "Details";
+    var user = db.Table_User.Where(u => u.PhoneNumber == User.Identity.Name).FirstOrDefault();
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -12,129 +14,138 @@
     <link href="~/Content/userProfile.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="text-center bg-warning py-5 fw-bolder rounded-1 text-white my-5 "><h3>مشخصات @Model.Name @Model.LastName</h3></div>
-    <section class="section about-section gray-bg" id="about">
-        <div class="container">
-            <div class="row align-items-center flex-row-reverse">
-                <div class="col-lg-6">
-                    <div class="about-text go-to">
-                        <h6 class="theme-color lead my-3">شغل و حرفه</h6>
-                        <b>درباره کاربر</b>
-                        <div class="row about-list my-4">
-                            <div class="col-md-6">
-                                <div class="media">
-                                    <label>نام</label>
-                                    <b d-inline>@Html.DisplayFor(model => model.Name)</b>
-                                </div>
-                                <div class="media">
-                                    <label>تاریخ تولد</label>
-                                    <b>@Html.DisplayFor(model => model.BirthDate)</b>
-                                </div>
-                                <div class="media">
-                                    <label>سن</label>
-                                    <b>21</b>
-                                </div>
-                                <div class="media">
-                                    <label>رمز عبور</label>
-                                    <b>@Html.DisplayFor(model => model.Password)</b>
-                                </div>
+    @if (user.Table_Roles.RoleName == "Admin")
+    {
 
-                                <div class="media">
-                                    <label>شهر</label>
-                                    <b>@Html.DisplayFor(model => model.City)</b>
+
+        <div class="text-center bg-warning py-5 fw-bolder rounded-1 text-white my-5 "><h3>مشخصات @Model.Name @Model.LastName</h3></div>
+        <section class="section about-section gray-bg" id="about">
+            <div class="container">
+                <div class="row align-items-center flex-row-reverse">
+                    <div class="col-lg-6">
+                        <div class="about-text go-to">
+                            <h6 class="theme-color lead my-3">شغل و حرفه</h6>
+                            <b>درباره کاربر</b>
+                            <div class="row about-list my-4">
+                                <div class="col-md-6">
+                                    <div class="media">
+                                        <label>نام</label>
+                                        <b d-inline>@Html.DisplayFor(model => model.Name)</b>
+                                    </div>
+                                    <div class="media">
+                                        <label>تاریخ تولد</label>
+                                        <b>@Html.DisplayFor(model => model.BirthDate)</b>
+                                    </div>
+                                    <div class="media">
+                                        <label>سن</label>
+                                        <b>21</b>
+                                    </div>
+                                    <div class="media">
+                                        <label>رمز عبور</label>
+                                        <b>@Html.DisplayFor(model => model.Password)</b>
+                                    </div>
+
+                                    <div class="media">
+                                        <label>شهر</label>
+                                        <b>@Html.DisplayFor(model => model.City)</b>
+                                    </div>
+                                    <div class="media">
+                                        <label>آدرس</label>
+                                        <b class="text-muted"> @Html.DisplayFor(model => model.Address)</b>
+                                    </div>
                                 </div>
-                                <div class="media">
-                                    <label>آدرس</label>
-                                    <b class="text-muted"> @Html.DisplayFor(model => model.Address)</b>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="media">
-                                    <label>نام خانوادگی</label>
-                                    <b class="text-muted">@Html.DisplayFor(model => model.LastName)</b>
-                                </div>
-                                <div class="media">
-                                    <label>ایمیل</label>
-                                    <b class="text-muted">@Html.DisplayFor(model => model.EmailAddress)</b>
-                                </div>
-                                <div class="media">
-                                    <label>تلفن</label>
-                                    <b class="text-muted">@Html.DisplayFor(model => model.PhoneNumber)</b>
-                                </div>
-                                <div class="media">
-                                    <label>تاریخ ثبت نام</label>
-                                    <b class="text-muted">@Html.DisplayFor(model => model.RegisterDate)</b>
-                                </div>
-                                <div class="media">
-                                    <label>جنسیت</label>
-                                    <b class="text-muted">مرد</b>
-                                </div>
-                                <div class="media">
-                                    <label>وضعیت</label>
-                                    @if (Model.IsActive == true)
-                                    {
-                                        <b class="text-success">فعال</b>
-                                    }
-                                    else
-                                    {
-                                        <b class="text-danger">مسدود</b>
-                                    }
+                                <div class="col-md-6">
+                                    <div class="media">
+                                        <label>نام خانوادگی</label>
+                                        <b class="text-muted">@Html.DisplayFor(model => model.LastName)</b>
+                                    </div>
+                                    <div class="media">
+                                        <label>ایمیل</label>
+                                        <b class="text-muted">@Html.DisplayFor(model => model.EmailAddress)</b>
+                                    </div>
+                                    <div class="media">
+                                        <label>تلفن</label>
+                                        <b class="text-muted">@Html.DisplayFor(model => model.PhoneNumber)</b>
+                                    </div>
+                                    <div class="media">
+                                        <label>تاریخ ثبت نام</label>
+                                        <b class="text-muted">@Html.DisplayFor(model => model.RegisterDate)</b>
+                                    </div>
+                                    <div class="media">
+                                        <label>جنسیت</label>
+                                        <b class="text-muted">مرد</b>
+                                    </div>
+                                    <div class="media">
+                                        <label>وضعیت</label>
+                                        @if (Model.IsActive == true)
+                                        {
+                                            <b class="text-success">فعال</b>
+                                        }
+                                        else
+                                        {
+                                            <b class="text-danger">مسدود</b>
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-6">
+                        <div class="about-avatar">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" title="" alt="">
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="about-avatar">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" title="" alt="">
+                <div class="counter">
+                    <div class="row">
+                        <div class="col-6 col-lg-3">
+                            <div class="count-data text-center">
+                                <h6 class="count h2" data-to="5" data-speed="5">5</h6>
+                                <p class="m-0px fw-600">سفارش های موفق</p>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-3">
+                            <div class="count-data text-center">
+                                <h6 class="count h2" data-to="1" data-speed="1">1</h6>
+                                <p class="m-0px fw-600">سفارش های ناموفق</p>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-3">
+                            <div class="count-data text-center">
+                                <h6 class="count h2" data-to="45" data-speed="45">45</h6>
+                                <p class="m-0px fw-600">بازدید</p>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-3">
+                            <div class="count-data text-center">
+                                <h6 class="count h2" data-to="3" data-speed="3">3</h6>
+                                <p class="m-0px fw-600">معرفی</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="counter">
-                <div class="row">
-                    <div class="col-6 col-lg-3">
-                        <div class="count-data text-center">
-                            <h6 class="count h2" data-to="5" data-speed="5">5</h6>
-                            <p class="m-0px fw-600">سفارش های موفق</p>
-                        </div>
-                    </div>
-                    <div class="col-6 col-lg-3">
-                        <div class="count-data text-center">
-                            <h6 class="count h2" data-to="1" data-speed="1">1</h6>
-                            <p class="m-0px fw-600">سفارش های ناموفق</p>
-                        </div>
-                    </div>
-                    <div class="col-6 col-lg-3">
-                        <div class="count-data text-center">
-                            <h6 class="count h2" data-to="45" data-speed="45">45</h6>
-                            <p class="m-0px fw-600">بازدید</p>
-                        </div>
-                    </div>
-                    <div class="col-6 col-lg-3">
-                        <div class="count-data text-center">
-                            <h6 class="count h2" data-to="3" data-speed="3">3</h6>
-                            <p class="m-0px fw-600">معرفی</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <p>
-        @Html.ActionLink("بازگشت", "Index", "Accounts", null, new { @class = "btn btn-primary mx-2 rounded-1" }) |
-        @Html.ActionLink("ویرایش", "Edit", "Accounts", new { id = Model.ID }, new { @class = "btn btn-warning mx-2 px-5" }) |
-        @if (Model.IsActive)
-        {
-            @Html.ActionLink("مسدود سازی", "ChangeStatus", "Accounts", new { id = Model.ID }, new { @class = "btn btn-danger mx-2 px-5" })
+        <p>
+            @Html.ActionLink("بازگشت", "Index", "Accounts", null, new { @class = "btn btn-primary mx-2 rounded-1" }) |
+            @Html.ActionLink("ویرایش", "Edit", "Accounts", new { id = Model.ID }, new { @class = "btn btn-warning mx-2 px-5" }) |
+            @if (Model.IsActive)
+            {
+                @Html.ActionLink("مسدود سازی", "ChangeStatus", "Accounts", new { id = Model.ID }, new { @class = "btn btn-danger mx-2 px-5" })
 
-        }
-        else
-        {
-            @Html.ActionLink("فعال سازی", "ChangeStatus", "Accounts", new { id = Model.ID }, new { @class = "btn btn-success mx-2 px-5" })
+            }
+            else
+            {
+                @Html.ActionLink("فعال سازی", "ChangeStatus", "Accounts", new { id = Model.ID }, new { @class = "btn btn-success mx-2 px-5" })
 
-        }
+            }
 
-    </p>
+        </p>
+    }
+    else
+    {
+        <div class="text-center bg-danger py-5 fw-bolder rounded-1 text-white mt-5"><h3>دسترسی محدود می باشد</h3></div>
+    }
 </body>
 </html>
