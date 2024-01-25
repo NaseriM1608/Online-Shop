@@ -6,8 +6,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
 using Pooshineh.Models;
 
 namespace Pooshineh.Controllers
@@ -56,7 +54,7 @@ namespace Pooshineh.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SignUp([Bind(Include = "PhoneNumber, Password")]Table_User newCustomer, string passwordRepeat)
+        public ActionResult SignUp([Bind(Include = "PhoneNumber, Password, PasswordRepeat")]SignUpViewModel newCustomer)
         {
             var existingUser = db.Table_User.Where(u => u.PhoneNumber == newCustomer.PhoneNumber).FirstOrDefault();
             if(existingUser != null)
@@ -67,20 +65,17 @@ namespace Pooshineh.Controllers
             
             if(ModelState.IsValid)
             {
-                if (newCustomer.Password == passwordRepeat)
+                db.Table_User.Add(new Table_User
                 {
-                    newCustomer.RegisterDate = DateTime.Now;
-                    newCustomer.IsActive = true;
-                    newCustomer.RoleID = 0;
-                    db.Table_User.Add(newCustomer);
-                    db.SaveChanges();
-                    LoginViewModel loginUser = new LoginViewModel() { PhoneNumber = newCustomer.PhoneNumber, Password = newCustomer.Password };
-                    return Login(loginUser);
-                }
-                else
-                {
-                    ModelState.AddModelError("Password", "رمز مشابه تکرار رمز نیست.");
-                }
+                    RegisterDate = DateTime.Now,
+                    IsActive = true,
+                    RoleID = 0,
+                    PhoneNumber = newCustomer.PhoneNumber,
+                    Password = newCustomer.Password
+                });
+                db.SaveChanges();
+                LoginViewModel loginUser = new LoginViewModel() { PhoneNumber = newCustomer.PhoneNumber, Password = newCustomer.Password };
+                return Login(loginUser);
             }
             return View();
         }
@@ -140,8 +135,7 @@ namespace Pooshineh.Controllers
             if(customer.IsActive)
             {
                 customer.IsActive = false;
-                var authenticationManager = HttpContext.GetOwinContext().Authentication;
-                authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+               
             }
             else
             {

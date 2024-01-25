@@ -10,7 +10,7 @@ namespace Pooshineh.Models
     public class LoginViewModel
     {
         [Display(Name = "شماره موبایل")]
-        [RegularExpression("09[0-9]{9}")]
+        [RegularExpression("09[0-9]{9}", ErrorMessage = "فرمت {0} نادرست است")]
         [Required(ErrorMessage = "فیلد {0} اجباری است.")]
         public string PhoneNumber { get; set; }
         [Display(Name = "رمز عبور")]
