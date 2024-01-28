@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Pooshineh.Models.Table_Categories>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="text-center py-5 fw-bolder rounded-1 text-white mt-1 mb-5" style="background-color:rgb(255, 128, 53)"><h3>لیست دسته‌بندی ها</h3></div>
+
+<p>
+    @Html.ActionLink("درج دسته‌بندی جدید", "Create", null, new { @class = "btn btn-success"})
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr class="mb-2">
+        <td>
+            @Html.DisplayFor(modelItem => item.CategoryName)
+        </td>
+        <td>
+            @Html.ActionLink("حذف", "Delete", new { id=item.CategoryID }, new { @class="btn btn-danger"})
+        </td>
+    </tr>
+}
+
+</table>

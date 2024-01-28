@@ -57,7 +57,7 @@ namespace Pooshineh.Controllers
             {
                 TempData["DiscountError"] = "کد تخفیف نامعتبر است.";
             }
-            else if(codeExists && userOrder.DiscountCode != null && userOrder.DiscountCode != Discount.DiscountCode)
+            else if(codeExists && userOrder.DiscountCode != null && userOrder.DiscountCode != DiscountRepititionCheck.DiscountCode)
             {
                 TempData["DiscountUsed"] = "فقط یک بار می‌توانید کد تخفیف وارد کنید.";
             }

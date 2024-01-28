@@ -87,32 +87,29 @@
 
     <section class="section2 my-5 bg-light p-5">
         <h4 class="mb-5 mx-auto text-center text-danger align-items-center">پرفروش ترین ها</h4>
-       
-        
-
             <div class="row g-3">
-    @foreach (var product in Model)
-    {
-        <div class="col-sm-12 col-md-6 col-lg-3">
-            <div class="card rounded-3 shadow">
-                <a href="@Url.Action("Details", "Products", new { id = product.ProductID})" class="text-dark text-decoration-none">
-                    <img class="card-img" src="~/Images/Products/@product.ProductImagePath" height="250" alt="..." />
-                    <div class="card-body p-2">
-                        <p class="my-3 card-title">@product.ProductName</p>
-                        <div class="row">
-                            <div class="col">
-                                <a href="@Url.Action("Details", "Products", new { id = product.ProductID})" class="text-warning"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32"><circle cx="16" cy="16" r="4" fill="currentColor" /><path fill="currentColor" d="M30.94 15.66A16.69 16.69 0 0 0 16 5A16.69 16.69 0 0 0 1.06 15.66a1 1 0 0 0 0 .68A16.69 16.69 0 0 0 16 27a16.69 16.69 0 0 0 14.94-10.66a1 1 0 0 0 0-.68M16 22.5a6.5 6.5 0 1 1 6.5-6.5a6.51 6.51 0 0 1-6.5 6.5" /></svg></a>
-                            </div>
-                            <div class="col">
-                                <p class="mb-3">@product.ProductPrice <small>تومان</small></p>
-                            </div>
+                @foreach (var product in Model)
+                {
+                    <div class="col-sm-12 col-md-6 col-lg-3">
+                        <div class="card rounded-3 shadow">
+                            <a href="@Url.Action("Details", "Products", new { id = product.ProductID})" class="text-dark text-decoration-none">
+                                <img class="card-img" src="~/Images/Products/@product.ProductImagePath" height="250" alt="..." />
+                                <div class="card-body p-2">
+                                    <p class="my-3 card-title">@product.ProductName</p>
+                                    <div class="row">
+                                        <div class="col">
+                                            <a href="@Url.Action("Details", "Products", new { id = product.ProductID})" class="text-warning"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32"><circle cx="16" cy="16" r="4" fill="currentColor" /><path fill="currentColor" d="M30.94 15.66A16.69 16.69 0 0 0 16 5A16.69 16.69 0 0 0 1.06 15.66a1 1 0 0 0 0 .68A16.69 16.69 0 0 0 16 27a16.69 16.69 0 0 0 14.94-10.66a1 1 0 0 0 0-.68M16 22.5a6.5 6.5 0 1 1 6.5-6.5a6.51 6.51 0 0 1-6.5 6.5" /></svg></a>
+                                        </div>
+                                        <div class="col">
+                                            <p class="mb-3">@product.ProductPrice <small>تومان</small></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
                     </div>
-                </a>
+                }
             </div>
-        </div>
-    }
-                </div>
         
 
         <div class="text-center text-md-start">

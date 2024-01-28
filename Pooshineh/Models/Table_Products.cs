@@ -12,8 +12,7 @@ namespace Pooshineh.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
+    
     public partial class Table_Products
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,7 +20,7 @@ namespace Pooshineh.Models
         {
             this.Table_CartItem = new HashSet<Table_CartItem>();
         }
-    
+
         [Display(Name = "آیدی محصول")]
         public int ProductID { get; set; }
         [Display(Name = "آیدی دسته‌بندی")]

@@ -12,7 +12,6 @@ namespace Pooshineh.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class Table_OrderDetails
     {
@@ -23,7 +22,7 @@ namespace Pooshineh.Models
         public int Quantity { get; set; }
         [Display(Name = "قیمت")]
         public int Price { get; set; }
-    
+
         public virtual Table_Orders Table_Orders { get; set; }
     }
 }

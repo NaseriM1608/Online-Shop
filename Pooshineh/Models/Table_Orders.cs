@@ -12,8 +12,6 @@ namespace Pooshineh.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
 
     public partial class Table_Orders
     {
@@ -22,7 +20,7 @@ namespace Pooshineh.Models
         {
             this.Table_OrderDetails = new HashSet<Table_OrderDetails>();
         }
-    
+
         public int OrderID { get; set; }
         [Display(Name = "آیدی سفارش")]
         public string OrderName { get; set; }

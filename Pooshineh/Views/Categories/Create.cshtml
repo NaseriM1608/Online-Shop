@@ -1,0 +1,49 @@
+﻿@model Pooshineh.Models.Table_Categories
+
+@{
+    Pooshineh.Models.ClothingStoreEntities1 db = new Pooshineh.Models.ClothingStoreEntities1();
+    ViewBag.Title = "Create";
+    var user = db.Table_User.Where(u => u.PhoneNumber == User.Identity.Name).FirstOrDefault();
+}
+
+@if (user.Table_Roles.RoleName == "Admin")
+{
+    if(TempData["CategoryAdditionSuccess"] != null)
+    {
+        <div class="alert alert-success">@TempData["CategoryAdditionSuccess"]</div>
+    }
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <div class="text-center bg-primary py-5 fw-bolder rounded-1 text-white my-5"><h3>درج دسته‌بندی</h3></div>
+
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.CategoryID)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CategoryName, htmlAttributes: new { @class = "control-label col-md-2 mb-1" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="درج دسته‌بندی" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="text-center bg-danger py-5 fw-bolder rounded-1 text-white mt-5"><h3>دسترسی محدود می باشد</h3></div>
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
