@@ -22,5 +22,9 @@ namespace Pooshineh.Models
         [Display(Name = "تخفیف کل")]
         [Required(ErrorMessage = "فیلد {0} اجباری است.")]
         public int TotalDiscount { get; set; }
+
+        public Nullable<int> OrderID { get; set; }
+
+        public virtual Table_Orders Table_Orders { get; set; }
     }
 }

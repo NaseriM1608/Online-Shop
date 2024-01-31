@@ -10,20 +10,18 @@
 namespace Pooshineh.Models
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
     using System.Collections.Generic;
-
-    public partial class Table_CartItem
+    using System.ComponentModel.DataAnnotations;
+    
+    public partial class Table_ProductSize
     {
-        public int CartItemID { get; set; }
-        public int CartID { get; set; }
-        public int ProductID { get; set; }
-        [Display(Name = "تعداد")]
+        public int ProductSizeID { get; set; }
+        public int ProductColorID { get; set; }
+        [Display(Name = "سایز")]
+        [Required(ErrorMessage = "فیلد {0} اجباری است.")]
+        public string ProductSize { get; set; }
         public int Quantity { get; set; }
-        [Display(Name = "قیمت")]
-        public int Price { get; set; }
-
-        public virtual Table_Cart Table_Cart { get; set; }
-        public virtual Table_Products Table_Products { get; set; }
+    
+        public virtual Table_ProductColor Table_ProductColor { get; set; }
     }
 }

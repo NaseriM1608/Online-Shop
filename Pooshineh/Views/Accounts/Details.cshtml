@@ -41,11 +41,6 @@
                                         <b>21</b>
                                     </div>
                                     <div class="media">
-                                        <label>رمز عبور</label>
-                                        <b>@Html.DisplayFor(model => model.Password)</b>
-                                    </div>
-
-                                    <div class="media">
                                         <label>شهر</label>
                                         <b>@Html.DisplayFor(model => model.City)</b>
                                     </div>
@@ -130,6 +125,7 @@
         <p>
             @Html.ActionLink("بازگشت", "Index", "Accounts", null, new { @class = "btn btn-primary mx-2 rounded-1" }) |
             @Html.ActionLink("ویرایش", "Edit", "Accounts", new { id = Model.ID }, new { @class = "btn btn-warning mx-2 px-5" }) |
+            @Html.ActionLink("تاریخچه ورود", "ViewLoginHistory", "Accounts", new { id = Model.ID }, new { @class = "btn btn-info mx-2 px-5" }) |
             @if (Model.IsActive)
             {
                 @Html.ActionLink("مسدود سازی", "ChangeStatus", "Accounts", new { id = Model.ID }, new { @class = "btn btn-danger mx-2 px-5" })

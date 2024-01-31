@@ -4,23 +4,30 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bc976d52098c43d19970cac0cbe6878f" Name="Diagram1" ZoomLevel="36">
-        <EntityTypeShape EntityType="ClothingStoreModel.Table_Cart" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ClothingStoreModel.Table_CartItem" Width="1.5" PointX="7.5" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ClothingStoreModel.Table_Categories" Width="1.5" PointX="7.375" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ClothingStoreModel.Table_Roles" Width="1.5" PointX="0.75" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ClothingStoreModel.Table_User" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
-        <AssociationConnector Association="ClothingStoreModel.FK_Table_Cart_Table_User" ManuallyRouted="false" />
+      <Diagram DiagramId="bc976d52098c43d19970cac0cbe6878f" Name="Diagram1" ZoomLevel="38">
+        <EntityTypeShape EntityType="ClothingStoreModel.Table_Cart" Width="1.5" PointX="6.875" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClothingStoreModel.Table_CartItem" Width="1.5" PointX="10.125" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClothingStoreModel.Table_Categories" Width="1.5" PointX="13.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClothingStoreModel.Table_Roles" Width="1.5" PointX="2" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="ClothingStoreModel.FK_Table_CartItem_Table_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="ClothingStoreModel.FK_Table_User_Table_Roles" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="ClothingStoreModel.Table_OrderDetails" Width="1.5" PointX="10.75" PointY="7.875" />
-        <EntityTypeShape EntityType="ClothingStoreModel.Table_Products" Width="1.5" PointX="10.75" PointY="4.5" />
-        <AssociationConnector Association="ClothingStoreModel.FK_Table_CartItem_Table_Product1" />
-        <AssociationConnector Association="ClothingStoreModel.FK_Table_Products_Table_Categories" />
-        <EntityTypeShape EntityType="ClothingStoreModel.Table_Discounts" Width="1.5" PointX="0.75" PointY="6.75" />
-        <EntityTypeShape EntityType="ClothingStoreModel.Table_Orders" Width="1.5" PointX="7.5" PointY="8.125" />
+        <EntityTypeShape EntityType="ClothingStoreModel.Table_OrderDetails" Width="1.5" PointX="9.25" PointY="4.5" />
+        <EntityTypeShape EntityType="ClothingStoreModel.Table_Discounts" Width="1.5" PointX="6.625" PointY="7.875" />
+        <EntityTypeShape EntityType="ClothingStoreModel.Table_Orders" Width="1.5" PointX="6.75" PointY="4.125" />
         <AssociationConnector Association="ClothingStoreModel.FK_Table_Orders_Table_Orders" />
         <AssociationConnector Association="ClothingStoreModel.FK_Table_OrderDetails_Table_Products" />
+        <EntityTypeShape EntityType="ClothingStoreModel.Table_LoginHistory" Width="1.5" PointX="4.375" PointY="5" />
+        <AssociationConnector Association="ClothingStoreModel.FK_Table_Discounts_Table_Orders" />
+        <EntityTypeShape EntityType="ClothingStoreModel.Table_ProductColor" Width="1.5" PointX="16.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ClothingStoreModel.Table_User" Width="1.5" PointX="4.375" PointY="0.625" />
+        <AssociationConnector Association="ClothingStoreModel.FK_Table_Cart_Table_User" />
+        <AssociationConnector Association="ClothingStoreModel.FK_Table_LoginHistory_Table_LoginHistory" />
+        <AssociationConnector Association="ClothingStoreModel.FK_Table_User_Table_Roles" />
+        <EntityTypeShape EntityType="ClothingStoreModel.Table_Products" Width="1.5" PointX="13.25" PointY="0.5" />
+        <AssociationConnector Association="ClothingStoreModel.FK_Table_CartItem_Table_Product1" />
+        <AssociationConnector Association="ClothingStoreModel.FK_Table_Products_Table_Categories" />
+        <AssociationConnector Association="ClothingStoreModel.FK_Table_ProductColor_Table_Products" />
+        <EntityTypeShape EntityType="ClothingStoreModel.Table_ProductSize" Width="1.5" PointX="20" PointY="0.875" />
+        <AssociationConnector Association="ClothingStoreModel.FK_Table_ProductSize_Table_ProductSize" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

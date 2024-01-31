@@ -38,6 +38,15 @@
           <Property Name="DiscountID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DiscountCode" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="TotalDiscount" Type="int" Nullable="false" />
+          <Property Name="OrderID" Type="int" />
+        </EntityType>
+        <EntityType Name="Table_LoginHistory">
+          <Key>
+            <PropertyRef Name="LoginID" />
+          </Key>
+          <Property Name="LoginID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="LoginDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Table_OrderDetails">
           <Key>
@@ -61,6 +70,14 @@
           <Property Name="OrderStatus" Type="nvarchar" MaxLength="30" />
           <Property Name="OrderAddress" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="Table_ProductColor">
+          <Key>
+            <PropertyRef Name="ProductColorID" />
+          </Key>
+          <Property Name="ProductColorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="Color" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Table_Products">
           <Key>
             <PropertyRef Name="ProductID" />
@@ -72,6 +89,16 @@
           <Property Name="ProductImagePath" Type="nvarchar(max)" Nullable="false" />
           <Property Name="ProductPrice" Type="int" Nullable="false" />
           <Property Name="ProductQuantity" Type="int" Nullable="false" />
+          <Property Name="ProductBrand" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Table_ProductSize">
+          <Key>
+            <PropertyRef Name="ProductSizeID" />
+          </Key>
+          <Property Name="ProductSizeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductColorID" Type="int" Nullable="false" />
+          <Property Name="ProductSize" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Table_Roles">
           <Key>
@@ -93,7 +120,6 @@
           <Property Name="City" Type="nvarchar" MaxLength="50" />
           <Property Name="RegisterDate" Type="datetime" />
           <Property Name="BirthDate" Type="datetime" />
-          <Property Name="LoginHistory" Type="datetime" />
           <Property Name="Password" Type="varchar(max)" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="RoleID" Type="int" Nullable="false" />
@@ -122,6 +148,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Table_Discounts_Table_Orders">
+          <End Role="Table_Orders" Type="Self.Table_Orders" Multiplicity="0..1" />
+          <End Role="Table_Discounts" Type="Self.Table_Discounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_Orders">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="Table_Discounts">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_LoginHistory_Table_LoginHistory">
+          <End Role="Table_User" Type="Self.Table_User" Multiplicity="1" />
+          <End Role="Table_LoginHistory" Type="Self.Table_LoginHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Table_LoginHistory">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Table_OrderDetails_Table_Products">
           <End Role="Table_Orders" Type="Self.Table_Orders" Multiplicity="1" />
           <End Role="Table_OrderDetails" Type="Self.Table_OrderDetails" Multiplicity="*" />
@@ -146,6 +196,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Table_ProductColor_Table_Products">
+          <End Role="Table_Products" Type="Self.Table_Products" Multiplicity="1" />
+          <End Role="Table_ProductColor" Type="Self.Table_ProductColor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Table_ProductColor">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Table_Products_Table_Categories">
           <End Role="Table_Categories" Type="Self.Table_Categories" Multiplicity="1" />
           <End Role="Table_Products" Type="Self.Table_Products" Multiplicity="*" />
@@ -155,6 +217,18 @@
             </Principal>
             <Dependent Role="Table_Products">
               <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ProductSize_Table_ProductSize">
+          <End Role="Table_ProductColor" Type="Self.Table_ProductColor" Multiplicity="1" />
+          <End Role="Table_ProductSize" Type="Self.Table_ProductSize" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_ProductColor">
+              <PropertyRef Name="ProductColorID" />
+            </Principal>
+            <Dependent Role="Table_ProductSize">
+              <PropertyRef Name="ProductColorID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -175,9 +249,12 @@
           <EntitySet Name="Table_CartItem" EntityType="Self.Table_CartItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table_Categories" EntityType="Self.Table_Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table_Discounts" EntityType="Self.Table_Discounts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Table_LoginHistory" EntityType="Self.Table_LoginHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table_OrderDetails" EntityType="Self.Table_OrderDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table_Orders" EntityType="Self.Table_Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Table_ProductColor" EntityType="Self.Table_ProductColor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table_Products" EntityType="Self.Table_Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Table_ProductSize" EntityType="Self.Table_ProductSize" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table_Roles" EntityType="Self.Table_Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table_User" EntityType="Self.Table_User" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Table_Cart_Table_User" Association="Self.FK_Table_Cart_Table_User">
@@ -188,6 +265,14 @@
             <End Role="Table_Products" EntitySet="Table_Products" />
             <End Role="Table_CartItem" EntitySet="Table_CartItem" />
           </AssociationSet>
+          <AssociationSet Name="FK_Table_Discounts_Table_Orders" Association="Self.FK_Table_Discounts_Table_Orders">
+            <End Role="Table_Orders" EntitySet="Table_Orders" />
+            <End Role="Table_Discounts" EntitySet="Table_Discounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_LoginHistory_Table_LoginHistory" Association="Self.FK_Table_LoginHistory_Table_LoginHistory">
+            <End Role="Table_User" EntitySet="Table_User" />
+            <End Role="Table_LoginHistory" EntitySet="Table_LoginHistory" />
+          </AssociationSet>
           <AssociationSet Name="FK_Table_OrderDetails_Table_Products" Association="Self.FK_Table_OrderDetails_Table_Products">
             <End Role="Table_Orders" EntitySet="Table_Orders" />
             <End Role="Table_OrderDetails" EntitySet="Table_OrderDetails" />
@@ -196,9 +281,17 @@
             <End Role="Table_Cart" EntitySet="Table_Cart" />
             <End Role="Table_Orders" EntitySet="Table_Orders" />
           </AssociationSet>
+          <AssociationSet Name="FK_Table_ProductColor_Table_Products" Association="Self.FK_Table_ProductColor_Table_Products">
+            <End Role="Table_Products" EntitySet="Table_Products" />
+            <End Role="Table_ProductColor" EntitySet="Table_ProductColor" />
+          </AssociationSet>
           <AssociationSet Name="FK_Table_Products_Table_Categories" Association="Self.FK_Table_Products_Table_Categories">
             <End Role="Table_Categories" EntitySet="Table_Categories" />
             <End Role="Table_Products" EntitySet="Table_Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ProductSize_Table_ProductSize" Association="Self.FK_Table_ProductSize_Table_ProductSize">
+            <End Role="Table_ProductColor" EntitySet="Table_ProductColor" />
+            <End Role="Table_ProductSize" EntitySet="Table_ProductSize" />
           </AssociationSet>
           <AssociationSet Name="FK_Table_User_Table_Roles" Association="Self.FK_Table_User_Table_Roles">
             <End Role="Table_Roles" EntitySet="Table_Roles" />
@@ -216,10 +309,10 @@
           <Property Name="CartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="TotalCost" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Table_User" Relationship="Self.FK_Table_Cart_Table_User" FromRole="Table_Cart" ToRole="Table_User" />
           <NavigationProperty Name="Table_CartItem" Relationship="Self.FK_Table_CartItem_Table_Product" FromRole="Table_Cart" ToRole="Table_CartItem" />
           <Property Name="DiscountCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Table_Orders" Relationship="ClothingStoreModel.FK_Table_Orders_Table_Orders" FromRole="Table_Cart" ToRole="Table_Orders" />
+          <NavigationProperty Name="Table_User" Relationship="ClothingStoreModel.FK_Table_Cart_Table_User" FromRole="Table_Cart" ToRole="Table_User" />
         </EntityType>
         <EntityType Name="Table_CartItem">
           <Key>
@@ -247,40 +340,8 @@
           </Key>
           <Property Name="RoleID" Type="Int32" Nullable="false" />
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Table_User" Relationship="Self.FK_Table_User_Table_Roles" FromRole="Table_Roles" ToRole="Table_User" />
+          <NavigationProperty Name="Table_User" Relationship="ClothingStoreModel.FK_Table_User_Table_Roles" FromRole="Table_Roles" ToRole="Table_User" />
         </EntityType>
-        <EntityType Name="Table_User">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="EmailAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RegisterDate" Type="DateTime" Precision="3" />
-          <Property Name="BirthDate" Type="DateTime" Precision="3" />
-          <Property Name="LoginHistory" Type="DateTime" Precision="3" />
-          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="RoleID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Table_Cart" Relationship="Self.FK_Table_Cart_Table_User" FromRole="Table_User" ToRole="Table_Cart" />
-          <NavigationProperty Name="Table_Roles" Relationship="Self.FK_Table_User_Table_Roles" FromRole="Table_User" ToRole="Table_Roles" />
-        </EntityType>
-        <Association Name="FK_Table_Cart_Table_User">
-          <End Role="Table_User" Type="Self.Table_User" Multiplicity="1" />
-          <End Role="Table_Cart" Type="Self.Table_Cart" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Table_User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Table_Cart">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Table_CartItem_Table_Product">
           <End Role="Table_Cart" Type="Self.Table_Cart" Multiplicity="1" />
           <End Role="Table_CartItem" Type="Self.Table_CartItem" Multiplicity="*" />
@@ -293,46 +354,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Table_User_Table_Roles">
-          <End Role="Table_Roles" Type="Self.Table_Roles" Multiplicity="1" />
-          <End Role="Table_User" Type="Self.Table_User" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Table_Roles">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="Table_User">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="ClothingStoreEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Table_Cart" EntityType="Self.Table_Cart" />
           <EntitySet Name="Table_CartItem" EntityType="Self.Table_CartItem" />
           <EntitySet Name="Table_Categories" EntityType="Self.Table_Categories" />
           <EntitySet Name="Table_Roles" EntityType="Self.Table_Roles" />
-          <EntitySet Name="Table_User" EntityType="Self.Table_User" />
-          <AssociationSet Name="FK_Table_Cart_Table_User" Association="Self.FK_Table_Cart_Table_User">
-            <End Role="Table_User" EntitySet="Table_User" />
-            <End Role="Table_Cart" EntitySet="Table_Cart" />
-          </AssociationSet>
           <AssociationSet Name="FK_Table_CartItem_Table_Product" Association="Self.FK_Table_CartItem_Table_Product">
             <End Role="Table_Cart" EntitySet="Table_Cart" />
             <End Role="Table_CartItem" EntitySet="Table_CartItem" />
           </AssociationSet>
-          <AssociationSet Name="FK_Table_User_Table_Roles" Association="Self.FK_Table_User_Table_Roles">
-            <End Role="Table_Roles" EntitySet="Table_Roles" />
-            <End Role="Table_User" EntitySet="Table_User" />
-          </AssociationSet>
           <EntitySet Name="Table_OrderDetails" EntityType="ClothingStoreModel.Table_OrderDetails" />
-          <EntitySet Name="Table_Products" EntityType="ClothingStoreModel.Table_Products" />
-          <AssociationSet Name="FK_Table_CartItem_Table_Product1" Association="ClothingStoreModel.FK_Table_CartItem_Table_Product1">
-            <End Role="Table_Products" EntitySet="Table_Products" />
-            <End Role="Table_CartItem" EntitySet="Table_CartItem" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Table_Products_Table_Categories" Association="ClothingStoreModel.FK_Table_Products_Table_Categories">
-            <End Role="Table_Categories" EntitySet="Table_Categories" />
-            <End Role="Table_Products" EntitySet="Table_Products" />
-          </AssociationSet>
           <EntitySet Name="Table_Discounts" EntityType="ClothingStoreModel.Table_Discounts" />
           <EntitySet Name="Table_Orders" EntityType="ClothingStoreModel.Table_Orders" />
           <AssociationSet Name="FK_Table_Orders_Table_Orders" Association="ClothingStoreModel.FK_Table_Orders_Table_Orders">
@@ -342,6 +373,43 @@
           <AssociationSet Name="FK_Table_OrderDetails_Table_Products" Association="ClothingStoreModel.FK_Table_OrderDetails_Table_Products">
             <End Role="Table_Orders" EntitySet="Table_Orders" />
             <End Role="Table_OrderDetails" EntitySet="Table_OrderDetails" />
+          </AssociationSet>
+          <EntitySet Name="Table_LoginHistory" EntityType="ClothingStoreModel.Table_LoginHistory" />
+          <AssociationSet Name="FK_Table_Discounts_Table_Orders" Association="ClothingStoreModel.FK_Table_Discounts_Table_Orders">
+            <End Role="Table_Orders" EntitySet="Table_Orders" />
+            <End Role="Table_Discounts" EntitySet="Table_Discounts" />
+          </AssociationSet>
+          <EntitySet Name="Table_ProductColor" EntityType="ClothingStoreModel.Table_ProductColor" />
+          <EntitySet Name="Table_User" EntityType="ClothingStoreModel.Table_User" />
+          <AssociationSet Name="FK_Table_Cart_Table_User" Association="ClothingStoreModel.FK_Table_Cart_Table_User">
+            <End Role="Table_User" EntitySet="Table_User" />
+            <End Role="Table_Cart" EntitySet="Table_Cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_LoginHistory_Table_LoginHistory" Association="ClothingStoreModel.FK_Table_LoginHistory_Table_LoginHistory">
+            <End Role="Table_User" EntitySet="Table_User" />
+            <End Role="Table_LoginHistory" EntitySet="Table_LoginHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_User_Table_Roles" Association="ClothingStoreModel.FK_Table_User_Table_Roles">
+            <End Role="Table_Roles" EntitySet="Table_Roles" />
+            <End Role="Table_User" EntitySet="Table_User" />
+          </AssociationSet>
+          <EntitySet Name="Table_Products" EntityType="ClothingStoreModel.Table_Products" />
+          <AssociationSet Name="FK_Table_CartItem_Table_Product1" Association="ClothingStoreModel.FK_Table_CartItem_Table_Product1">
+            <End Role="Table_Products" EntitySet="Table_Products" />
+            <End Role="Table_CartItem" EntitySet="Table_CartItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_Products_Table_Categories" Association="ClothingStoreModel.FK_Table_Products_Table_Categories">
+            <End Role="Table_Categories" EntitySet="Table_Categories" />
+            <End Role="Table_Products" EntitySet="Table_Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ProductColor_Table_Products" Association="ClothingStoreModel.FK_Table_ProductColor_Table_Products">
+            <End Role="Table_Products" EntitySet="Table_Products" />
+            <End Role="Table_ProductColor" EntitySet="Table_ProductColor" />
+          </AssociationSet>
+          <EntitySet Name="Table_ProductSize" EntityType="ClothingStoreModel.Table_ProductSize" />
+          <AssociationSet Name="FK_Table_ProductSize_Table_ProductSize" Association="ClothingStoreModel.FK_Table_ProductSize_Table_ProductSize">
+            <End Role="Table_ProductColor" EntitySet="Table_ProductColor" />
+            <End Role="Table_ProductSize" EntitySet="Table_ProductSize" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Table_OrderDetails">
@@ -355,6 +423,142 @@
           <Property Name="Price" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Table_Orders" Relationship="ClothingStoreModel.FK_Table_OrderDetails_Table_Products" FromRole="Table_OrderDetails" ToRole="Table_Orders" />
         </EntityType>
+        <EntityType Name="Table_Discounts">
+          <Key>
+            <PropertyRef Name="DiscountID" />
+          </Key>
+          <Property Name="DiscountID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DiscountCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="TotalDiscount" Type="Int32" Nullable="false" />
+          <Property Name="OrderID" Type="Int32" />
+          <NavigationProperty Name="Table_Orders" Relationship="ClothingStoreModel.FK_Table_Discounts_Table_Orders" FromRole="Table_Discounts" ToRole="Table_Orders" />
+        </EntityType>
+        <EntityType Name="Table_Orders">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CartID" Type="Int32" Nullable="false" />
+          <Property Name="TotalCost" Type="Int32" Nullable="false" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OrderStatus" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Table_Cart" Relationship="ClothingStoreModel.FK_Table_Orders_Table_Orders" FromRole="Table_Orders" ToRole="Table_Cart" />
+          <NavigationProperty Name="Table_OrderDetails" Relationship="ClothingStoreModel.FK_Table_OrderDetails_Table_Products" FromRole="Table_Orders" ToRole="Table_OrderDetails" />
+          <Property Name="OrderAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Table_Discounts" Relationship="ClothingStoreModel.FK_Table_Discounts_Table_Orders" FromRole="Table_Orders" ToRole="Table_Discounts" />
+        </EntityType>
+        <Association Name="FK_Table_Orders_Table_Orders">
+          <End Type="ClothingStoreModel.Table_Cart" Role="Table_Cart" Multiplicity="1" />
+          <End Type="ClothingStoreModel.Table_Orders" Role="Table_Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_Cart">
+              <PropertyRef Name="CartID" />
+            </Principal>
+            <Dependent Role="Table_Orders">
+              <PropertyRef Name="CartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_OrderDetails_Table_Products">
+          <End Type="ClothingStoreModel.Table_Orders" Role="Table_Orders" Multiplicity="1" />
+          <End Type="ClothingStoreModel.Table_OrderDetails" Role="Table_OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_Orders">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="Table_OrderDetails">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Table_LoginHistory">
+          <Key>
+            <PropertyRef Name="LoginID" />
+          </Key>
+          <Property Name="LoginID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoginDate" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Table_User" Relationship="ClothingStoreModel.FK_Table_LoginHistory_Table_LoginHistory" FromRole="Table_LoginHistory" ToRole="Table_User" />
+        </EntityType>
+        <Association Name="FK_Table_Discounts_Table_Orders">
+          <End Type="ClothingStoreModel.Table_Orders" Role="Table_Orders" Multiplicity="0..1" />
+          <End Type="ClothingStoreModel.Table_Discounts" Role="Table_Discounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_Orders">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="Table_Discounts">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Table_ProductColor">
+          <Key>
+            <PropertyRef Name="ProductColorID" />
+          </Key>
+          <Property Name="ProductColorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="Color" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Table_Products" Relationship="ClothingStoreModel.FK_Table_ProductColor_Table_Products" FromRole="Table_ProductColor" ToRole="Table_Products" />
+          <NavigationProperty Name="Table_ProductSize" Relationship="ClothingStoreModel.FK_Table_ProductSize_Table_ProductSize" FromRole="Table_ProductColor" ToRole="Table_ProductSize" />
+        </EntityType>
+        <EntityType Name="Table_User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmailAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterDate" Type="DateTime" Precision="3" />
+          <Property Name="BirthDate" Type="DateTime" Precision="3" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Table_Cart" Relationship="ClothingStoreModel.FK_Table_Cart_Table_User" FromRole="Table_User" ToRole="Table_Cart" />
+          <NavigationProperty Name="Table_LoginHistory" Relationship="ClothingStoreModel.FK_Table_LoginHistory_Table_LoginHistory" FromRole="Table_User" ToRole="Table_LoginHistory" />
+          <NavigationProperty Name="Table_Roles" Relationship="ClothingStoreModel.FK_Table_User_Table_Roles" FromRole="Table_User" ToRole="Table_Roles" />
+        </EntityType>
+        <Association Name="FK_Table_Cart_Table_User">
+          <End Type="ClothingStoreModel.Table_User" Role="Table_User" Multiplicity="1" />
+          <End Type="ClothingStoreModel.Table_Cart" Role="Table_Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Table_Cart">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_LoginHistory_Table_LoginHistory">
+          <End Type="ClothingStoreModel.Table_User" Role="Table_User" Multiplicity="1" />
+          <End Type="ClothingStoreModel.Table_LoginHistory" Role="Table_LoginHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Table_LoginHistory">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_User_Table_Roles">
+          <End Type="ClothingStoreModel.Table_Roles" Role="Table_Roles" Multiplicity="1" />
+          <End Type="ClothingStoreModel.Table_User" Role="Table_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_Roles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="Table_User">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="Table_Products">
           <Key>
             <PropertyRef Name="ProductID" />
@@ -366,8 +570,10 @@
           <Property Name="ProductImagePath" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ProductPrice" Type="Int32" Nullable="false" />
           <Property Name="ProductQuantity" Type="Int32" Nullable="false" />
+          <Property Name="ProductBrand" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Table_CartItem" Relationship="ClothingStoreModel.FK_Table_CartItem_Table_Product1" FromRole="Table_Products" ToRole="Table_CartItem" />
           <NavigationProperty Name="Table_Categories" Relationship="ClothingStoreModel.FK_Table_Products_Table_Categories" FromRole="Table_Products" ToRole="Table_Categories" />
+          <NavigationProperty Name="Table_ProductColor" Relationship="ClothingStoreModel.FK_Table_ProductColor_Table_Products" FromRole="Table_Products" ToRole="Table_ProductColor" />
         </EntityType>
         <Association Name="FK_Table_CartItem_Table_Product1">
           <End Type="ClothingStoreModel.Table_Products" Role="Table_Products" Multiplicity="1" />
@@ -393,49 +599,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Table_Discounts">
-          <Key>
-            <PropertyRef Name="DiscountID" />
-          </Key>
-          <Property Name="DiscountID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DiscountCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="TotalDiscount" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Table_Orders">
-          <Key>
-            <PropertyRef Name="OrderID" />
-          </Key>
-          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CartID" Type="Int32" Nullable="false" />
-          <Property Name="TotalCost" Type="Int32" Nullable="false" />
-          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="OrderStatus" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Table_Cart" Relationship="ClothingStoreModel.FK_Table_Orders_Table_Orders" FromRole="Table_Orders" ToRole="Table_Cart" />
-          <NavigationProperty Name="Table_OrderDetails" Relationship="ClothingStoreModel.FK_Table_OrderDetails_Table_Products" FromRole="Table_Orders" ToRole="Table_OrderDetails" />
-          <Property Name="OrderAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <Association Name="FK_Table_Orders_Table_Orders">
-          <End Type="ClothingStoreModel.Table_Cart" Role="Table_Cart" Multiplicity="1" />
-          <End Type="ClothingStoreModel.Table_Orders" Role="Table_Orders" Multiplicity="*" />
+        <Association Name="FK_Table_ProductColor_Table_Products">
+          <End Type="ClothingStoreModel.Table_Products" Role="Table_Products" Multiplicity="1" />
+          <End Type="ClothingStoreModel.Table_ProductColor" Role="Table_ProductColor" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Table_Cart">
-              <PropertyRef Name="CartID" />
+            <Principal Role="Table_Products">
+              <PropertyRef Name="ProductID" />
             </Principal>
-            <Dependent Role="Table_Orders">
-              <PropertyRef Name="CartID" />
+            <Dependent Role="Table_ProductColor">
+              <PropertyRef Name="ProductID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Table_OrderDetails_Table_Products">
-          <End Type="ClothingStoreModel.Table_Orders" Role="Table_Orders" Multiplicity="1" />
-          <End Type="ClothingStoreModel.Table_OrderDetails" Role="Table_OrderDetails" Multiplicity="*" />
+        <EntityType Name="Table_ProductSize">
+          <Key>
+            <PropertyRef Name="ProductSizeID" />
+          </Key>
+          <Property Name="ProductSizeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductColorID" Type="Int32" Nullable="false" />
+          <Property Name="ProductSize" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Table_ProductColor" Relationship="ClothingStoreModel.FK_Table_ProductSize_Table_ProductSize" FromRole="Table_ProductSize" ToRole="Table_ProductColor" />
+        </EntityType>
+        <Association Name="FK_Table_ProductSize_Table_ProductSize">
+          <End Type="ClothingStoreModel.Table_ProductColor" Role="Table_ProductColor" Multiplicity="1" />
+          <End Type="ClothingStoreModel.Table_ProductSize" Role="Table_ProductSize" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Table_Orders">
-              <PropertyRef Name="OrderID" />
+            <Principal Role="Table_ProductColor">
+              <PropertyRef Name="ProductColorID" />
             </Principal>
-            <Dependent Role="Table_OrderDetails">
-              <PropertyRef Name="OrderID" />
+            <Dependent Role="Table_ProductSize">
+              <PropertyRef Name="ProductColorID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -482,25 +676,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Table_User">
-            <EntityTypeMapping TypeName="ClothingStoreModel.Table_User">
-              <MappingFragment StoreEntitySet="Table_User">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
-                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
-                <ScalarProperty Name="LoginHistory" ColumnName="LoginHistory" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Table_OrderDetails">
             <EntityTypeMapping TypeName="ClothingStoreModel.Table_OrderDetails">
               <MappingFragment StoreEntitySet="Table_OrderDetails">
@@ -512,22 +687,10 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Table_Products">
-            <EntityTypeMapping TypeName="ClothingStoreModel.Table_Products">
-              <MappingFragment StoreEntitySet="Table_Products">
-                <ScalarProperty Name="ProductQuantity" ColumnName="ProductQuantity" />
-                <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
-                <ScalarProperty Name="ProductImagePath" ColumnName="ProductImagePath" />
-                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
-                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Table_Discounts">
             <EntityTypeMapping TypeName="ClothingStoreModel.Table_Discounts">
               <MappingFragment StoreEntitySet="Table_Discounts">
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
                 <ScalarProperty Name="TotalDiscount" ColumnName="TotalDiscount" />
                 <ScalarProperty Name="DiscountCode" ColumnName="DiscountCode" />
                 <ScalarProperty Name="DiscountID" ColumnName="DiscountID" />
@@ -544,6 +707,66 @@
                 <ScalarProperty Name="CartID" ColumnName="CartID" />
                 <ScalarProperty Name="OrderName" ColumnName="OrderName" />
                 <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Table_LoginHistory">
+            <EntityTypeMapping TypeName="ClothingStoreModel.Table_LoginHistory">
+              <MappingFragment StoreEntitySet="Table_LoginHistory">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LoginDate" ColumnName="LoginDate" />
+                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Table_ProductColor">
+            <EntityTypeMapping TypeName="ClothingStoreModel.Table_ProductColor">
+              <MappingFragment StoreEntitySet="Table_ProductColor">
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductColorID" ColumnName="ProductColorID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Table_User">
+            <EntityTypeMapping TypeName="ClothingStoreModel.Table_User">
+              <MappingFragment StoreEntitySet="Table_User">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Table_Products">
+            <EntityTypeMapping TypeName="ClothingStoreModel.Table_Products">
+              <MappingFragment StoreEntitySet="Table_Products">
+                <ScalarProperty Name="ProductBrand" ColumnName="ProductBrand" />
+                <ScalarProperty Name="ProductQuantity" ColumnName="ProductQuantity" />
+                <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
+                <ScalarProperty Name="ProductImagePath" ColumnName="ProductImagePath" />
+                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Table_ProductSize">
+            <EntityTypeMapping TypeName="ClothingStoreModel.Table_ProductSize">
+              <MappingFragment StoreEntitySet="Table_ProductSize">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductSize" ColumnName="ProductSize" />
+                <ScalarProperty Name="ProductColorID" ColumnName="ProductColorID" />
+                <ScalarProperty Name="ProductSizeID" ColumnName="ProductSizeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

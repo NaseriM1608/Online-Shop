@@ -12,13 +12,14 @@ namespace Pooshineh.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+
     public partial class Table_User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Table_User()
         {
             this.Table_Cart = new HashSet<Table_Cart>();
+            this.Table_LoginHistory = new HashSet<Table_LoginHistory>();
         }
 
         [Display(Name = "آیدی")]
@@ -42,8 +43,6 @@ namespace Pooshineh.Models
         public Nullable<System.DateTime> RegisterDate { get; set; }
         [Display(Name = "تاریخ تولد")]
         public Nullable<System.DateTime> BirthDate { get; set; }
-        [Display(Name = "تاریخچه ورود")]
-        public Nullable<System.DateTime> LoginHistory { get; set; }
         [Display(Name = "رمز عبور")]
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "فیلد {0} اجباری است.")]
@@ -56,6 +55,8 @@ namespace Pooshineh.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Table_Cart> Table_Cart { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Table_LoginHistory> Table_LoginHistory { get; set; }
         public virtual Table_Roles Table_Roles { get; set; }
     }
 }

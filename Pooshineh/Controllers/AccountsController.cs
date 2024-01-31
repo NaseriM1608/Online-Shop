@@ -40,6 +40,13 @@ namespace Pooshineh.Controllers
                         return View(credentials);
                     }
                     FormsAuthentication.SetAuthCookie(customer.PhoneNumber, false);
+                    Table_LoginHistory LoginHistory = new Table_LoginHistory()
+                    {
+                        UserID = customer.ID,
+                        LoginDate = DateTime.Now
+                    };
+                    db.Table_LoginHistory.Add(LoginHistory);
+                    db.SaveChanges();
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("PhoneNumber", "اطلاعات وارد شده صحیح نمی‌باشد.");
@@ -156,6 +163,21 @@ namespace Pooshineh.Controllers
                 return HttpNotFound();
             }
             return View(user);
+        }
+        public ActionResult ViewLoginHistory(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = db.Table_User.Find(id);
+            if(user == null) 
+            {
+                return HttpNotFound();
+            }
+            var loginHistory = user.Table_LoginHistory.Where(l => l.UserID == id).ToList();
+            return View(loginHistory);
+
         }
     }
 }

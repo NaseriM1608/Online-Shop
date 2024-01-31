@@ -12,26 +12,23 @@ namespace Pooshineh.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
-    public partial class Table_Cart
+    
+    public partial class Table_ProductColor
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Table_Cart()
+        public Table_ProductColor()
         {
-            this.Table_CartItem = new HashSet<Table_CartItem>();
-            this.Table_Orders = new HashSet<Table_Orders>();
+            this.Table_ProductSize = new HashSet<Table_ProductSize>();
         }
-
-        public int CartID { get; set; }
-        public int UserID { get; set; }
-        [Display(Name = "قیمت کل")]
-        public int TotalCost { get; set; }
-        public string DiscountCode { get; set; }
-
+    
+        public int ProductColorID { get; set; }
+        public int ProductID { get; set; }
+        [Display(Name = "رنگ")]
+        [Required(ErrorMessage = "فیلد {0} اجباری است.")]
+        public string Color { get; set; }
+    
+        public virtual Table_Products Table_Products { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Table_CartItem> Table_CartItem { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Table_Orders> Table_Orders { get; set; }
-        public virtual Table_User Table_User { get; set; }
+        public virtual ICollection<Table_ProductSize> Table_ProductSize { get; set; }
     }
 }
