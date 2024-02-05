@@ -4,6 +4,7 @@
     ViewBag.Title = "CreateProduct";
     Pooshineh.Models.ClothingStoreEntities1 db = new Pooshineh.Models.ClothingStoreEntities1();
     var categories = db.Table_Categories.ToList();
+    var sizes = db.Table_ProductSize.Select(s => s.Size).ToList();
 }
 <style>
     .card {
@@ -62,104 +63,128 @@
 <h2>CreateProduct</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("CreateProduct", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+    @Html.Hidden("ProductImagePath", "default.jpg")
+
 <div class="form-horizontal">
     <h4>Table_Products</h4>
     <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        <div class="col-md-10">
-            <label for="CategoryID" class="text-info">دسته بندی</label>
-            <select class="form-control" name="CategoryID" id="CategoryID">
-                <option hidden>انتخاب دسته</option>
-                @foreach (var category in categories)
-                {
-                    <option value="@category.CategoryID">@category.CategoryName</option>
-                }
-            </select>
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.ProductDescription, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ProductDescription, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.ProductImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ProductImagePath, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ProductImagePath, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.ProductPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ProductPrice, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.ProductQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ProductQuantity, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ProductQuantity, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.ProductBrand, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ProductBrand, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ProductBrand, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="card p-4 d-flex">
-        <h5 class="mb-3">Color : <span class="color-text">Red/Dark Blue/White</span></h5>
-
-        <div class="radio-group">
-            <div class="radio" data-value="red-circle">
-                <img class="color-circle" src="https://i.imgur.com/zrUYa1u.png" width="200" height="60">
+    
+        <div></div>
+        <div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label for="CategoryID" class="text-info">دسته بندی</label>
+                    <select class="form-control" name="CategoryID" id="CategoryID">
+                        <option hidden>انتخاب دسته</option>
+                        @foreach (var category in categories)
+                        {
+                            <option value="@category.CategoryID">@category.CategoryName</option>
+                        }
+                    </select>
+                </div>
             </div>
-            <div class="radio" data-value="blue-circle">
-                <img class="color-circle" src="https://i.imgur.com/j486evo.png" width="200" height="60">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                </div>
             </div>
-            <div class="radio" data-value="white-circle">
-                <img class="color-circle" src="https://i.imgur.com/8p5y8cv.png" width="200" height="60">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProductDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ProductDescription, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProductPrice, htmlAttributes: new { @class = "control-label col-md-2 col-sm-11" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ProductPrice, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProductBrand, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ProductBrand, new { htmlAttributes = new { @class = "form-control mb-3" } })
+                    @Html.ValidationMessageFor(model => model.ProductBrand, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <label class="control-label" for="newImage">تصویر محصول</label>
+            <div class="form-group">
+                <input type="file" name="newImage" id="newImage" class="form-control" />
+                @Html.ValidationMessageFor(model => model.ProductImagePath, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="form-group mt-5">
+                @Html.ActionLink("بازگشت", "Index", null, new { @class = "btn btn-info px-4" })
             </div>
         </div>
+    
+    
+        <div class="col-6">
+            <div id="colorSizeContainer" class="form-group">
+                <label class="control-label col-md-2 text-info">رنگ، سایز و تعداد</label>
+                <div class="col-md-10 my-3">
+                    <button type="button" class="btn btn-sm btn-primary" id="addColorSize">+</button>
+                    <br />
+                </div>
+            </div>
 
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
         </div>
-    </div>
+   
 </div>
+    
+    <input type="submit" value="Create" class="btn btn-default" />
+
+
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
 
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Sizes array from C# (replace this with the actual array)
+        var sizes = @Html.Raw(Json.Encode(sizes));
+        // Function to add dynamic size and quantity inputs
+        function addColorSize() {
+            var initialColorInput =
+                '<div class="form-group">' +
+                '    <label for="Color" class="control-label col-md-2">رنگ</label>' +
+                '    <div class="col-md-10">' +
+                '        <input type="text" class="form-control" name="Color" placeholder="رنگ">' +
+                '    </div>' +
+                '</div>';
+            $("#colorSizeContainer").append(initialColorInput);
+            sizes.forEach(function (size) {
+
+                var newItem =
+                    '<div class="form-group colorInput">' +
+                    '    <input type="text" class="form-control" name="Sizes" value="' + size + '" placeholder="سایز" readonly>' +
+                    '    <input type="text" class="form-control" name="Quantities" placeholder="تعداد">' +
+                    '</div>';
+
+                $("#colorSizeContainer").append(newItem);
+            });
+        }
+
+        // Add color and size/quantity on button click
+        $("#addColorSize").click(function () {
+            addColorSize();
+        });
+
+        // Initial add on document ready
+        addColorSize();
+    });
+</script>

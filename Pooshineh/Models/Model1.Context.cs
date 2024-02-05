@@ -33,8 +33,8 @@ namespace Pooshineh.Models
         public virtual DbSet<Table_Discounts> Table_Discounts { get; set; }
         public virtual DbSet<Table_Orders> Table_Orders { get; set; }
         public virtual DbSet<Table_LoginHistory> Table_LoginHistory { get; set; }
-        public virtual DbSet<Table_ProductColor> Table_ProductColor { get; set; }
         public virtual DbSet<Table_User> Table_User { get; set; }
+        public virtual DbSet<Table_ProductDetails> Table_ProductDetails { get; set; }
         public virtual DbSet<Table_Products> Table_Products { get; set; }
         public virtual DbSet<Table_ProductSize> Table_ProductSize { get; set; }
     }

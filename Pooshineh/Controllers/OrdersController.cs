@@ -73,7 +73,7 @@ namespace Pooshineh.Controllers
                             var product = db.Table_Products.Find(cartItem.ProductID);
                             if (product != null)
                             {
-                                product.ProductQuantity -= cartItem.Quantity;
+                                //product.ProductQuantity -= cartItem.Quantity;
 
                                 var orderDetail = new Table_OrderDetails
                                 {

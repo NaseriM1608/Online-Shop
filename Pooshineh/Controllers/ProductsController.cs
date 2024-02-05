@@ -47,6 +47,11 @@ namespace Pooshineh.Controllers
                 newProduct.ProductImagePath = newImageName;
                 db.Table_Products.Add(newProduct);
                 db.SaveChanges();
+                Table_ProductDetails productDetails = new Table_ProductDetails()
+                {
+                    ProductID = newProduct.ProductID,
+                    
+                };
                 return RedirectToAction("Index", "Home");
             }
             return View(newProduct);

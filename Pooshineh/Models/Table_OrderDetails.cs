@@ -11,18 +11,15 @@ namespace Pooshineh.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Table_OrderDetails
     {
         public int OrderDetailsID { get; set; }
         public int OrderID { get; set; }
         public int ProductID { get; set; }
-        [Display(Name = "تعداد")]
         public int Quantity { get; set; }
-        [Display(Name = "قیمت")]
         public int Price { get; set; }
-
+    
         public virtual Table_Orders Table_Orders { get; set; }
     }
 }

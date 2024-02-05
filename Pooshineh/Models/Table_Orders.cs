@@ -11,8 +11,7 @@ namespace Pooshineh.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Table_Orders
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,21 +20,15 @@ namespace Pooshineh.Models
             this.Table_OrderDetails = new HashSet<Table_OrderDetails>();
             this.Table_Discounts = new HashSet<Table_Discounts>();
         }
-
+    
         public int OrderID { get; set; }
-        [Display(Name = "آیدی سفارش")]
         public string OrderName { get; set; }
         public int CartID { get; set; }
-        [Display(Name = "قیمت کل")]
         public int TotalCost { get; set; }
-        [Display(Name = "تاریخ ثبت سفارش")]
-        [DisplayFormat(DataFormatString = "{0: dddd, dd MMMM yyyy}")]
         public System.DateTime OrderDate { get; set; }
-        [Display(Name = "وضعیت سفارش")]
         public string OrderStatus { get; set; }
-        [Display(Name = "آدرس")]
         public string OrderAddress { get; set; }
-
+    
         public virtual Table_Cart Table_Cart { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Table_OrderDetails> Table_OrderDetails { get; set; }

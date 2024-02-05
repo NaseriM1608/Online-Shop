@@ -70,13 +70,15 @@
           <Property Name="OrderStatus" Type="nvarchar" MaxLength="30" />
           <Property Name="OrderAddress" Type="nvarchar(max)" />
         </EntityType>
-        <EntityType Name="Table_ProductColor">
+        <EntityType Name="Table_ProductDetails">
           <Key>
-            <PropertyRef Name="ProductColorID" />
+            <PropertyRef Name="ProductDetailsID" />
           </Key>
-          <Property Name="ProductColorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductDetailsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="ProductSizeID" Type="int" Nullable="false" />
           <Property Name="Color" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Table_Products">
           <Key>
@@ -88,7 +90,6 @@
           <Property Name="ProductDescription" Type="nvarchar(max)" Nullable="false" />
           <Property Name="ProductImagePath" Type="nvarchar(max)" Nullable="false" />
           <Property Name="ProductPrice" Type="int" Nullable="false" />
-          <Property Name="ProductQuantity" Type="int" Nullable="false" />
           <Property Name="ProductBrand" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Table_ProductSize">
@@ -96,9 +97,7 @@
             <PropertyRef Name="ProductSizeID" />
           </Key>
           <Property Name="ProductSizeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ProductColorID" Type="int" Nullable="false" />
-          <Property Name="ProductSize" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Size" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Table_Roles">
           <Key>
@@ -196,15 +195,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Table_ProductColor_Table_Products">
+        <Association Name="FK_Table_ProductDetails_Table_Products">
           <End Role="Table_Products" Type="Self.Table_Products" Multiplicity="1" />
-          <End Role="Table_ProductColor" Type="Self.Table_ProductColor" Multiplicity="*" />
+          <End Role="Table_ProductDetails" Type="Self.Table_ProductDetails" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Table_Products">
               <PropertyRef Name="ProductID" />
             </Principal>
-            <Dependent Role="Table_ProductColor">
+            <Dependent Role="Table_ProductDetails">
               <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ProductDetails_Table_ProductSize">
+          <End Role="Table_ProductSize" Type="Self.Table_ProductSize" Multiplicity="1" />
+          <End Role="Table_ProductDetails" Type="Self.Table_ProductDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_ProductSize">
+              <PropertyRef Name="ProductSizeID" />
+            </Principal>
+            <Dependent Role="Table_ProductDetails">
+              <PropertyRef Name="ProductSizeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -217,18 +228,6 @@
             </Principal>
             <Dependent Role="Table_Products">
               <PropertyRef Name="CategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Table_ProductSize_Table_ProductSize">
-          <End Role="Table_ProductColor" Type="Self.Table_ProductColor" Multiplicity="1" />
-          <End Role="Table_ProductSize" Type="Self.Table_ProductSize" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Table_ProductColor">
-              <PropertyRef Name="ProductColorID" />
-            </Principal>
-            <Dependent Role="Table_ProductSize">
-              <PropertyRef Name="ProductColorID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -252,7 +251,7 @@
           <EntitySet Name="Table_LoginHistory" EntityType="Self.Table_LoginHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table_OrderDetails" EntityType="Self.Table_OrderDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table_Orders" EntityType="Self.Table_Orders" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Table_ProductColor" EntityType="Self.Table_ProductColor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Table_ProductDetails" EntityType="Self.Table_ProductDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table_Products" EntityType="Self.Table_Products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table_ProductSize" EntityType="Self.Table_ProductSize" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table_Roles" EntityType="Self.Table_Roles" Schema="dbo" store:Type="Tables" />
@@ -281,17 +280,17 @@
             <End Role="Table_Cart" EntitySet="Table_Cart" />
             <End Role="Table_Orders" EntitySet="Table_Orders" />
           </AssociationSet>
-          <AssociationSet Name="FK_Table_ProductColor_Table_Products" Association="Self.FK_Table_ProductColor_Table_Products">
+          <AssociationSet Name="FK_Table_ProductDetails_Table_Products" Association="Self.FK_Table_ProductDetails_Table_Products">
             <End Role="Table_Products" EntitySet="Table_Products" />
-            <End Role="Table_ProductColor" EntitySet="Table_ProductColor" />
+            <End Role="Table_ProductDetails" EntitySet="Table_ProductDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ProductDetails_Table_ProductSize" Association="Self.FK_Table_ProductDetails_Table_ProductSize">
+            <End Role="Table_ProductSize" EntitySet="Table_ProductSize" />
+            <End Role="Table_ProductDetails" EntitySet="Table_ProductDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_Table_Products_Table_Categories" Association="Self.FK_Table_Products_Table_Categories">
             <End Role="Table_Categories" EntitySet="Table_Categories" />
             <End Role="Table_Products" EntitySet="Table_Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Table_ProductSize_Table_ProductSize" Association="Self.FK_Table_ProductSize_Table_ProductSize">
-            <End Role="Table_ProductColor" EntitySet="Table_ProductColor" />
-            <End Role="Table_ProductSize" EntitySet="Table_ProductSize" />
           </AssociationSet>
           <AssociationSet Name="FK_Table_User_Table_Roles" Association="Self.FK_Table_User_Table_Roles">
             <End Role="Table_Roles" EntitySet="Table_Roles" />
@@ -379,7 +378,6 @@
             <End Role="Table_Orders" EntitySet="Table_Orders" />
             <End Role="Table_Discounts" EntitySet="Table_Discounts" />
           </AssociationSet>
-          <EntitySet Name="Table_ProductColor" EntityType="ClothingStoreModel.Table_ProductColor" />
           <EntitySet Name="Table_User" EntityType="ClothingStoreModel.Table_User" />
           <AssociationSet Name="FK_Table_Cart_Table_User" Association="ClothingStoreModel.FK_Table_Cart_Table_User">
             <End Role="Table_User" EntitySet="Table_User" />
@@ -393,7 +391,9 @@
             <End Role="Table_Roles" EntitySet="Table_Roles" />
             <End Role="Table_User" EntitySet="Table_User" />
           </AssociationSet>
+          <EntitySet Name="Table_ProductDetails" EntityType="ClothingStoreModel.Table_ProductDetails" />
           <EntitySet Name="Table_Products" EntityType="ClothingStoreModel.Table_Products" />
+          <EntitySet Name="Table_ProductSize" EntityType="ClothingStoreModel.Table_ProductSize" />
           <AssociationSet Name="FK_Table_CartItem_Table_Product1" Association="ClothingStoreModel.FK_Table_CartItem_Table_Product1">
             <End Role="Table_Products" EntitySet="Table_Products" />
             <End Role="Table_CartItem" EntitySet="Table_CartItem" />
@@ -402,14 +402,13 @@
             <End Role="Table_Categories" EntitySet="Table_Categories" />
             <End Role="Table_Products" EntitySet="Table_Products" />
           </AssociationSet>
-          <AssociationSet Name="FK_Table_ProductColor_Table_Products" Association="ClothingStoreModel.FK_Table_ProductColor_Table_Products">
+          <AssociationSet Name="FK_Table_ProductDetails_Table_Products" Association="ClothingStoreModel.FK_Table_ProductDetails_Table_Products">
             <End Role="Table_Products" EntitySet="Table_Products" />
-            <End Role="Table_ProductColor" EntitySet="Table_ProductColor" />
+            <End Role="Table_ProductDetails" EntitySet="Table_ProductDetails" />
           </AssociationSet>
-          <EntitySet Name="Table_ProductSize" EntityType="ClothingStoreModel.Table_ProductSize" />
-          <AssociationSet Name="FK_Table_ProductSize_Table_ProductSize" Association="ClothingStoreModel.FK_Table_ProductSize_Table_ProductSize">
-            <End Role="Table_ProductColor" EntitySet="Table_ProductColor" />
+          <AssociationSet Name="FK_Table_ProductDetails_Table_ProductSize" Association="ClothingStoreModel.FK_Table_ProductDetails_Table_ProductSize">
             <End Role="Table_ProductSize" EntitySet="Table_ProductSize" />
+            <End Role="Table_ProductDetails" EntitySet="Table_ProductDetails" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Table_OrderDetails">
@@ -493,16 +492,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Table_ProductColor">
-          <Key>
-            <PropertyRef Name="ProductColorID" />
-          </Key>
-          <Property Name="ProductColorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductID" Type="Int32" Nullable="false" />
-          <Property Name="Color" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Table_Products" Relationship="ClothingStoreModel.FK_Table_ProductColor_Table_Products" FromRole="Table_ProductColor" ToRole="Table_Products" />
-          <NavigationProperty Name="Table_ProductSize" Relationship="ClothingStoreModel.FK_Table_ProductSize_Table_ProductSize" FromRole="Table_ProductColor" ToRole="Table_ProductSize" />
-        </EntityType>
         <EntityType Name="Table_User">
           <Key>
             <PropertyRef Name="ID" />
@@ -559,6 +548,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Table_ProductDetails">
+          <Key>
+            <PropertyRef Name="ProductDetailsID" />
+          </Key>
+          <Property Name="ProductDetailsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="ProductSizeID" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Table_Products" Relationship="ClothingStoreModel.FK_Table_ProductDetails_Table_Products" FromRole="Table_ProductDetails" ToRole="Table_Products" />
+          <NavigationProperty Name="Table_ProductSize" Relationship="ClothingStoreModel.FK_Table_ProductDetails_Table_ProductSize" FromRole="Table_ProductDetails" ToRole="Table_ProductSize" />
+          <Property Name="Color" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="Table_Products">
           <Key>
             <PropertyRef Name="ProductID" />
@@ -569,11 +570,18 @@
           <Property Name="ProductDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ProductImagePath" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ProductPrice" Type="Int32" Nullable="false" />
-          <Property Name="ProductQuantity" Type="Int32" Nullable="false" />
           <Property Name="ProductBrand" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Table_CartItem" Relationship="ClothingStoreModel.FK_Table_CartItem_Table_Product1" FromRole="Table_Products" ToRole="Table_CartItem" />
           <NavigationProperty Name="Table_Categories" Relationship="ClothingStoreModel.FK_Table_Products_Table_Categories" FromRole="Table_Products" ToRole="Table_Categories" />
-          <NavigationProperty Name="Table_ProductColor" Relationship="ClothingStoreModel.FK_Table_ProductColor_Table_Products" FromRole="Table_Products" ToRole="Table_ProductColor" />
+          <NavigationProperty Name="Table_ProductDetails" Relationship="ClothingStoreModel.FK_Table_ProductDetails_Table_Products" FromRole="Table_Products" ToRole="Table_ProductDetails" />
+        </EntityType>
+        <EntityType Name="Table_ProductSize">
+          <Key>
+            <PropertyRef Name="ProductSizeID" />
+          </Key>
+          <Property Name="ProductSizeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Size" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Table_ProductDetails" Relationship="ClothingStoreModel.FK_Table_ProductDetails_Table_ProductSize" FromRole="Table_ProductSize" ToRole="Table_ProductDetails" />
         </EntityType>
         <Association Name="FK_Table_CartItem_Table_Product1">
           <End Type="ClothingStoreModel.Table_Products" Role="Table_Products" Multiplicity="1" />
@@ -599,37 +607,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Table_ProductColor_Table_Products">
+        <Association Name="FK_Table_ProductDetails_Table_Products">
           <End Type="ClothingStoreModel.Table_Products" Role="Table_Products" Multiplicity="1" />
-          <End Type="ClothingStoreModel.Table_ProductColor" Role="Table_ProductColor" Multiplicity="*" />
+          <End Type="ClothingStoreModel.Table_ProductDetails" Role="Table_ProductDetails" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Table_Products">
               <PropertyRef Name="ProductID" />
             </Principal>
-            <Dependent Role="Table_ProductColor">
+            <Dependent Role="Table_ProductDetails">
               <PropertyRef Name="ProductID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Table_ProductSize">
-          <Key>
-            <PropertyRef Name="ProductSizeID" />
-          </Key>
-          <Property Name="ProductSizeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductColorID" Type="Int32" Nullable="false" />
-          <Property Name="ProductSize" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Table_ProductColor" Relationship="ClothingStoreModel.FK_Table_ProductSize_Table_ProductSize" FromRole="Table_ProductSize" ToRole="Table_ProductColor" />
-        </EntityType>
-        <Association Name="FK_Table_ProductSize_Table_ProductSize">
-          <End Type="ClothingStoreModel.Table_ProductColor" Role="Table_ProductColor" Multiplicity="1" />
-          <End Type="ClothingStoreModel.Table_ProductSize" Role="Table_ProductSize" Multiplicity="*" />
+        <Association Name="FK_Table_ProductDetails_Table_ProductSize">
+          <End Type="ClothingStoreModel.Table_ProductSize" Role="Table_ProductSize" Multiplicity="1" />
+          <End Type="ClothingStoreModel.Table_ProductDetails" Role="Table_ProductDetails" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Table_ProductColor">
-              <PropertyRef Name="ProductColorID" />
+            <Principal Role="Table_ProductSize">
+              <PropertyRef Name="ProductSizeID" />
             </Principal>
-            <Dependent Role="Table_ProductSize">
-              <PropertyRef Name="ProductColorID" />
+            <Dependent Role="Table_ProductDetails">
+              <PropertyRef Name="ProductSizeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -719,15 +717,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Table_ProductColor">
-            <EntityTypeMapping TypeName="ClothingStoreModel.Table_ProductColor">
-              <MappingFragment StoreEntitySet="Table_ProductColor">
-                <ScalarProperty Name="Color" ColumnName="Color" />
-                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-                <ScalarProperty Name="ProductColorID" ColumnName="ProductColorID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Table_User">
             <EntityTypeMapping TypeName="ClothingStoreModel.Table_User">
               <MappingFragment StoreEntitySet="Table_User">
@@ -746,11 +735,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Table_ProductDetails">
+            <EntityTypeMapping TypeName="ClothingStoreModel.Table_ProductDetails">
+              <MappingFragment StoreEntitySet="Table_ProductDetails">
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductSizeID" ColumnName="ProductSizeID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductDetailsID" ColumnName="ProductDetailsID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Table_Products">
             <EntityTypeMapping TypeName="ClothingStoreModel.Table_Products">
               <MappingFragment StoreEntitySet="Table_Products">
                 <ScalarProperty Name="ProductBrand" ColumnName="ProductBrand" />
-                <ScalarProperty Name="ProductQuantity" ColumnName="ProductQuantity" />
                 <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
                 <ScalarProperty Name="ProductImagePath" ColumnName="ProductImagePath" />
                 <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
@@ -763,9 +762,7 @@
           <EntitySetMapping Name="Table_ProductSize">
             <EntityTypeMapping TypeName="ClothingStoreModel.Table_ProductSize">
               <MappingFragment StoreEntitySet="Table_ProductSize">
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="ProductSize" ColumnName="ProductSize" />
-                <ScalarProperty Name="ProductColorID" ColumnName="ProductColorID" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
                 <ScalarProperty Name="ProductSizeID" ColumnName="ProductSizeID" />
               </MappingFragment>
             </EntityTypeMapping>

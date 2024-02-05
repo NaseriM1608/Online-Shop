@@ -12,13 +12,15 @@ namespace Pooshineh.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Table_Discounts
+    public partial class Table_ProductDetails
     {
-        public int DiscountID { get; set; }
-        public string DiscountCode { get; set; }
-        public int TotalDiscount { get; set; }
-        public Nullable<int> OrderID { get; set; }
+        public int ProductDetailsID { get; set; }
+        public int ProductID { get; set; }
+        public int ProductSizeID { get; set; }
+        public int Quantity { get; set; }
+        public string Color { get; set; }
     
-        public virtual Table_Orders Table_Orders { get; set; }
+        public virtual Table_Products Table_Products { get; set; }
+        public virtual Table_ProductSize Table_ProductSize { get; set; }
     }
 }

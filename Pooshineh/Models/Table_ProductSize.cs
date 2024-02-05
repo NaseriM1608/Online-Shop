@@ -11,17 +11,19 @@ namespace Pooshineh.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class Table_ProductSize
     {
-        public int ProductSizeID { get; set; }
-        public int ProductColorID { get; set; }
-        [Display(Name = "سایز")]
-        [Required(ErrorMessage = "فیلد {0} اجباری است.")]
-        public string ProductSize { get; set; }
-        public int Quantity { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Table_ProductSize()
+        {
+            this.Table_ProductDetails = new HashSet<Table_ProductDetails>();
+        }
     
-        public virtual Table_ProductColor Table_ProductColor { get; set; }
+        public int ProductSizeID { get; set; }
+        public string Size { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Table_ProductDetails> Table_ProductDetails { get; set; }
     }
 }
