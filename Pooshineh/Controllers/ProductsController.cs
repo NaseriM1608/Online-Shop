@@ -28,7 +28,7 @@ namespace Pooshineh.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateProduct(Table_Products newProduct, HttpPostedFileBase newImage)
+        public ActionResult CreateProduct(Table_Products newProduct, HttpPostedFileBase newImage, string[] Colors, int[] Quantities)
         {
             string newImageName = "";
 
@@ -45,15 +45,33 @@ namespace Pooshineh.Controllers
                     newImage.SaveAs(Server.MapPath("~/Images/Products/") + newImageName);
                 }
                 newProduct.ProductImagePath = newImageName;
+
                 db.Table_Products.Add(newProduct);
                 db.SaveChanges();
-                Table_ProductDetails productDetails = new Table_ProductDetails()
+
+                int productId = newProduct.ProductID;
+                var Sizes = db.Table_ProductSize.ToList();
+                int k = 0;
+
+                if (Colors != null && Sizes != null && Quantities != null)
                 {
-                    ProductID = newProduct.ProductID,
-                    
-                };
+                    for (int i = 0; i < Colors.Length; i++)
+                    {
+                        string color = Colors[i];
+                        for (int j = 0; j < Sizes.Count; j++)
+                        {
+                            int quantity = Quantities[k];
+                            Table_ProductDetails productDetails = new Table_ProductDetails { ProductID = productId, ProductSizeID = Sizes[j].ProductSizeID, Color = color, Quantity = quantity };
+                            db.Table_ProductDetails.Add(productDetails);
+                            k++;
+                        }
+                    }
+                }
+                db.SaveChanges();
+
                 return RedirectToAction("Index", "Home");
             }
+
             return View(newProduct);
         }
         [HttpGet]

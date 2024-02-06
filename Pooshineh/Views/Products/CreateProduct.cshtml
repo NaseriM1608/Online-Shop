@@ -63,7 +63,7 @@
 <h2>CreateProduct</h2>
 
 
-@using (Html.BeginForm("CreateProduct", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("CreateProduct", "Products", FormMethod.Post, new { enctype = "multipart/form-data", id = "createProductForm" }))
 {
     @Html.AntiForgeryToken()
     @Html.Hidden("ProductImagePath", "default.jpg")
@@ -72,78 +72,81 @@
     <h4>Table_Products</h4>
     <hr />
     
-        <div></div>
-        <div>
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                <div class="col-md-10">
-                    <label for="CategoryID" class="text-info">دسته بندی</label>
-                    <select class="form-control" name="CategoryID" id="CategoryID">
-                        <option hidden>انتخاب دسته</option>
-                        @foreach (var category in categories)
-                        {
-                            <option value="@category.CategoryID">@category.CategoryName</option>
-                        }
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.ProductDescription, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ProductDescription, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.ProductPrice, htmlAttributes: new { @class = "control-label col-md-2 col-sm-11" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ProductPrice, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.ProductBrand, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.ProductBrand, new { htmlAttributes = new { @class = "form-control mb-3" } })
-                    @Html.ValidationMessageFor(model => model.ProductBrand, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <label class="control-label" for="newImage">تصویر محصول</label>
-            <div class="form-group">
-                <input type="file" name="newImage" id="newImage" class="form-control" />
-                @Html.ValidationMessageFor(model => model.ProductImagePath, "", new { @class = "text-danger" })
-            </div>
-
-
-            <div class="form-group mt-5">
-                @Html.ActionLink("بازگشت", "Index", null, new { @class = "btn btn-info px-4" })
-            </div>
-        </div>
-    
-    
-        <div class="col-6">
-            <div id="colorSizeContainer" class="form-group">
-                <label class="control-label col-md-2 text-info">رنگ، سایز و تعداد</label>
-                <div class="col-md-10 my-3">
-                    <button type="button" class="btn btn-sm btn-primary" id="addColorSize">+</button>
-                    <br />
-                </div>
-            </div>
-
-        </div>
    
-</div>
+        <div class="row">
+            <div class="col">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label for="CategoryID" class="text-info">دسته بندی</label>
+                        <select class="form-control" name="CategoryID" id="CategoryID">
+                            <option hidden>انتخاب دسته</option>
+                            @foreach (var category in categories)
+                            {
+                                <option value="@category.CategoryID">@category.CategoryName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProductDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ProductDescription, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProductPrice, htmlAttributes: new { @class = "control-label col-md-2 col-sm-11" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ProductPrice, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProductBrand, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ProductBrand, new { htmlAttributes = new { @class = "form-control mb-3" } })
+                        @Html.ValidationMessageFor(model => model.ProductBrand, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <label class="control-label" for="newImage">تصویر محصول</label>
+                <div class="form-group">
+                    <input type="file" name="newImage" id="newImage" class="form-control" />
+                    @Html.ValidationMessageFor(model => model.ProductImagePath, "", new { @class = "text-danger" })
+                </div>
+
+
+                <div class="form-group mt-5">
+                    @Html.ActionLink("بازگشت", "Index", null, new { @class = "btn btn-info px-4" })
+                </div>
+            </div>
+
+
+            <div class="col-6">
+                <div id="colorSizeContainer" class="form-group">
+                    <label class="control-label col-md-2 text-info">رنگ، سایز و تعداد</label>
+                    <div class="col-md-10 my-3">
+                        <button type="button" class="btn btn-sm btn-primary" id="addColorSize">+</button>
+                        <br />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+   
+
     
     <input type="submit" value="Create" class="btn btn-default" />
 
@@ -159,24 +162,26 @@
         var sizes = @Html.Raw(Json.Encode(sizes));
         // Function to add dynamic size and quantity inputs
         function addColorSize() {
+            // Initial color input
             var initialColorInput =
                 '<div class="form-group">' +
-                '    <label for="Color" class="control-label col-md-2">رنگ</label>' +
+                '    <label for="Colors" class="control-label col-md-2">رنگ</label>' +
                 '    <div class="col-md-10">' +
-                '        <input type="text" class="form-control" name="Color" placeholder="رنگ">' +
+                '        <input type="text" class="form-control color-input" name="Colors" placeholder="رنگ">' +
                 '    </div>' +
                 '</div>';
             $("#colorSizeContainer").append(initialColorInput);
-            sizes.forEach(function (size) {
 
+            // Sizes array from index 1 to avoid duplicating the first size input
+            for (var i = 0; i < sizes.length; i++) {
                 var newItem =
                     '<div class="form-group colorInput">' +
-                    '    <input type="text" class="form-control" name="Sizes" value="' + size + '" placeholder="سایز" readonly>' +
+                    '    <input type="text" class="form-control" name="Sizes" value="' + sizes[i] + '" placeholder="سایز" readonly>' +
                     '    <input type="text" class="form-control" name="Quantities" placeholder="تعداد">' +
                     '</div>';
 
                 $("#colorSizeContainer").append(newItem);
-            });
+            }
         }
 
         // Add color and size/quantity on button click
@@ -186,5 +191,35 @@
 
         // Initial add on document ready
         addColorSize();
+        $("#createProductForm").submit(function (e) {
+            // Collect data for dynamic color, sizes, and quantities
+            var colorData = $("input[name='Colors']").map(function () {
+                return $(this).val();
+            }).get();
+            var sizeData = $("input[name='Sizes']").map(function () {
+                return $(this).val();
+            }).get();
+            var quantityData = $("input[name='Quantities']").map(function () {
+                return $(this).val();
+            }).get();
+
+            // Create an array of objects with color, sizes, and quantities
+            var colorSizeData = colorData.map(function (color, index) {
+                return {
+                    Color: color,
+                    Size: sizeData[index],
+                    Quantity: quantityData[index]
+                };
+            });
+
+            // Add the array to the form data
+            $("#createProductForm").append('<input type="hidden" name="ColorSizeData" value="' + JSON.stringify(colorSizeData) + '">');
+
+            // You can remove this line if you don't want the default form submission to occur
+            // e.preventDefault();
+
+            // Submit the form
+            // $("#createProductForm").submit();
+        });
     });
 </script>
