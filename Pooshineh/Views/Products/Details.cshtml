@@ -9,7 +9,8 @@
     {
         isLoggedIn = false;
     }
-
+    var sizes = db.Table_ProductSize.Select(s => s.Size).ToList();
+    var colors = Model.Table_ProductDetails.Where(pd => pd.ProductID == Model.ProductID).ToList().Select(p => p.Color).Distinct();
 }
 <div class="text-center bg-info py-5 fw-bolder rounded-1 text-white my-5 "><h3>مشخصات محصول</h3></div>
 
@@ -22,7 +23,7 @@
                     <img style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit" src="~/Images/Products/@Model.ProductImagePath" />
                 </a>
             </div>
-            <div class="d-flex justify-content-center mb-3">
+            @*<div class="d-flex justify-content-center mb-3">
                 <a data-fslightbox="mygalley" class="border mx-1 rounded-2 item-thumb" target="_blank" data-type="image" href="~/Images/t1.jpg">
                     <img width="60" height="60" class="rounded-2" src="../Images/t1.jpg" />
                 </a>
@@ -38,7 +39,7 @@
                 <a data-fslightbox="mygalley" class="border mx-1 rounded-2 item-thumb" target="_blank" data-type="image" href="~/Images/galaxyVector.svg">
                     <img width="60" height="60" class="rounded-2" src="../Images/t2.jpg" />
                 </a>
-            </div>
+            </div>*@
             <!-- thumbs-wrap.// -->
             <!-- gallery-wrap .end// -->
         </aside>
@@ -81,36 +82,54 @@
                         <dd class="col-9">عادی</dd>
 
                         <dt class="col-3">رنگ</dt>
-                        <dd class="col-9">قهوه ای</dd>
+                        <dd class="col-9">
+                            @foreach (var color in colors)
+                            {
+                                if (color == colors.Last())
+                                {
+                                    <span>@color</span>
+                                }
+                                else
+                                {
+                                    <span>@color, </span>
+                                }
+                            }
+                        </dd>
 
                         <dt class="col-3">جنس</dt>
                         <dd class="col-9">جین ، کتون</dd>
 
                         <dt class="col-3">برند</dt>
-                        <dd class="col-9">Reebook</dd>
+                        <dd class="col-9">@Model.ProductBrand</dd>
 
                         <dt class="col-3">موجودی</dt>
-                        <dd class="col-9">@Model.ProductQuantity</dd>
+                        <dd id="totalquantity" class="col-9"></dd>
                     </dl>
                 </div>
 
                 <hr />
 
                 <div class="row mb-4">
+
                     <div class="col-md-4 col-6">
                         <label class="mb-2">سایز</label>
-                        <select class="form-select border border-secondary" style="height: 35px;">
-                            <option>کوچک</option>
-                            <option>متوسط</option>
-                            <option>بزرگ</option>
-                            <option>خیلی بزرگ</option>
+                        <select id="sizeDropdown" class="form-select border border-secondary" style="height: 35px;">
+                            <option hidden>انتخاب سایز</option>
+                            @foreach (var size in sizes)
+                            {
+                                <option value="@size">@size</option>
+                            }
                         </select>
                     </div>
-                    <!-- col.// -->
+                    <div class="col-md-4 col-6">
+                        <label class="mb-2">رنگ</label>
+                        <select id="colorDropdown" class="form-select border border-secondary" style="height: 35px;">
+                        </select>
+                    </div>
 
                     <div class="col-md-4 col-6 mb-3">
                         <label class="mb-2 d-block">تعداد</label>
-                        <input type="number" name="quantity" id="quantity" value="1" min="1" max="@Model.ProductQuantity" class="form-control" />
+                        <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control" />
                     </div>
                 </div>
 
@@ -148,7 +167,7 @@
                     }
                     else
                     {
-                        if (Model.ProductQuantity <= 0)
+                        if (Model.Table_ProductDetails.Where(p => p.ProductID == Model.ProductID).FirstOrDefault().Quantity <= 0)
                         {
                             <button class="btn btn-danger p-2" disabled>ناموجود</button>
                         }
@@ -162,7 +181,7 @@
                 }
                 else
                 {
-                    if (Model.ProductQuantity <= 0)
+                    if (Model.Table_ProductDetails.Where(p => p.ProductID == Model.ProductID).FirstOrDefault().Quantity <= 0)
                     {
                         <button class="btn btn-danger p-2" disabled>ناموجود</button>
                     }
@@ -171,7 +190,62 @@
                         <a href="@Url.Action("AddToCart", "Cart", new { productId = Model.ProductID, quantity = "{0}" })" class="btn btn-success shadow-0 w-50 rounded-btn" onclick="addToCart()"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M8.418 3.25c.28-.59.884-1 1.582-1h4c.698 0 1.301.41 1.582 1c.683.006 1.216.037 1.692.223a3.25 3.25 0 0 1 1.426 1.09c.367.494.54 1.127.776 1.998l.037.136l.002.007l.874 3.324l.012-.017c.042.045.082.093.121.143c.901 1.154.472 2.87-.386 6.301c-.078.313-.15.603-.22.873l-2.477-2.973l1.83-2.685l-.505-1.922l-2.324 3.409L12.976 9h1.34c1.893 0 3.28 0 4.298.177l-.549-2.088c-.29-1.064-.393-1.395-.57-1.632a1.75 1.75 0 0 0-.767-.587c-.22-.086-.486-.111-1.148-.118A1.75 1.75 0 0 1 14 5.75h-4a1.75 1.75 0 0 1-1.58-.998c-.662.007-.928.032-1.148.118a1.75 1.75 0 0 0-.768.587c-.176.237-.279.568-.57 1.632l-.548 2.088C6.404 9 7.791 9 9.685 9h1.339L7.56 13.157L5.236 9.748L4.73 11.67l1.83 2.685l-2.477 2.973c-.07-.27-.142-.56-.22-.873c-.858-3.431-1.287-5.147-.386-6.301c.039-.05.08-.098.121-.143l.012.017l.874-3.324l.002-.007l.037-.136c.237-.871.41-1.505.776-1.999a3.25 3.25 0 0 1 1.426-1.089c.476-.186 1.008-.217 1.692-.222" /><path fill="currentColor" d="M4.602 19.05c.233.593.5 1.007.894 1.315C6.31 21 7.435 21 9.685 21h1.407L7.44 15.644zM12.908 21h1.407c2.25 0 3.375 0 4.189-.635c.394-.308.661-.722.894-1.316l-2.838-3.405zM12 19.669l-3.561-5.224L12 10.172l3.561 4.273z" /></svg> افزودن به سبد خرید </a>
                     }
                 }
-                <script>
+                <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+                @*<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>*@
+            <script>
+                $(document).ready(function () {
+                    $("#sizeDropdown").change(function () {
+                        var selectedId = @Html.Raw(Json.Encode(Model.ProductID));
+                        var selectedSize = $(this).val();
+                        $("#totalquantity").empty();
+                        $.ajax({
+                            url: "/Products/GetColors",
+                            type: "POST",
+                            data: { productId: selectedId, size: selectedSize },
+                            success: function (data) {
+                                $("#colorDropdown").empty();
+                                $("#colorDropdown").append('<option hidden>انتخاب رنگ</option>');
+                                for (var i = 0; i < data.colors.length; i++) {
+                                    $("#colorDropdown").append('<option value="' + data.colors[i] + '">' + data.colors[i] + '</option>');
+                                }
+                                
+                            },
+                            error: function (error) {
+                                
+                            }
+                        });
+                            
+                    });
+                    
+                    $("#colorDropdown").change(function () {
+                        var selectedId = @Model.ProductID;
+                        var selectedSize = $("#sizeDropdown").val();
+                        var selectedColor = $(this).val();
+                        $.ajax({
+                            url: "/Products/GetQuantity",
+                            type: "POST",
+                            data: { productId: selectedId, size: selectedSize, color: selectedColor },
+                            success: function (data) {
+                                if (data.availableQuantity == 0) {
+                                    $("#totalquantity").empty();
+                                    $("#totalquantity").append("ناموجود");
+                                }
+                                else {
+                                    $("#quantity").attr("max", data.availableQuantity);
+                                    $("#totalquantity").empty();
+                                    $("#totalquantity").append(data.availableQuantity);
+                                }
+                                
+                            },
+                            error: function (error) {
+                                $("#totalquantity").empty();
+                                $("#totalquantity").append("error");
+                            }
+                        });
+                    });
+                    
+                });
+
                     function getQuantity() {
                         var quantity = document.getElementById("quantity").value;
                         return quantity;
@@ -187,7 +261,7 @@
                     document.getElementById("AddToCart").addEventListener("click", function () {
                         setQuantityAndNavigate(this);
                     });
-                </script>
+            </script>
 
             </div>
             

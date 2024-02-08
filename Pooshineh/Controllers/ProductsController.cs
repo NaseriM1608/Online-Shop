@@ -143,6 +143,21 @@ namespace Pooshineh.Controllers
             }
             return View(product);
         }
+        public ActionResult GetQuantity(int productId, string size, string color)
+        {
+            int availableQuantity = -69;
+            if (color != "")
+            {
+                availableQuantity = db.Table_ProductDetails.Where(pd => pd.ProductID == productId && pd.Table_ProductSize.Size == size && pd.Color == color).FirstOrDefault().Quantity;
+            }
+            return Json(new { availableQuantity, JsonRequestBehavior.AllowGet });
+        }
+        public ActionResult GetColors(int productId, string size)
+        {
+            var colors = db.Table_ProductDetails.Where(pd => pd.ProductID == productId && pd.Table_ProductSize.Size == size).Select(pd => pd.Color).ToList();
+            return Json(new { colors, JsonRequestBehavior.AllowGet });
+        }
+
 
 
 

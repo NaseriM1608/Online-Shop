@@ -60,7 +60,7 @@
         }
 </style>
 
-<h2>CreateProduct</h2>
+<div class="text-center bg-success py-5 fw-bolder rounded-1 text-white"><h3>محصول جدید</h3></div>
 
 
 @using (Html.BeginForm("CreateProduct", "Products", FormMethod.Post, new { enctype = "multipart/form-data", id = "createProductForm" }))
@@ -69,7 +69,6 @@
     @Html.Hidden("ProductImagePath", "default.jpg")
 
 <div class="form-horizontal">
-    <h4>Table_Products</h4>
     <hr />
     
    
@@ -127,9 +126,7 @@
                 </div>
 
 
-                <div class="form-group mt-5">
-                    @Html.ActionLink("بازگشت", "Index", null, new { @class = "btn btn-info px-4" })
-                </div>
+                
             </div>
 
 
@@ -147,8 +144,10 @@
     </div>
    
 
-    
-    <input type="submit" value="Create" class="btn btn-default" />
+<div class="form-group mt-5">
+    @Html.ActionLink("بازگشت", "Index", null, new { @class = "btn btn-info px-4" })
+    <input type="submit" value="درج محصول" class="btn btn-success" />
+</div>
 
 
 }
@@ -158,11 +157,8 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <script>
     $(document).ready(function () {
-        // Sizes array from C# (replace this with the actual array)
         var sizes = @Html.Raw(Json.Encode(sizes));
-        // Function to add dynamic size and quantity inputs
         function addColorSize() {
-            // Initial color input
             var initialColorInput =
                 '<div class="form-group">' +
                 '    <label for="Colors" class="control-label col-md-2">رنگ</label>' +
@@ -172,7 +168,6 @@
                 '</div>';
             $("#colorSizeContainer").append(initialColorInput);
 
-            // Sizes array from index 1 to avoid duplicating the first size input
             for (var i = 0; i < sizes.length; i++) {
                 var newItem =
                     '<div class="form-group colorInput">' +
@@ -184,15 +179,12 @@
             }
         }
 
-        // Add color and size/quantity on button click
         $("#addColorSize").click(function () {
             addColorSize();
         });
 
-        // Initial add on document ready
         addColorSize();
         $("#createProductForm").submit(function (e) {
-            // Collect data for dynamic color, sizes, and quantities
             var colorData = $("input[name='Colors']").map(function () {
                 return $(this).val();
             }).get();
