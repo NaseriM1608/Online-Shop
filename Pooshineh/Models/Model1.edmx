@@ -22,6 +22,8 @@
           <Property Name="CartID" Type="int" Nullable="false" />
           <Property Name="ProductID" Type="int" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Color" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Size" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Price" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Table_Categories">
@@ -172,14 +174,14 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Table_OrderDetails_Table_Products">
-          <End Role="Table_Orders" Type="Self.Table_Orders" Multiplicity="1" />
+          <End Role="Table_Products" Type="Self.Table_Products" Multiplicity="1" />
           <End Role="Table_OrderDetails" Type="Self.Table_OrderDetails" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Table_Orders">
-              <PropertyRef Name="OrderID" />
+            <Principal Role="Table_Products">
+              <PropertyRef Name="ProductID" />
             </Principal>
             <Dependent Role="Table_OrderDetails">
-              <PropertyRef Name="OrderID" />
+              <PropertyRef Name="ProductID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -273,7 +275,7 @@
             <End Role="Table_LoginHistory" EntitySet="Table_LoginHistory" />
           </AssociationSet>
           <AssociationSet Name="FK_Table_OrderDetails_Table_Products" Association="Self.FK_Table_OrderDetails_Table_Products">
-            <End Role="Table_Orders" EntitySet="Table_Orders" />
+            <End Role="Table_Products" EntitySet="Table_Products" />
             <End Role="Table_OrderDetails" EntitySet="Table_OrderDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_Table_Orders_Table_Orders" Association="Self.FK_Table_Orders_Table_Orders">
@@ -324,6 +326,8 @@
           <Property Name="Price" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Table_Cart" Relationship="Self.FK_Table_CartItem_Table_Product" FromRole="Table_CartItem" ToRole="Table_Cart" />
           <NavigationProperty Name="Table_Products" Relationship="ClothingStoreModel.FK_Table_CartItem_Table_Product1" FromRole="Table_CartItem" ToRole="Table_Products" />
+          <Property Name="Color" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Size" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Table_Categories">
           <Key>
@@ -410,6 +414,10 @@
             <End Role="Table_ProductSize" EntitySet="Table_ProductSize" />
             <End Role="Table_ProductDetails" EntitySet="Table_ProductDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_Table_OrderDetails_Table_Products1" Association="ClothingStoreModel.FK_Table_OrderDetails_Table_Products1">
+            <End Role="Table_Products" EntitySet="Table_Products" />
+            <End Role="Table_OrderDetails" EntitySet="Table_OrderDetails" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Table_OrderDetails">
           <Key>
@@ -421,6 +429,7 @@
           <Property Name="Quantity" Type="Int32" Nullable="false" />
           <Property Name="Price" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Table_Orders" Relationship="ClothingStoreModel.FK_Table_OrderDetails_Table_Products" FromRole="Table_OrderDetails" ToRole="Table_Orders" />
+          <NavigationProperty Name="Table_Products" Relationship="ClothingStoreModel.FK_Table_OrderDetails_Table_Products1" FromRole="Table_OrderDetails" ToRole="Table_Products" />
         </EntityType>
         <EntityType Name="Table_Discounts">
           <Key>
@@ -574,6 +583,7 @@
           <NavigationProperty Name="Table_CartItem" Relationship="ClothingStoreModel.FK_Table_CartItem_Table_Product1" FromRole="Table_Products" ToRole="Table_CartItem" />
           <NavigationProperty Name="Table_Categories" Relationship="ClothingStoreModel.FK_Table_Products_Table_Categories" FromRole="Table_Products" ToRole="Table_Categories" />
           <NavigationProperty Name="Table_ProductDetails" Relationship="ClothingStoreModel.FK_Table_ProductDetails_Table_Products" FromRole="Table_Products" ToRole="Table_ProductDetails" />
+          <NavigationProperty Name="Table_OrderDetails" Relationship="ClothingStoreModel.FK_Table_OrderDetails_Table_Products1" FromRole="Table_Products" ToRole="Table_OrderDetails" />
         </EntityType>
         <EntityType Name="Table_ProductSize">
           <Key>
@@ -631,6 +641,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Table_OrderDetails_Table_Products1">
+          <End Type="ClothingStoreModel.Table_Products" Role="Table_Products" Multiplicity="1" />
+          <End Type="ClothingStoreModel.Table_OrderDetails" Role="Table_OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Table_OrderDetails">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -650,6 +672,8 @@
           <EntitySetMapping Name="Table_CartItem">
             <EntityTypeMapping TypeName="ClothingStoreModel.Table_CartItem">
               <MappingFragment StoreEntitySet="Table_CartItem">
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
                 <ScalarProperty Name="CartItemID" ColumnName="CartItemID" />
                 <ScalarProperty Name="CartID" ColumnName="CartID" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />

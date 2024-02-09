@@ -19,11 +19,9 @@ namespace Pooshineh.Controllers
                 .Select(u => u.ID)
                 .SingleOrDefault();
 
-            // Get the user's cart and cart items
             var userCart = db.Table_CartItem
-    .Where(cartItem => cartItem.Table_Cart.UserID == userId)
-    .Select(cartItem => cartItem.Table_Products)
-    .ToList();
+                .Where(cartItem => cartItem.Table_Cart.UserID == userId)
+                .ToList();
 
             if (userCart == null)
             {
@@ -34,7 +32,7 @@ namespace Pooshineh.Controllers
         }
 
         [Authorize]
-        public ActionResult AddToCart(int productId, int quantity)
+        public ActionResult AddToCart(int productId, int quantity, string color, string size)
         {
             if (ModelState.IsValid)
             {
@@ -57,10 +55,11 @@ namespace Pooshineh.Controllers
                 }
 
                 var existingCartItem = db.Table_CartItem
-                    .SingleOrDefault(ci => ci.CartID == userCart.CartID && ci.ProductID == productId);
+                    .FirstOrDefault(ci => ci.CartID == userCart.CartID && ci.ProductID == productId);
 
-                if (existingCartItem != null)
-                {
+
+                if (existingCartItem != null && existingCartItem.Color == color && existingCartItem.Size == size)
+                { 
                     existingCartItem.Quantity += quantity;
                     db.SaveChanges();
                 }
@@ -75,6 +74,8 @@ namespace Pooshineh.Controllers
                             CartID = userCart.CartID,
                             ProductID = productId,
                             Quantity = quantity,
+                            Color = color,
+                            Size = size,
                             Price = product.ProductPrice
                         };
 
@@ -95,14 +96,14 @@ namespace Pooshineh.Controllers
             return RedirectToAction("Details", "Products");
         }
         [HttpGet]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id, string color, string size)
         {
             int userId = db.Table_User
             .Where(u => u.PhoneNumber == User.Identity.Name)
             .Select(u => u.ID)
             .SingleOrDefault();
 
-            var product = db.Table_CartItem.Where(ci => ci.ProductID == id && ci.Table_Cart.UserID == userId).SingleOrDefault();
+            var product = db.Table_CartItem.Where(ci => ci.ProductID == id && ci.Table_Cart.UserID == userId && ci.Color == color && ci.Size == size).SingleOrDefault();
             db.Table_CartItem.Remove(product);
             db.SaveChanges();
 

@@ -49,7 +49,7 @@
             <th></th>
         </tr>
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.OrderByDescending(o => o.OrderDate))
         {
             <tr>
                 <td>

@@ -1,4 +1,4 @@
-﻿﻿@model IEnumerable<Pooshineh.Models.Table_Products>
+﻿﻿@model IEnumerable<Pooshineh.Models.Table_CartItem>
 
 @{
     ViewBag.Title = "Cart";
@@ -12,7 +12,7 @@
     }
     else { TotalCost = 0; }
     int trackingCost = 50000;
-    int finalyCost = TotalCost + trackingCost;
+    int totalCost = TotalCost + trackingCost;
 }
 
 <div class="container-fluid ">
@@ -31,27 +31,30 @@
                         <div class="row my-2">
                             <!-- cart images div -->
                             <div class="col-md-5 col-11 mx-auto bg-light d-flex justify-content-center align-items-center shadow product_img">
-                                <img src="~/Images/Products/@item.ProductImagePath" class="img-fluid" alt="cart img">
+                                <img src="~/Images/Products/@item.Table_Products.ProductImagePath" class="img-fluid" alt="cart img">
                             </div>
                             <!-- cart product details -->
                             <div class="col-md-7 col-11 mx-auto px-4 mt-2 mb-5">
                                 <div class="row">
                                     <!-- product name  -->
                                     <div class="col-6 card-title">
-                                        <h1 class="mb-4 product_name mt-2 mt-md-0">@Html.DisplayFor(modelItem => item.ProductName)</h1>
+                                        <h1 class="mb-4 product_name mt-2 mt-md-0">@Html.DisplayFor(modelItem => item.Table_Products.ProductName)</h1>
                                         <p class="mb-2">
                                             تعداد :
                                             @{
                                                 int quantityInCart = db.Table_CartItem
-                                                    .Where(ci => ci.ProductID == item.ProductID && ci.Table_Cart.Table_User.PhoneNumber == User.Identity.Name)
+                                                    .Where(ci => ci.ProductID == item.ProductID && ci.Table_Cart.Table_User.PhoneNumber == User.Identity.Name && ci.Size == item.Size && ci.Color == item.Color)
                                                     .Select(ci => ci.Quantity)
                                                     .FirstOrDefault();
 
                                                 @quantityInCart
                                             }
                                         </p>
-                                        <p class="mb-2">@Html.DisplayFor(modelItem => item.Table_Categories.CategoryName) | مشکی</p>
-                                        <p class="mb-3">سایز: متوسط</p>
+                                        
+                                        
+                                        <p class="mb-2">@Html.DisplayFor(modelItem => item.Table_Products.Table_Categories.CategoryName) | @item.Color</p>
+                                        <p class="mb-3">سایز: @item.Size</p>
+                                        
                                     </div>
                                     <!-- quantity inc dec -->
                                     <div class="col-6">
@@ -61,7 +64,7 @@
                                 <!-- //remover move and price -->
                                 <div class="row">
                                     <div class="col-8 d-flex justify-content-around remove_wish">
-                                        <a href="@Url.Action("Delete", "Cart", new { id = item.ProductID })">
+                                        <a href="@Url.Action("Delete", "Cart", new { id = item.ProductID, color = item.Color, size = item.Size })">
                                             <svg class="trash-icon" xmlns="http://www.w3.org/2000/svg" width="20"
                                                     height="20" viewBox="0 0 20 20">
                                                 <path fill="currentColor"
@@ -78,7 +81,7 @@
                                         </svg>
                                     </div>
                                     <div class="col-4 d-flex justify-content-end price_money">
-                                        <p class="h6"><span id="itemval1">@Html.DisplayFor(modelItem => item.ProductPrice) </span> تومان</p>
+                                        <p class="h6"><span id="itemval1">@Html.DisplayFor(modelItem => item.Table_Products.ProductPrice) </span> تومان</p>
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +114,7 @@
                             <p>هزینه کل</p>
                             @if (TotalCost > 0)
                             {
-                                <p><span id="total_cart_amt"> @finalyCost</span> تومان </p>
+                                <p><span id="total_cart_amt"> @totalCost</span> تومان </p>
                             }
 
                         </div>
