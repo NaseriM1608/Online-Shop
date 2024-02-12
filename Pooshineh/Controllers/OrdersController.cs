@@ -73,14 +73,16 @@ namespace Pooshineh.Controllers
                             var product = db.Table_Products.Find(cartItem.ProductID);
                             if (product != null)
                             {
-                                //product.ProductQuantity -= cartItem.Quantity;
+                                product.Table_ProductDetails.Where(p => p.ProductID == product.ProductID && p.Color == cartItem.Color && p.Table_ProductSize.Size == cartItem.Size).FirstOrDefault().Quantity -= cartItem.Quantity;
 
                                 var orderDetail = new Table_OrderDetails
                                 {
                                     OrderID = userOrder.OrderID,
                                     ProductID = cartItem.ProductID,
                                     Quantity = cartItem.Quantity,
-                                    Price = cartItem.Table_Products.ProductPrice
+                                    Price = cartItem.Table_Products.ProductPrice,
+                                    Size = cartItem.Size,
+                                    Color = cartItem.Color
                                 };
 
                                 db.Table_OrderDetails.Add(orderDetail);
@@ -139,9 +141,13 @@ namespace Pooshineh.Controllers
             return View(order);
         }
         [Authorize]
-        public ActionResult ViewOrdersForAdmin()
+        public ActionResult ViewOrdersForAdmin(List<Table_Orders> filteredOrders)
         {
-            var orders = db.Table_Orders;
+            var orders = db.Table_Orders.ToList();
+            if(filteredOrders != null)
+            {
+                orders = filteredOrders;
+            }
             return View(orders);
         }
         [Authorize]
@@ -156,6 +162,25 @@ namespace Pooshineh.Controllers
             }
             TempData["StatusEditFailed"] = "تغییرات با مشکل مواجه شد.";
             return RedirectToAction("ViewOrdersForAdmin");
+        }
+        public ActionResult UpdateOrder(int orderId, string status)
+        {
+            var order = db.Table_Orders.Find(orderId);
+            order.OrderStatus = status;
+            db.SaveChanges();
+            return Json(new { order, JsonRequestBehavior.AllowGet });
+        }
+        public ActionResult FilterOrders(string option)
+        {
+            if(option == "جدیدترین")
+            {
+                return View("ViewOrdersForAdmin", db.Table_Orders);
+            }
+            else if(option == "قدیمی‌ترین")
+            {
+                return View("ViewOrdersForAdmin", db.Table_Orders.OrderByDescending(o => o.OrderDate));
+            }
+            return View("ViewOrdersForAdmin", db.Table_Orders);
         }
        
     }

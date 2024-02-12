@@ -4,16 +4,8 @@
     ViewBag.Title = "Details";
     Pooshineh.Models.ClothingStoreEntities1 db = new Pooshineh.Models.ClothingStoreEntities1();
     var orderDetails = Model.Table_OrderDetails.Where(od => od.OrderID == Model.OrderID);
-
-    var productsInOrder = db.Table_OrderDetails
-    .Where(orderDetail => orderDetail.OrderID == Model.OrderID)
-    .Join(db.Table_Products,
-          orderDetail => orderDetail.ProductID,
-          product => product.ProductID,
-          (orderDetail, product) => product)
-    .ToList();
-    int trackingCost = 50000;
-    int finalyCost = Model.TotalCost + trackingCost;
+    int postalServiceCost = 50000;
+    int totalCost = Model.TotalCost + postalServiceCost;
 }
 <!DOCTYPE html>
 <html lang="fa">
@@ -177,7 +169,7 @@
                             <small> شناسه خرید : @Html.DisplayFor(model => model.OrderName)</small>
                         </div>
                     </div>
-                    @foreach (var item in productsInOrder)
+                    @foreach (var item in orderDetails)
                     {
                         <div class="row mt-3">
                             <div class="col">
@@ -186,55 +178,113 @@
                                         <div class="d-flex">
                                             <div class="sq align-self-center">
                                                 <img class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0 pe-3"
-                                                     src="~/Images/Products/@item.ProductImagePath" width="135" height="135">
+                                                     src="~/Images/Products/@item.Table_Products.ProductImagePath" width="135" height="135">
                                             </div>
                                             <div class="media-body my-auto text-right">
                                                 <div class="row my-auto flex-column flex-md-row">
                                                     <div class="col my-auto">
-                                                        <h6 class="mb-0"> @item.ProductName</h6>
+                                                        <h6 class="mb-0"> @item.Table_Products.ProductName</h6>
                                                     </div>
                                                     <div class="col-auto my-auto">
-                                                        <small>@item.ProductDescription </small>
+                                                        <small>@item.Table_Products.ProductDescription </small>
                                                     </div>
                                                     <div class="col my-auto">
-                                                        <small>سایز : متوسط</small>
+                                                        <small>سایز : @item.Size</small>
                                                     </div>
                                                     <div class="col my-auto">
-                                                        <small>تعداد : @Model.Table_OrderDetails.Where(od => od.ProductID == item.ProductID).FirstOrDefault().Quantity </small>
+                                                        <small>تعداد : @item.Quantity </small>
                                                     </div>
                                                     <div class="col my-auto">
-                                                        <h6 class="mb-0">@item.ProductPrice <small>تومان</small></h6>
+                                                        <h6 class="mb-0">@item.Table_Products.ProductPrice <small>تومان</small></h6>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <hr class="my-3 ">
                                         <div class="row">
-                                            <div class="col-md-3 mb-3">
 
-                                                <small> وضعیت سفارش <span><svg class="ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m7 21l-5-5l5-5l1.425 1.4l-2.6 2.6H21v2H5.825l2.6 2.6zm10-8l-1.425-1.4l2.6-2.6H3V7h15.175l-2.6-2.6L17 3l5 5z" /></svg></span></small>
-                                            </div>
-                                            <div class="col mt-auto">
-                                                <div class="progress my-auto">
-                                                    <div class="progress-bar progress-bar rounded" style="width: 62%"
-                                                         role="progressbar" aria-valuenow="25" aria-valuemin="0"
-                                                         aria-valuemax="100"></div>
+
+                                            @if (item == orderDetails.Last())
+                                            {
+                                                <div class="col-md-3 mb-3">
+
+                                                    <small> وضعیت سفارش <span><svg class="ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m7 21l-5-5l5-5l1.425 1.4l-2.6 2.6H21v2H5.825l2.6 2.6zm10-8l-1.425-1.4l2.6-2.6H3V7h15.175l-2.6-2.6L17 3l5 5z" /></svg></span></small>
                                                 </div>
-                                                <div class="container">
-                                                    <div class="row justify-content-between">
-                                                        <div class="col-auto text-end">
-                                                            <span> <small class="text-end me-sm-2">آماده سازی </small> <svg class="active-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22" /></svg> </span>
+                                                if (Model.OrderStatus == "در حال بررسی")
+                                                {
+                                                    <div class="col mt-auto">
+                                                        <div class="progress my-auto">
+                                                            <div class="progress-bar progress-bar rounded" style="width: 21%"
+                                                                 role="progressbar" aria-valuenow="25" aria-valuemin="0"
+                                                                 aria-valuemax="100"></div>
                                                         </div>
-                                                        <div class="col-auto flex-col">
-                                                            <span> <small class="text-end me-sm-2">در حال ارسال </small><svg class="active-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22" /></svg></span>
+                                                        <div class="container">
+                                                            <div class="row justify-content-between">
+                                                                <div class="col-auto text-end">
+                                                                    <span> <small class="text-end me-sm-2">آماده سازی </small> <svg class="active-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22" /></svg> </span>
+                                                                </div>
+                                                                <div class="col-auto flex-col">
+                                                                    <span> <small class="text-end me-sm-2">در حال ارسال </small><svg class="circle-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22" /></svg></span>
+                                                                </div>
+                                                                <div class="col-auto flex-col-auto">
+                                                                    <small class="text-end me-sm-2">تحویل</small><span> <svg class="circle-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22" /></svg></span>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-auto flex-col-auto">
-                                                            <small class="text-end me-sm-2">تحویل</small><span> <svg class="circle-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22" /></svg></span>
-                                                        </div>
+
                                                     </div>
-                                                </div>
+                                                }
+                                                else if (Model.OrderStatus == "در حال ارسال")
+                                                {
+                                                    <div class="col mt-auto">
+                                                        <div class="progress my-auto">
+                                                            <div class="progress-bar progress-bar rounded" style="width: 62%"
+                                                                 role="progressbar" aria-valuenow="25" aria-valuemin="0"
+                                                                 aria-valuemax="100"></div>
+                                                        </div>
+                                                        <div class="container">
+                                                            <div class="row justify-content-between">
+                                                                <div class="col-auto text-end">
+                                                                    <span> <small class="text-end me-sm-2">آماده سازی </small> <svg class="active-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22" /></svg> </span>
+                                                                </div>
+                                                                <div class="col-auto flex-col">
+                                                                    <span> <small class="text-end me-sm-2">در حال ارسال </small><svg class="active-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22" /></svg></span>
+                                                                </div>
+                                                                <div class="col-auto flex-col-auto">
+                                                                    <small class="text-end me-sm-2">تحویل</small><span> <svg class="circle-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22" /></svg></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-                                            </div>
+                                                    </div>
+                                                }
+                                                else if (Model.OrderStatus == "تحویل داده شده")
+                                                {
+                                                    <div class="col mt-auto">
+                                                        <div class="progress my-auto">
+                                                            <div class="progress-bar progress-bar rounded" style="width: 100%"
+                                                                 role="progressbar" aria-valuenow="25" aria-valuemin="0"
+                                                                 aria-valuemax="100"></div>
+                                                        </div>
+                                                        <div class="container">
+                                                            <div class="row justify-content-between">
+                                                                <div class="col-auto text-end">
+                                                                    <span> <small class="text-end me-sm-2">آماده سازی </small> <svg class="active-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22" /></svg> </span>
+                                                                </div>
+                                                                <div class="col-auto flex-col">
+                                                                    <span> <small class="text-end me-sm-2">در حال ارسال </small><svg class="active-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22" /></svg></span>
+                                                                </div>
+                                                                <div class="col-auto flex-col-auto">
+                                                                    <small class="text-end me-sm-2">تحویل</small><span> <svg class="active-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22" /></svg></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                }
+                                            }
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -276,7 +326,7 @@
                                     <p class="mb-1"><b>هزینه ارسال</b></p>
                                 </div>
                                 <div class="flex-sm-col col-auto">
-                                    <p class="mb-1"><small>تومان</small> @trackingCost</p>
+                                    <p class="mb-1"><small>تومان</small> @postalServiceCost</p>
                                 </div>
                             </div>
                         </div>
@@ -300,7 +350,7 @@
                                 <h2 class="mb-0 ">هزینه پرداختی</h2>
                             </div>
                             <div class="col-auto my-auto ml-auto">
-                                <h6 class="display-3">@finalyCost <small class="text-danger">تومان</small></h6>
+                                <h6 class="display-3">@totalCost <small class="text-danger">تومان</small></h6>
                             </div>
                         </div>
                         <div class="row mb-3 mt-3 mt-md-0">

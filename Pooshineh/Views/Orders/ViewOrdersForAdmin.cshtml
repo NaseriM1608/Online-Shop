@@ -10,8 +10,22 @@
 @if (user.Table_Roles.RoleName == "Admin")
 {
     <div class="text-center bg-primary py-5 fw-bolder rounded-1 text-white mt-5"><h3>مشاهده سفارش‌ها</h3></div>
-
-
+    <br />
+    <div style="position: relative; display: inline-block;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 20l-3 1v-8.5L4.52 7.572A2 2 0 0 1 4 6.227V4h16v2.172a2 2 0 0 1-.586 1.414L15 12v3m4 1v6m3-3l-3 3l-3-3" />
+        </svg>
+        <span class="mx-1">مرتب سازی:</span>
+        <select id="filterDropdown" class="form-select border border-secondary my-1" style="height: 35px;">
+            <option hidden>انتخاب کنید</option>
+            @foreach (var option in GetOrderStatusList())
+            {
+                <option value="@option.Value">@option.Text</option>
+            }
+            <option value="جدیدترین">جدیدترین</option>
+            <option value="قدیمی‌ترین">قدیمی‌ترین</option>
+        </select>
+    </div>
 
     if (TempData["StatusEditSuccess"] != null)
     {
@@ -69,37 +83,27 @@
                     @users.Where(u => u.ID == item.Table_Cart.UserID).FirstOrDefault().Name @users.Where(u => u.ID == item.Table_Cart.UserID).FirstOrDefault().LastName
                 </td>
                 <td>
-
-                    @using (Html.BeginForm("Edit", "Orders", FormMethod.Post))
-                    {
-                        @Html.Hidden("OrderID", item.OrderID)
-                        @Html.Hidden("CartID", item.CartID)
-                        @Html.Hidden("OrderName", item.OrderName)
-                        @Html.Hidden("OrderDate", item.OrderDate)
-                        @Html.Hidden("OrderAddress", item.OrderAddress)
-                        @Html.Hidden("TotalCost", item.TotalCost)
-                        @Html.DropDownList("OrderStatus", GetOrderStatusList(), item.OrderStatus, htmlAttributes: new { @class = "form-control" })
-                        <br />
-                        <input type="submit" value="ذخیره" class="btn btn-success">
-                    }
+                    @Html.DropDownList("OrderStatus", GetOrderStatusList(), item.OrderStatus, htmlAttributes: new { @class = "form-control dropdown form-select border border-secondary", @id = $"statusDropdown", @data_id = item.OrderID })
+                    <br />
                 </td>
                 <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.OrderID }, new { @class = "btn btn-warning" })
+                    @Html.ActionLink("جزئیات", "Details", new { id = item.OrderID }, new { @class = "btn btn-warning" })
                 </td>
             </tr>
         }
 
     </table>
 }
-else {
+else
+{
     <div class="text-center bg-danger py-5 fw-bolder rounded-1 text-white mt-5"><h3>دسترسی محدود است</h3></div>
 }
 
 @functions{
-    private SelectList GetOrderStatusList()
+    public SelectList GetOrderStatusList()
     {
         var orderStatusList = new List<SelectListItem>
-    {
+        {
             new SelectListItem { Value = "در حال بررسی", Text = "در حال بررسی" },
             new SelectListItem { Value = "در حال ارسال", Text = "در حال ارسال" },
             new SelectListItem { Value = "تحویل داده شده", Text = "تحویل داده شده" }
@@ -108,4 +112,38 @@ else {
         return new SelectList(orderStatusList, "Value", "Text");
     }
 }
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#statusDropdown").change(function () {
+            var orderStatus = $(this).val();
+            var selectedId = $(this).data("id");
 
+            $.ajax({
+                url: "/Orders/UpdateOrder",
+                type: "POST",
+                data: { orderId: selectedId, status: orderStatus },
+                success: function (data) {
+
+                },
+                error: function (error) {
+                    $(".statusDropdown").append(error);
+                }
+            });
+        });
+        $("#filterDropdown").change(function () {
+            var selectedOption = $(this).val();
+            $.ajax({
+                url: "Orders/FilterOrders",
+                type: "GET",
+                data: { option: selectedOption },
+                success: function (data) {
+
+                },
+                error: function (error) {
+
+                }
+            });
+        })
+    });
+</script>
