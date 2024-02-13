@@ -1,6 +1,4 @@
-﻿@model IEnumerable<Pooshineh.Models.Table_Orders>
-
-@{
+﻿@{
     Pooshineh.Models.ClothingStoreEntities1 db = new Pooshineh.Models.ClothingStoreEntities1();
     ViewBag.Title = "ViewOrdersForAdmin";
     var users = db.Table_User;
@@ -26,73 +24,9 @@
             <option value="قدیمی‌ترین">قدیمی‌ترین</option>
         </select>
     </div>
-
-    if (TempData["StatusEditSuccess"] != null)
-    {
-        <div class="alert alert-success mt-5">
-            @TempData["StatusEditSuccess"]
-        </div>
-    }
-    if (TempData["StatusEditFailed"] != null)
-    {
-        <div class="alert alert-danger mt-5">
-            @TempData["StatusEditFailed"]
-        </div>
-    }
-    <table class="table mt-3">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalCost)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderDate)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.OrderAddress)
-            </th>
-            <th>
-                نام مشتری
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderStatus)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model.OrderByDescending(o => o.OrderDate))
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalCost)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderDate)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderAddress)
-                </td>
-                <td>
-                    @users.Where(u => u.ID == item.Table_Cart.UserID).FirstOrDefault().Name @users.Where(u => u.ID == item.Table_Cart.UserID).FirstOrDefault().LastName
-                </td>
-                <td>
-                    @Html.DropDownList("OrderStatus", GetOrderStatusList(), item.OrderStatus, htmlAttributes: new { @class = "form-control dropdown form-select border border-secondary", @id = $"statusDropdown", @data_id = item.OrderID })
-                    <br />
-                </td>
-                <td>
-                    @Html.ActionLink("جزئیات", "Details", new { id = item.OrderID }, new { @class = "btn btn-warning" })
-                </td>
-            </tr>
-        }
-
-    </table>
+    <div id="list">
+        @Html.Action("OrdersList")
+    </div>
 }
 else
 {
@@ -100,10 +34,10 @@ else
 }
 
 @functions{
-    public SelectList GetOrderStatusList()
+    private SelectList GetOrderStatusList()
     {
         var orderStatusList = new List<SelectListItem>
-        {
+{
             new SelectListItem { Value = "در حال بررسی", Text = "در حال بررسی" },
             new SelectListItem { Value = "در حال ارسال", Text = "در حال ارسال" },
             new SelectListItem { Value = "تحویل داده شده", Text = "تحویل داده شده" }
@@ -134,14 +68,16 @@ else
         $("#filterDropdown").change(function () {
             var selectedOption = $(this).val();
             $.ajax({
-                url: "Orders/FilterOrders",
-                type: "GET",
+                url: "/Orders/FilterOrders",
+                type: "POST",
                 data: { option: selectedOption },
                 success: function (data) {
-
+                    $("#list").empty();
+                    $("#list").html(data);
                 },
                 error: function (error) {
-
+                    //$("#error").empty();
+                    //$("#error").append("Bye");
                 }
             });
         })

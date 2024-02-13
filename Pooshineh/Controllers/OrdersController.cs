@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using Pooshineh.Models;
 
@@ -141,14 +142,9 @@ namespace Pooshineh.Controllers
             return View(order);
         }
         [Authorize]
-        public ActionResult ViewOrdersForAdmin(List<Table_Orders> filteredOrders)
+        public ActionResult ViewOrdersForAdmin()
         {
-            var orders = db.Table_Orders.ToList();
-            if(filteredOrders != null)
-            {
-                orders = filteredOrders;
-            }
-            return View(orders);
+            return View();
         }
         [Authorize]
         public ActionResult Edit(Table_Orders order)
@@ -172,16 +168,36 @@ namespace Pooshineh.Controllers
         }
         public ActionResult FilterOrders(string option)
         {
-            if(option == "جدیدترین")
+            List<Table_Orders> filteredOrders = new List<Table_Orders>();
+
+            if (option == "جدیدترین")
             {
-                return View("ViewOrdersForAdmin", db.Table_Orders);
+                filteredOrders = db.Table_Orders.OrderByDescending(o => o.OrderDate).ToList();
             }
-            else if(option == "قدیمی‌ترین")
+            else if (option == "قدیمی‌ترین")
             {
-                return View("ViewOrdersForAdmin", db.Table_Orders.OrderByDescending(o => o.OrderDate));
+                filteredOrders = db.Table_Orders.ToList();
             }
-            return View("ViewOrdersForAdmin", db.Table_Orders);
+            else
+                filteredOrders = db.Table_Orders.Where(o => o.OrderStatus == option).ToList();
+
+            TempData["FilteredOrders"] = filteredOrders;
+
+            return RedirectToAction("OrdersList");
         }
-       
+
+        public ActionResult OrdersList()
+        {
+            List<Table_Orders> filteredOrders = TempData["FilteredOrders"] as List<Table_Orders>;
+
+            if (filteredOrders != null)
+            {
+                return PartialView(filteredOrders);
+            }
+            else
+            {
+                return PartialView(db.Table_Orders.OrderByDescending(o => o.OrderDate));
+            }
+        }
     }
 }

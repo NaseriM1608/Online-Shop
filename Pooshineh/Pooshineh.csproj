@@ -342,6 +342,7 @@
     <Content Include="Views\Categories\Create.cshtml" />
     <Content Include="Views\Products\CreateProduct.cshtml" />
     <Content Include="Views\Accounts\ViewLoginHistory.cshtml" />
+    <Content Include="Views\Orders\OrdersList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
