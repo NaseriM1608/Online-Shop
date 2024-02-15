@@ -159,6 +159,7 @@ namespace Pooshineh.Controllers
             TempData["StatusEditFailed"] = "تغییرات با مشکل مواجه شد.";
             return RedirectToAction("ViewOrdersForAdmin");
         }
+        [HttpPost]
         public ActionResult UpdateOrder(int orderId, string status)
         {
             var order = db.Table_Orders.Find(orderId);

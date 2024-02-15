@@ -3,6 +3,7 @@
     Pooshineh.Models.ClothingStoreEntities1 db = new Pooshineh.Models.ClothingStoreEntities1();
     var users = db.Table_User;
     var user = db.Table_User.Where(u => u.PhoneNumber == User.Identity.Name).FirstOrDefault();
+    string name;
 }
 
 
@@ -63,7 +64,17 @@
                 @users.Where(u => u.ID == item.Table_Cart.UserID).FirstOrDefault().Name @users.Where(u => u.ID == item.Table_Cart.UserID).FirstOrDefault().LastName
             </td>
             <td>
-                @Html.DropDownList("OrderStatus", GetOrderStatusList(), item.OrderStatus, htmlAttributes: new { @class = "form-control dropdown form-select border border-secondary", @id = $"statusDropdown", @data_id = item.OrderID })
+                @{ 
+                    name  = @item.OrderName; 
+                }
+                <select class="form-select border border-secondary my-1" onchange="ChangeStatus(@item.OrderID, this)" style="height: 35px;">
+                    <option hidden>@item.OrderStatus</option>
+                    @foreach (var option in GetOrderStatusList())
+                    {
+                        <option value="@option.Value">@option.Text</option>
+                    }
+                    
+                </select>
                 <br />
             </td>
             <td>
@@ -87,4 +98,19 @@
         return new SelectList(orderStatusList, "Value", "Text");
     }
 }
+<script>
+    function ChangeStatus(orderId, status) {
+        var orderStatus = status.value;
+        $.ajax({
+            url: "/Orders/UpdateOrder",
+            type: "POST",
+            data: { orderId: orderId, status: orderStatus },
+            success: function (data) {
+
+            },
+            error: function (error) {
+            }
+        });
+    };
+</script>
 
